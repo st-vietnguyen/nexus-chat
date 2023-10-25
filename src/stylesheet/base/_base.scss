@@ -1,0 +1,25 @@
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-overflow-scrolling: touch;
+}
+html, body {
+  @include pxRem(font-size, 16);
+  font-family: $font-body;
+  position: relative;
+  font-weight: 300;
+  color: map-get($color, black);
+  line-height: 1.7;
+  letter-spacing: 0.8px;
+  background-color: map-get($color, white);
+  overscroll-behavior: contain;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+}
+image {
+  max-width: 100%;
+  width: 100%;
+}
