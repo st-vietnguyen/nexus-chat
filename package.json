@@ -13,7 +13,10 @@
   },
   "dependencies": {
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "i18next": "^22.4.10",
+    "i18next-http-backend": "^2.1.1",
+    "react-i18next": "^12.1.5"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
