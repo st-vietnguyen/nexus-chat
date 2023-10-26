@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 import Path from 'path';
 
 // https://vitejs.dev/config/
@@ -10,4 +10,4 @@ export default defineConfig({
       '@stylesheet': Path.resolve(__dirname, './src/stylesheet'),
     },
   },
-})
+});
