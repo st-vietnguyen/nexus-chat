@@ -9,7 +9,8 @@ export default defineConfig({
     alias: {
       '@app': Path.resolve(__dirname, './src/app'),
       '@stylesheet': Path.resolve(__dirname, './src/stylesheet'),
-      '@shared': Path.resolve(__dirname, './src/app/shared')
+      '@shared': Path.resolve(__dirname, './src/app/shared'),
+      '@core': Path.resolve(__dirname, './src/app/core')
     },
   },
 });
