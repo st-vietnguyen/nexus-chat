@@ -8,6 +8,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@app': Path.resolve(__dirname, './src/app'),
+      '@config': Path.resolve(__dirname, './src/config'),
       '@stylesheet': Path.resolve(__dirname, './src/stylesheet'),
       '@shared': Path.resolve(__dirname, './src/app/shared'),
       '@core': Path.resolve(__dirname, './src/app/core')
