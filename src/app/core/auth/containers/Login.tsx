@@ -1,9 +1,16 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
+
+import { signIn } from '../auth.actions';
 
 const Login = () => {
+  const dispatch = useDispatch();
 
   const onLogin = () => {
-    // Todo
+    const account = { username: 'admin', password: 'admin' };
+    dispatch(
+      signIn(account)
+    );
   };
 
   return (

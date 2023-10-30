@@ -2,6 +2,10 @@ import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga';
+import { logger } from 'redux-logger';
 
 import i18n from './core/services/i18n.service';
 import { Footer, Header } from '@shared/components/layout/index';
@@ -9,11 +13,21 @@ import { RouterOutlet } from '@core/modules/custom-router-dom';
 import '@stylesheet/styles.scss';
 
 import appRoutes from './app.routes';
+import appMiddleware from './app.middleware';
+import appReducer from './app.reducers';
 import AppSuspense from './AppSuspense';
+
+const middleware = createSagaMiddleware();
+const store = createStore(
+  appReducer,
+  applyMiddleware(middleware, logger)
+);
+
+middleware.run(appMiddleware);
 
 const root = createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <I18nextProvider i18n={i18n}>
       <BrowserRouter>
         <AppSuspense fallback={<></>}>
@@ -27,5 +41,5 @@ root.render(
         </AppSuspense>
       </BrowserRouter>
     </I18nextProvider>
-  </React.StrictMode>,
+  </Provider>
 );
