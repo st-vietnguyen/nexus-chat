@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { environment } from '@config/environment';
 import AuthHelper from '../helpers/authHelper';
 
@@ -86,9 +86,7 @@ export class ApiService {
 
   private _setInterceptors() {
     this.axiosInstance.interceptors.request.use(
-      (request: InternalAxiosRequestConfig) => {
-        return this.authHelper.setAuthHeader(request);
-      },
+      request => this.authHelper.setAuthHeader(request)
     );
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => response,

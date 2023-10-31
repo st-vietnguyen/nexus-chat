@@ -4,7 +4,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import { privateRoute } from './PrivateRoute';
 
 const renderRoute = (routes) => {
-  return routes.map((route: any, index: number) => {
+  return routes.map((route, index: number) => {
     // Redirect router
     if (route.redirect && !route.element) {
       route.element = () => <Navigate to={route.redirect} />;

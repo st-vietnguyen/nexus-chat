@@ -7,5 +7,5 @@ const isAuthenticated = (): boolean => {
 };
 
 export const privateRoute = (Wrapped) => {
-  return (props) => isAuthenticated() ? <Wrapped /> : <Navigate to="/auth/login" />;
+  return () => isAuthenticated() ? <Wrapped /> : <Navigate to="/auth/login" />;
 };

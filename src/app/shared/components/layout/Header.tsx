@@ -41,4 +41,4 @@ export const Header = (): JSX.Element => {
       </ul>
     </header>
   );
-}
+};
