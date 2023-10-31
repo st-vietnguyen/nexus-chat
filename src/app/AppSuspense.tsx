@@ -10,7 +10,7 @@ const SuspenseContext = createContext(false);
 
 export const useSuspended = () => {
   return useContext(SuspenseContext);
-}
+};
 
 // Create AppSuspense extend Suspense from React
 export default function AppSuspense({ fallback, children }) {

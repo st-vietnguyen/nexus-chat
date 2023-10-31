@@ -9,7 +9,7 @@ export class AuthService extends AuthHelper {
     super();
   }
 
-  async signIn(body: any) {
+  async signIn<T>(body: T) {
     /* this is the default signIn,
       If you want to override it, please write the same function in specific type of auth.
     */
