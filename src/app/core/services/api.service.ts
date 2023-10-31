@@ -1,4 +1,4 @@
-import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from 'axios';
 import { environment } from '@config/environment';
 import AuthHelper from '../helpers/authHelper';
 
@@ -63,30 +63,32 @@ export class ApiService {
     });
   }
 
-  multipeGets(apiRequests: any) {
-    const apiReqs = apiRequests.map((v: any) =>
+  multipeGets(apiRequests: string[]) {
+    const apiReqs = apiRequests.map((v) =>
     this.axiosInstance.get(v),
     );
     return new Promise((resolve, reject) => {
       axios.all(apiReqs)
         .then((resp: AxiosResponse[]) => {
-          resolve(resp.map((v: any) => v.data));
+          resolve(resp.map((v) => v.data));
         })
-        .catch((err: any) => reject(err));
+        .catch((err: unknown) => reject(err));
     });
   }
 
-  private _handleRespond(request: any, resolve, reject) {
+  private _handleRespond(request: Promise<unknown>, resolve, reject) {
     return request.then((resp: AxiosResponse) => {
       resolve(resp.data);
-    }).catch((err: any) => {
+    }).catch((err: unknown) => {
       reject(err);
     });
   }
 
   private _setInterceptors() {
     this.axiosInstance.interceptors.request.use(
-      (request: AxiosRequestConfig) => this.authHelper.setAuthHeader(request),
+      (request: InternalAxiosRequestConfig) => {
+        return this.authHelper.setAuthHeader(request);
+      },
     );
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => response,
