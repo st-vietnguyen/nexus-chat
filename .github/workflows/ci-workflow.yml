@@ -1,0 +1,27 @@
+# This workflow will build a react project with vite.
+name: b-react-vite CI
+
+on:
+  # Triggers the workflow on pull request events
+  pull_request:
+    branches:
+      - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: [18.x]
+
+      - name: Install Packages
+        run: |
+          npm install
+
+      - name: Check linter
+        run: |
+          npm run lint
