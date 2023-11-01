@@ -1,27 +1,36 @@
-# React + TypeScript + Vite
+# b-react-vite
+Boilerplate React with Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Based
 
-Currently, two official plugins are available:
+- Node `^18.16.0`
+- npm `^9.5.1`
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Libraries
 
-## Expanding the ESLint configuration
+### Core
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- [Typescript](https://www.typescriptlang.org/) `^5.0.2`
+- [React](https://facebook.github.io/react/) `^18.2.0`
+- [Redux](https://github.com/reactjs/redux) `^4.2.1` - Manages application state.
+- [React Redux](https://github.com/reactjs/react-redux) `^8.1.3` - React-Redux bindings.
+- [React Router DOM](https://reactrouter.com/web/guides) `^6.17.0`
 
-- Configure the top-level `parserOptions` property like this:
+### Utilities
 
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
-```
+- [Redux Saga](https://github.com/redux-saga/redux-saga) `^1.2.3` - Asynchronous things like data fetching
+- [I18next](https://www.i18next.com/) `^23.6.0` - Providing the standard i18n features
+- [Axios](https://github.com/axios/axios) `^1.6.0` - Promise based HTTP client for the browser and node.js
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Build System
+
+- [Vite](https://vitejs.dev/) `^4.4.5`
+
+### Plugins
+
+- [vite-plugin-html](https://www.npmjs.com/package/vite-plugin-html) `^3.2.0`
+
+## Development extensions
+
+- [eslint](https://github.com/eslint/eslint) `^8.45.0`
+- [@typescript-eslint](https://typescript-eslint.io) `^6.0.0`
