@@ -25,7 +25,7 @@ const store = createStore(
 
 middleware.run(appMiddleware);
 
-const root = createRoot(document.getElementById('root'));
+const root = createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
