@@ -24,7 +24,8 @@ const signInError = (state, payload) => ({
 
 const signIn = (state, payload) => ({
   ...state,
-  isLoading: true
+  isLoading: true,
+  data: payload
 });
 
 const strategies = {

@@ -1,5 +1,5 @@
 export interface AuthStorage {
-  setToken(data?: any): void;
+  setToken(data?: string): void;
   getToken(): void;
   removeToken(): void;
 }
@@ -7,7 +7,7 @@ export interface AuthStorage {
 export class AuthStorageService implements AuthStorage {
   ACCESS_TOKEN = 'token';
 
-  setToken(token?: any) {
+  setToken(token?: string) {
     if (token) {
       localStorage.setItem(this.ACCESS_TOKEN, token);
     }

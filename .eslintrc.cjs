@@ -34,7 +34,7 @@ module.exports = {
     'eol-last': [2, 'always'],
     'object-curly-newline': [1, { consistent: true }],
     'object-curly-spacing': [1, 'always'],
-    'func-style': [1, 'expression'],
+    // 'func-style': [1, 'expression'],
     quotes: [1, 'single'],
     semi: [1, 'always'],
     'semi-style': [2, 'last'],
