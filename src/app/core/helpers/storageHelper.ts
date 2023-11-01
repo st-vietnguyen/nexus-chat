@@ -12,7 +12,7 @@ export const getLS = (key: string) => {
   return localStorage.getItem(key);
 };
 
-export const setLS = (key: string, value: any) => {
+export const setLS = <T>(key: string, value: T) => {
   if (key) {
     if (typeof value !== 'string') {
       localStorage.setItem(key, JSON.stringify(value));

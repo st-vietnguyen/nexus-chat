@@ -24,7 +24,7 @@ i18n
     ns: 'common',
     defaultNS: 'common',
     backend: {
-      loadPath: '/src/assets/i18n/{{lng}}/{{ns}}.json'
+      loadPath: '/i18n/{{lng}}/{{ns}}.json'
     },
     // keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {

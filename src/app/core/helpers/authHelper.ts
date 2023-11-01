@@ -1,14 +1,14 @@
-import { AxiosRequestConfig } from 'axios';
+import { InternalAxiosRequestConfig } from 'axios';
 import JwtHelper from './jwtHelper';
 
 export interface AuthHelperInterface {
-  defaultHeader: () => {};
-  getAuthHeader: () => {};
+  defaultHeader: () => void;
+  getAuthHeader: () => void;
   isValidToken: () => boolean;
   isAuthenticated: () => boolean;
   isCurrentUser(uid: string): boolean;
   userRole: () => string | number;
-  getUserInfo: () => {};
+  getUserInfo: () => void;
 }
 
 const strategies = {
@@ -17,6 +17,8 @@ const strategies = {
 };
 
 class DynamicAuth {
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [x: string]: any;
 
   constructor(type: string) {
@@ -64,7 +66,7 @@ export default class AuthHelper extends DynamicAuth {
     // default code here
   }
 
-  setAuthHeader(request: AxiosRequestConfig): Promise<AxiosRequestConfig> | AxiosRequestConfig {
+  setAuthHeader(request: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> | InternalAxiosRequestConfig {
     // Get and check access token
     if (this.getToken()) {
       // Check `access token` condition
@@ -84,7 +86,8 @@ export default class AuthHelper extends DynamicAuth {
    * @param   [request] - current API request that have expired access_token or get 401 Unauthorized
    * @returns Promise<AxiosRequestConfig>
    */
-  handleRefreshToken (request: AxiosRequestConfig): Promise<AxiosRequestConfig> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  handleRefreshToken (request: InternalAxiosRequestConfig): Promise<InternalAxiosRequestConfig> {
     // TODO: handle refresh token
     return null;
   }
