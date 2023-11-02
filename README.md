@@ -1,4 +1,4 @@
-# b-react-vite
+# b-react-vite-ts
 Boilerplate React with Vite
 
 ## Based
@@ -34,3 +34,25 @@ Boilerplate React with Vite
 
 - [eslint](https://github.com/eslint/eslint) `^8.45.0`
 - [@typescript-eslint](https://typescript-eslint.io) `^6.0.0`
+  
+## Install
+Copy env and run npm install
+```sh
+ cp .env.example .env && npm install
+```
+Check linter
+```sh
+ npm run lint
+```
+Run dev
+```sh
+ npm run dev
+```
+Run build
+```sh
+ npm run build
+```
+Run preview
+```sh
+ npm run preview
+```
