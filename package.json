@@ -24,7 +24,8 @@
     "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
     "redux-saga": "^1.2.3",
-    "reset-css": "^5.0.2"
+    "reset-css": "^5.0.2",
+    "vite-plugin-svgr": "^4.1.0"
   },
   "devDependencies": {
     "@types/node": "^20.8.9",
