@@ -3,8 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 const Page = () => {
   return (
-    <div className="pages-container">
-      Page component works!
+    <div className="pages-container py-4">
       <Outlet />
     </div>
   );
