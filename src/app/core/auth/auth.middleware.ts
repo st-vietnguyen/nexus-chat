@@ -10,8 +10,9 @@ export function* signin({ payload }: AnyAction) {
   try {
     // call api login
     const res = yield auth.signIn(payload).then(res => res);
+    console.log('res', res);
     // set token into localStorage
-    auth.setToken(res.accessToken);
+    auth.setToken(res.token);
     // handle successful response
     yield put(signInSuccess(res));
   } catch (error) {
