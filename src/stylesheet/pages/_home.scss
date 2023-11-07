@@ -4,11 +4,16 @@
   will-change: filter;
   transition: filter 300ms;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em map-get($color, pimary));
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em map-get($color, blue));
+
+.logo {
+  &:hover{
+    filter: drop-shadow(0 0 2em map-get($color, pimary));
+  }
+  &.react {
+    &:hover{
+      filter: drop-shadow(0 0 2em map-get($color, blue));
+    }
+  }
 }
 
 @keyframes logo-spin {
