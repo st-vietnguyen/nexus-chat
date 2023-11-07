@@ -1,12 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 
 const ArticleList = () => {
+  const posts = useLoaderData();
+  console.log('post', posts);
   return (
     <div>
       This is article-list page
       <p>
-        <Link to="1">See detail</Link>
+        {/* <NavLink to="1">See detail</NavLink> */}
       </p>
     </div>
   );

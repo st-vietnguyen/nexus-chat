@@ -1,33 +1,14 @@
 import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
 
 import { privateRoute } from './PrivateRoute';
 
-const renderRoute = (routes) => {
-  return routes.map((route, index: number) => {
-    // Redirect router
-    if (route.redirect && !route.element) {
-      route.element = () => <Navigate to={route.redirect} />;
-    }
-
+export const renderChildren = (routes) => {
+  return routes.map(route => {
     const PrivateRoute = privateRoute(route.element);
-
-    return (
-      <Route
-        key={ index }
-        path={ route.path }
-        element={ route.isProtected ? <PrivateRoute /> : <route.element /> }
-      >
-        { route.children && renderRoute(route.children) }
-      </Route>
-    );
+    return {
+      ...route,
+      element: route.isProtected ? <PrivateRoute /> : <route.element />,
+      children: route.children ? renderChildren(route.children) : []
+    };
   });
-};
-
-export const RouterOutlet = ({ routes }) => {
-  return (
-    <Routes>
-      { renderRoute(routes) }
-    </Routes>
-  );
 };

@@ -6,4 +6,5 @@ export interface PageRoute {
   isProtected?: boolean; // default is false,
   redirect?: string;
   children?: PageRoute[];
+  loader?: () => Promise<unknown>;
 }
