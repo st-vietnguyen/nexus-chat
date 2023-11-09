@@ -12,6 +12,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.6.0",
     "i18next": "^23.6.0",
     "i18next-http-backend": "^2.3.0",

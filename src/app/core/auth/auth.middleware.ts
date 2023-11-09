@@ -11,12 +11,12 @@ export function* signin({ payload }: AnyAction) {
     // call api login
     const res = yield auth.signIn(payload).then(res => res);
     // set token into localStorage
-    auth.setToken(res.accessToken);
+    auth.setToken(res.token);
     // handle successful response
-    yield put(signInSuccess(res));
+    yield put(signInSuccess({ data: { ...res } }));
   } catch (error) {
     // handle error response
-    yield put(signInError(error));
+    yield put(signInError({ error }));
   }
 }
 
