@@ -1,0 +1,11 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.pages-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 130px);
+}

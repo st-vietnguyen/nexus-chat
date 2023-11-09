@@ -1,16 +1,26 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import Logo from '../../../../assets/react.svg?react';
+import ReactLogo from '@assets/react.svg?react';
+import viteLogo from '/vite.svg';
 
 const Home = (): JSX.Element => {
   const { t } = useTranslation('common');
   return (
-    <>
-      <div>{t('pages.homepage')}({process.env.APP_ENV})</div>
+    <div className="home-page">
+      <div className="txt-bold">{t('pages.homepage')}({process.env.APP_ENV})</div>
       <div>
-        <Logo />
+        <a href="https://vitejs.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <ReactLogo />
+        </a>
       </div>
-    </>
+      <h1>Vite + React</h1>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </div>
   );
 };
 

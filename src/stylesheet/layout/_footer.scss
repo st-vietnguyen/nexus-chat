@@ -1,0 +1,6 @@
+.footer {
+  @include pxRem(font-size, 24);
+  height: 64px;
+  border-top: 1px solid map-get($color, grey-c);
+  color: map-get($color, black);
+}
