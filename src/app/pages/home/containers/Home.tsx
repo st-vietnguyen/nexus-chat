@@ -8,12 +8,12 @@ const Home = (): JSX.Element => {
   return (
     <div className="home-page">
       <div className="txt-bold">{t('pages.homepage')}({process.env.APP_ENV})</div>
-      <div>
+      <div className='logo-container'>
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
-          <ReactLogo />
+          <ReactLogo className='logo'/>
         </a>
       </div>
       <h1>Vite + React</h1>
