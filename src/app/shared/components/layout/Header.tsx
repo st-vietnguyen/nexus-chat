@@ -11,9 +11,9 @@ export const Header = (): JSX.Element => {
   };
 
   return (
-    <header>
+    <header className="header">
       <nav className="menu-nav">
-        <ul className="menu menu-nav">
+        <ul className="menu menu-nav d-flex">
           <li className="menu-item">
             <Link to="">Home</Link>
           </li>
@@ -28,11 +28,11 @@ export const Header = (): JSX.Element => {
           </li>
         </ul>
       </nav>
-      <ul className="menu menu-lang">
+      <ul className="menu menu-lang d-flex">
         {LANGUAGES.map((lang: string) => {
           return (
             <li className="menu-item" key={lang}>
-              <button className="menu-action" onClick={() => changeLang(lang)}>
+              <button className="menu-action txt-bold" onClick={() => changeLang(lang)}>
                 {lang.toUpperCase()}
               </button>
             </li>

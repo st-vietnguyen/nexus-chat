@@ -7,7 +7,7 @@ const Login = () => {
   const dispatch = useDispatch();
 
   const onLogin = () => {
-    const account = { username: 'admin', password: 'admin' };
+    const account = { username: 'kminchelle', password: '0lelplR' };
     dispatch(
       signIn(account)
     );

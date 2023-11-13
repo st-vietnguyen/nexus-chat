@@ -7,8 +7,8 @@ import {
   createBrowserRouter,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
+import { configureStore } from '@reduxjs/toolkit';
 import { logger } from 'redux-logger';
 
 import i18n from './core/services/i18n.service';
@@ -22,7 +22,11 @@ import AppSuspense from './AppSuspense';
 import { renderChildren } from './core/modules/custom-router-dom';
 
 const middleware = createSagaMiddleware();
-const store = createStore(appReducer, applyMiddleware(middleware, logger));
+const store = configureStore({
+  reducer: appReducer,
+  middleware: [middleware, logger]
+}
+);
 
 middleware.run(appMiddleware);
 
