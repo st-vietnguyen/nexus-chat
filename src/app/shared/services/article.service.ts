@@ -4,7 +4,7 @@ import { ENDPOINT } from '@config/endpoint';
 export class ArticleService {
   api = new ApiService();
 
-  getArticleList() {
+  async getArticleList() {
     return this.api.get([ENDPOINT.article.articleList]);
   }
 }
