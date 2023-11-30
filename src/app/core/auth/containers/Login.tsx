@@ -1,16 +1,24 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useContext } from 'react';
 
-import { signIn } from '../auth.actions';
+import { AuthContext, User } from '@app/shared/contexts/authContext';
+import { AuthService } from '@app/core/services/auth.service';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-  const dispatch = useDispatch();
+  const auth = new AuthService();
+  const { login } =useContext(AuthContext);
+  const navigate = useNavigate();
 
-  const onLogin = () => {
+  const onLogin = async() => {
     const account = { username: 'kminchelle', password: '0lelplR' };
-    dispatch(
-      signIn(account)
-    );
+    try {
+      const res = await auth.signIn(account) as User;
+      login(res);
+      auth.setToken(res.token);
+      navigate('/');
+    } catch (error) {
+      auth.removeToken();
+    }
   };
 
   return (
