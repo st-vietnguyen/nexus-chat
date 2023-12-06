@@ -6,29 +6,15 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import createSagaMiddleware from 'redux-saga';
-import { configureStore } from '@reduxjs/toolkit';
-import { logger } from 'redux-logger';
 
 import i18n from './core/services/i18n.service';
 import { Footer, Header } from '@shared/components/layout/index';
 import '@stylesheet/styles.scss';
 
 import appRoutes from './app.routes';
-import appMiddleware from './app.middleware';
-import appReducer from './app.reducers';
 import AppSuspense from './AppSuspense';
 import { renderChildren } from './core/modules/custom-router-dom';
-
-const middleware = createSagaMiddleware();
-const store = configureStore({
-  reducer: appReducer,
-  middleware: [middleware, logger]
-}
-);
-
-middleware.run(appMiddleware);
+import { AuthProvider } from './shared/contexts/authContext';
 
 export const Root = () => {
   return (
@@ -37,7 +23,7 @@ export const Root = () => {
         <Header />
       </AppSuspense>
       <AppSuspense fallback={<></>}>
-      <Outlet/>
+        <Outlet/>
       </AppSuspense>
       <AppSuspense fallback={<></>}>
         <Footer />
@@ -52,9 +38,9 @@ const router = createBrowserRouter([
 
 const root = createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}>
-    <I18nextProvider i18n={i18n}>
+  <I18nextProvider i18n={i18n}>
+    <AuthProvider>
       <RouterProvider router={router}/>
-    </I18nextProvider>
-  </Provider>
+    </AuthProvider>
+  </I18nextProvider>
 );
