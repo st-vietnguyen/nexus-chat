@@ -1,45 +1,46 @@
 import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import { logger } from 'redux-logger';
+import {
+  Outlet,
+  RouterProvider,
+  createBrowserRouter,
+} from 'react-router-dom';
 
 import i18n from './core/services/i18n.service';
 import { Footer, Header } from '@shared/components/layout/index';
-import { RouterOutlet } from '@core/modules/custom-router-dom';
 import '@stylesheet/styles.scss';
 
 import appRoutes from './app.routes';
-import appMiddleware from './app.middleware';
-import appReducer from './app.reducers';
 import AppSuspense from './AppSuspense';
+import { renderChildren } from './core/modules/custom-router-dom';
+import { AuthProvider } from './shared/contexts/authContext';
 
-const middleware = createSagaMiddleware();
-const store = createStore(
-  appReducer,
-  applyMiddleware(middleware, logger)
-);
+export const Root = () => {
+  return (
+    <>
+      <AppSuspense fallback={<></>}>
+        <Header />
+      </AppSuspense>
+      <AppSuspense fallback={<></>}>
+        <Outlet/>
+      </AppSuspense>
+      <AppSuspense fallback={<></>}>
+        <Footer />
+      </AppSuspense>
+    </>
+  );
+};
 
-middleware.run(appMiddleware);
+const router = createBrowserRouter([
+  { path: '/', Component: Root, children: renderChildren(appRoutes) },
+]);
 
 const root = createRoot(document.getElementById('root'));
 root.render(
-  <Provider store={store}>
-    <I18nextProvider i18n={i18n}>
-      <BrowserRouter>
-        <AppSuspense fallback={<></>}>
-          <Header />
-        </AppSuspense>
-        <AppSuspense fallback={<></>}>
-          <RouterOutlet routes={appRoutes} />
-        </AppSuspense>
-        <AppSuspense fallback={<></>}>
-          <Footer />
-        </AppSuspense>
-      </BrowserRouter>
-    </I18nextProvider>
-  </Provider>
+  <I18nextProvider i18n={i18n}>
+    <AuthProvider>
+      <RouterProvider router={router}/>
+    </AuthProvider>
+  </I18nextProvider>
 );

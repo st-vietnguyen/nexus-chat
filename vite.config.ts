@@ -7,7 +7,7 @@ import Path from 'path';
 const PATHS = {
   output: Path.join(__dirname, './dist'),
   source: Path.join(__dirname, './src'),
-  fixed: ''
+  fixed: '/'
 };
 
 // https://vitejs.dev/config/

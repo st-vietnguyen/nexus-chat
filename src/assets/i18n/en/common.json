@@ -1,5 +1,6 @@
 {
   "pages": {
-    "homepage": "This is home page!"
+    "homepage": "This is home page!",
+    "hello": "Hello"
   }
 }
