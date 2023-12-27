@@ -1,1 +1,1 @@
-export { RouterOutlet } from './RouterOutlet';
+export { renderChildren } from './RouterOutlet';
