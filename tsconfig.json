@@ -26,7 +26,8 @@
       "es6",
       "es7",
       "dom"
-    ]
+    ],
+    "types": ["vite-plugin-svgr/client"]
   },
   "include": [
     "./src/**/*",

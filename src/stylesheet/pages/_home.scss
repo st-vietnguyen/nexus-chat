@@ -1,5 +1,12 @@
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .logo {
   @include pxRem(height, 300);
+  @include pxRem(width, 300);
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
