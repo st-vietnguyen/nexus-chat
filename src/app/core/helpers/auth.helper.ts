@@ -1,5 +1,5 @@
 import { InternalAxiosRequestConfig } from 'axios';
-import JwtHelper from './jwtHelper';
+import JwtHelper from './jwt.helper';
 
 export interface AuthHelperInterface {
   defaultHeader: () => void;

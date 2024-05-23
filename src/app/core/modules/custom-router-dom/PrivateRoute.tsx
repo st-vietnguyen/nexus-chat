@@ -7,6 +7,6 @@ const isAuthenticated = (): boolean => {
   return !!token;
 };
 
-export const privateRoute = (Wrapped) => {
+export function privateRoute(Wrapped) {
   return () => isAuthenticated() ? <Wrapped /> : <Navigate to="/auth/login" />;
-};
+}
