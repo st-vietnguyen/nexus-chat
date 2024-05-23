@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { AuthContext, User } from '@app/shared/contexts/authContext';
+import { AuthContext, User } from '@app/shared/contexts/auth.context';
 import { AuthService } from '@app/core/services/auth.service';
 import { useNavigate } from 'react-router-dom';
 

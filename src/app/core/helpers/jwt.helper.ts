@@ -1,6 +1,6 @@
 import JwtDecode from 'jwt-decode';
-import { AuthHelperInterface } from './authHelper';
-import { AuthStorageService } from '../services/authStorage.service';
+import { AuthHelperInterface } from './auth.helper';
+import { AuthStorageService } from '../services/auth-storage.service';
 
 export default class JwtHelper extends AuthStorageService implements AuthHelperInterface {
 

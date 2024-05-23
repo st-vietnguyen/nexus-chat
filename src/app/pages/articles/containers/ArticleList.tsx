@@ -13,6 +13,7 @@ export type Posts = {
 
 const ArticleList = () => {
   const posts = useLoaderData() as Posts;
+  
   return (
     <div>
       <h1 className='txt-bold'>This is article-list page</h1>

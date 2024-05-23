@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactLogo from '@assets/react.svg?react';
 import viteLogo from '/vite.svg';
-import { AuthContext } from '@app/shared/contexts/authContext';
+import { AuthContext } from '@app/shared/contexts/auth.context';
 
 const Home = (): JSX.Element => {
   const { t } = useTranslation('common');

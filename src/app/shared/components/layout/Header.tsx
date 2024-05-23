@@ -4,7 +4,7 @@ import i18next from 'i18next';
 
 import reactLogo from '/react.svg';
 import { LANGUAGES } from '@app/core/services/i18n.service';
-import { AuthContext } from '@app/shared/contexts/authContext';
+import { AuthContext } from '@app/shared/contexts/auth.context';
 import { AuthService } from '@app/core/services/auth.service';
 
 export const Header = (): JSX.Element => {
