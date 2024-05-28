@@ -7,6 +7,6 @@ const isAuthenticated = (): boolean => {
   return !!token;
 };
 
-export const PrivateRoute = ({ component: Wraped }) => {
-  return isAuthenticated() ? <Wraped /> : <Navigate to="/auth/login" />;
+export const PrivateRoute = ({ component: Wrapped }) => {
+  return isAuthenticated() ? <Wrapped /> : <Navigate to="/auth/login" />;
 };
