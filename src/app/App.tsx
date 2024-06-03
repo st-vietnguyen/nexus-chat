@@ -13,8 +13,9 @@ import '@stylesheet/styles.scss';
 
 import appRoutes from './app.routes';
 import AppSuspense from './AppSuspense';
-import { renderChildren } from './core/modules/custom-router-dom';
-import { AuthProvider } from './shared/contexts/authContext';
+
+import { AuthProvider } from './shared/contexts/auth.context';
+import { renderChildren } from './core/modules/custom-router-dom/RouterOutlet';
 
 export const Root = () => {
   return (

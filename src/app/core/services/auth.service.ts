@@ -1,4 +1,4 @@
-import AuthHelper from '../helpers/authHelper';
+import AuthHelper from '../helpers/auth.helper';
 import { ENDPOINT } from '@config/endpoint';
 import { ApiService } from './api.service';
 

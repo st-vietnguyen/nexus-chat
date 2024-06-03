@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosInstance, AxiosResponse } from 'axios';
 import { environment } from '@config/environment';
-import AuthHelper from '../helpers/authHelper';
+import AuthHelper from '../helpers/auth.helper';
 
 export class ApiService {
 

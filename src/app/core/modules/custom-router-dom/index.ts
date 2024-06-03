@@ -1,1 +1,0 @@
-export { renderChildren } from './RouterOutlet';

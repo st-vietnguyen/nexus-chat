@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import Backend from 'i18next-http-backend';
 import { initReactI18next } from 'react-i18next';
 
-import { getLS, KEYS } from '../helpers/storageHelper';
+import { getLS, KEYS } from '../helpers/storage.helper';
 export const LANGUAGES = ['en', 'ja'];
 export const DEFAULT_LANGUAGE = 'en';
 
