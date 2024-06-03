@@ -1,4 +1,4 @@
-# b-react-vite-ts
+g# b-react-vite-ts
 Boilerplate React with Vite
 
 ## Based
@@ -31,25 +31,40 @@ Boilerplate React with Vite
 
 - [eslint](https://github.com/eslint/eslint) `^8.45.0`
 - [@typescript-eslint](https://typescript-eslint.io) `^6.0.0`
-  
+
 ## Install
+
 Copy env and run npm install
+
 ```sh
  cp .env.example .env && npm install
 ```
+
 Check linter
+
 ```sh
  npm run lint
 ```
+
 Run dev
+
 ```sh
  npm run dev
 ```
+
 Run build
+
 ```sh
  npm run build
 ```
+
 Run preview
+
 ```sh
  npm run preview
 ```
+
+## Apply Redux
+
+- Merge code from branch `task/luc-apply_redux` on cloned repository if you want to apply redux.
+- See what's changed here: https://github.com/st-fe-rd/b-react-vite-ts/pull/9
