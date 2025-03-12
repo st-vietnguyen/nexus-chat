@@ -1,3 +1,7 @@
+@use "sass:map";
+@use "../base/mixins";
+@use "../base/variables";
+
 .logo-container {
   display: flex;
   justify-content: center;
@@ -5,8 +9,8 @@
 }
 
 .logo {
-  @include pxRem(height, 300);
-  @include pxRem(width, 300);
+  @include mixins.pxRem(height, 300);
+  @include mixins.pxRem(width, 300);
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
@@ -14,11 +18,11 @@
 
 .logo {
   &:hover{
-    filter: drop-shadow(0 0 2em map-get($color, pimary));
+    filter: drop-shadow(0 0 2em map.get(variables.$color, pimary));
   }
   &.react {
     &:hover{
-      filter: drop-shadow(0 0 2em map-get($color, blue));
+      filter: drop-shadow(0 0 2em map.get(variables.$color, blue));
     }
   }
 }
@@ -39,7 +43,7 @@
 }
 
 .read-the-docs {
-  color: map-get($color, grey-b);
+  color: map.get(variables.$color, grey-b);
 }
 
 .pages-container {
