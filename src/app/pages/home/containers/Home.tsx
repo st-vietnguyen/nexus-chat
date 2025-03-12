@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import ReactLogo from '@assets/react.svg?react';
+import reactLogo from '/react.svg';
 import viteLogo from '/vite.svg';
 import { AuthContext } from '@app/shared/contexts/auth.context';
 
@@ -18,7 +18,7 @@ const Home = (): JSX.Element => {
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
-          <ReactLogo className='logo react'/>
+          <img src={reactLogo} className="logo" alt="React logo" />
         </a>
       </div>
       <h1>Vite + React</h1>
