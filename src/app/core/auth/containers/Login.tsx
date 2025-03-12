@@ -18,6 +18,7 @@ const Login = () => {
       navigate('/');
     } catch (error) {
       auth.removeToken();
+      return error;
     }
   };
 
