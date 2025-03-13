@@ -16,19 +16,23 @@ import AppSuspense from './AppSuspense';
 
 import { AuthProvider } from './shared/contexts/auth.context';
 import { renderChildren } from './core/modules/custom-router-dom/RouterOutlet';
+import { ErrorBoundary } from 'react-error-boundary';
+import AppErrorBoundaryFallback from './AppErrorBoundaryFallback';
 
 export const Root = () => {
   return (
     <>
-      <AppSuspense fallback={<></>}>
-        <Header />
-      </AppSuspense>
-      <AppSuspense fallback={<></>}>
-        <Outlet/>
-      </AppSuspense>
-      <AppSuspense fallback={<></>}>
-        <Footer />
-      </AppSuspense>
+      <ErrorBoundary FallbackComponent={AppErrorBoundaryFallback}>
+        <AppSuspense fallback={<></>}>
+          <Header />
+        </AppSuspense>
+        <AppSuspense fallback={<></>}>
+          <Outlet/>
+        </AppSuspense>
+        <AppSuspense fallback={<></>}>
+          <Footer />
+        </AppSuspense>
+      </ErrorBoundary>
     </>
   );
 };
