@@ -1,11 +1,7 @@
 import React from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { createRoot } from 'react-dom/client';
-import {
-  Outlet,
-  RouterProvider,
-  createBrowserRouter,
-} from 'react-router-dom';
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import i18n from './core/services/i18n.service';
 import { Footer, Header } from '@shared/components/layout/index';
@@ -24,7 +20,7 @@ export const Root = () => {
         <Header />
       </AppSuspense>
       <AppSuspense fallback={<></>}>
-        <Outlet/>
+        <Outlet />
       </AppSuspense>
       <AppSuspense fallback={<></>}>
         <Footer />
@@ -41,7 +37,7 @@ const root = createRoot(document.getElementById('root'));
 root.render(
   <I18nextProvider i18n={i18n}>
     <AuthProvider>
-      <RouterProvider router={router}/>
+      <RouterProvider router={router} />
     </AuthProvider>
-  </I18nextProvider>
+  </I18nextProvider>,
 );

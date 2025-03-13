@@ -2,14 +2,16 @@ import { jwtDecode } from 'jwt-decode';
 import { AuthHelperInterface } from './auth.helper';
 import { AuthStorageService } from '../services/auth-storage.service';
 
-export default class JwtHelper extends AuthStorageService implements AuthHelperInterface {
-
+export default class JwtHelper
+  extends AuthStorageService
+  implements AuthHelperInterface
+{
   defaultHeader = () => ({
     // TODO: make default jwt header
   });
 
   getAuthHeader = () => ({
-    'Authorization': `Bearer ${this.getToken()}`
+    Authorization: `Bearer ${this.getToken()}`,
   });
 
   /**
@@ -62,5 +64,4 @@ export default class JwtHelper extends AuthStorageService implements AuthHelperI
     }
     return { isTokenValid, token };
   }
-
 }

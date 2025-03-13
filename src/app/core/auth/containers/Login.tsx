@@ -6,13 +6,13 @@ import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const auth = new AuthService();
-  const { login } =useContext(AuthContext);
+  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const onLogin = async() => {
+  const onLogin = async () => {
     const account = { username: 'kminchelle', password: '0lelplR' };
     try {
-      const res = await auth.signIn(account) as User;
+      const res = (await auth.signIn(account)) as User;
       login(res);
       auth.setToken(res.token);
       navigate('/');

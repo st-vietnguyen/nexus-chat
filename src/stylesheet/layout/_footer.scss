@@ -1,6 +1,6 @@
-@use "sass:map";
-@use "../base/mixins";
-@use "../base/variables";
+@use 'sass:map';
+@use '../base/mixins';
+@use '../base/variables';
 
 .footer {
   @include mixins.pxRem(font-size, 24);

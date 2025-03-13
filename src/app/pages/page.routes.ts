@@ -11,12 +11,8 @@ const pageRoutes: PageRoute[] = [
   {
     path: '/',
     element: Page,
-    children: [
-      ...homeRoutes,
-      ...articleRoutes,
-      ...errorRoutes,
-    ]
-  }
+    children: [...homeRoutes, ...articleRoutes, ...errorRoutes],
+  },
 ];
 
 export default pageRoutes;

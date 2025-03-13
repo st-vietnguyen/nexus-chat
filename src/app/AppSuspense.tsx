@@ -1,4 +1,10 @@
-import React, { createContext, Suspense, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  Suspense,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
 /*
  * Suspense renders component and hiding it with `display: none;` and show fallback.
@@ -17,7 +23,7 @@ export default function AppSuspense({ fallback, children }) {
   const [suspended, setSuspended] = useState(true);
 
   // Fallback component for tracking `suspensed` or `not`, something like trick :D
-  const Fallback = props => {
+  const Fallback = (props) => {
     useEffect(() => {
       // In-suspense
       setSuspended(true);
@@ -41,5 +47,5 @@ export default function AppSuspense({ fallback, children }) {
 
 AppSuspense.defaultProps = {
   fallback: null,
-  children: null
+  children: null,
 };

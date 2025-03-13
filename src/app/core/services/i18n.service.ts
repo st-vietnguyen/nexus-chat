@@ -8,7 +8,7 @@ export const DEFAULT_LANGUAGE = 'en';
 
 export const currentLang = (): string => {
   const browserLanguage = navigator.languages?.filter((element) =>
-    LANGUAGES.includes(element)
+    LANGUAGES.includes(element),
   );
 
   return browserLanguage?.length ? browserLanguage[0] : DEFAULT_LANGUAGE;
@@ -24,12 +24,12 @@ i18n
     ns: 'common',
     defaultNS: 'common',
     backend: {
-      loadPath: '/i18n/{{lng}}/{{ns}}.json'
+      loadPath: '/i18n/{{lng}}/{{ns}}.json',
     },
     // keySeparator: false, // we do not use keys in form messages.welcome
     interpolation: {
-      escapeValue: false // react already safes from xss
-    }
+      escapeValue: false, // react already safes from xss
+    },
   });
 
 export default i18n;

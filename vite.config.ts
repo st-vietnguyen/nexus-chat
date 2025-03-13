@@ -7,7 +7,7 @@ import Path from 'path';
 const PATHS = {
   output: Path.join(__dirname, './dist'),
   source: Path.join(__dirname, './src'),
-  fixed: '/'
+  fixed: '/',
 };
 
 // https://vitejs.dev/config/
@@ -32,7 +32,7 @@ export default ({ mode }) => {
          * @default index.html
          */
         template: 'index.html',
-      })
+      }),
     ],
     define: {
       'process.env.APP_ENV': JSON.stringify(process.env.VITE_APP_ENV),
@@ -44,7 +44,7 @@ export default ({ mode }) => {
         '@stylesheet': Path.resolve(__dirname, './src/stylesheet'),
         '@shared': Path.resolve(__dirname, './src/app/shared'),
         '@core': Path.resolve(__dirname, './src/app/core'),
-        '@assets': Path.resolve(__dirname, './src/assets')
+        '@assets': Path.resolve(__dirname, './src/assets'),
       },
     },
     build: {

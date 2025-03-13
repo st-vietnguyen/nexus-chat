@@ -1,3 +1,3 @@
 export const environment = {
-  apiBaseUrl: 'https://dummyjson.com/'
+  apiBaseUrl: 'https://dummyjson.com/',
 };

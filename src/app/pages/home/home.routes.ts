@@ -7,8 +7,8 @@ const Home = React.lazy(() => import('./containers/Home'));
 const homeRoutes: PageRoute[] = [
   {
     path: '/',
-    element: Home
-  }
+    element: Home,
+  },
 ];
 
 export default homeRoutes;

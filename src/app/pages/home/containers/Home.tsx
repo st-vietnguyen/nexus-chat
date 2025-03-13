@@ -11,9 +11,11 @@ const Home = (): JSX.Element => {
   return (
     <div className="home-page">
       <div className="txt-bold">
-        {data?.firstName ? `${t('pages.hello')}, ${data?.firstName}.` : (`${t('pages.homepage')} (${process.env.APP_ENV})`)}
+        {data?.firstName
+          ? `${t('pages.hello')}, ${data?.firstName}.`
+          : `${t('pages.homepage')} (${process.env.APP_ENV})`}
       </div>
-      <div className='logo-container'>
+      <div className="logo-container">
         <a href="https://vitejs.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>

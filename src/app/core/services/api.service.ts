@@ -3,7 +3,6 @@ import { environment } from '@config/environment';
 import AuthHelper from '../helpers/auth.helper';
 
 export class ApiService {
-
   axiosInstance: AxiosInstance;
   authHelper: AuthHelper;
 
@@ -15,8 +14,8 @@ export class ApiService {
       // Common header
       headers: {
         'Content-Type': 'application/json',
-        ...this.authHelper.defaultHeader()
-      }
+        ...this.authHelper.defaultHeader(),
+      },
     });
     this._setInterceptors();
   }
@@ -26,7 +25,7 @@ export class ApiService {
     if (typeof uri[uri.length - 1] !== 'string') {
       paramsUrl = uri.pop();
       let url = uri.join('/');
-      Object.keys(paramsUrl).forEach(x => {
+      Object.keys(paramsUrl).forEach((x) => {
         url = url.replace(`:${x}`, paramsUrl[x]);
       });
       return url;
@@ -37,38 +36,51 @@ export class ApiService {
 
   get(uri: (string | object)[], params = {}, moreConfigs = {}) {
     return new Promise((resolve, reject) => {
-      const request = this.axiosInstance.get(this.createURL(uri), { params, ...moreConfigs });
+      const request = this.axiosInstance.get(this.createURL(uri), {
+        params,
+        ...moreConfigs,
+      });
       this._handleRespond(request, resolve, reject);
     });
   }
 
   post(uri: (string | object)[], data = {}, moreConfigs = {}) {
     return new Promise((resolve, reject) => {
-      const request = this.axiosInstance.post(this.createURL(uri), data, moreConfigs);
+      const request = this.axiosInstance.post(
+        this.createURL(uri),
+        data,
+        moreConfigs,
+      );
       this._handleRespond(request, resolve, reject);
     });
   }
 
   put(uri: (string | object)[], data = {}, moreConfigs = {}) {
     return new Promise((resolve, reject) => {
-      const request = this.axiosInstance.put(this.createURL(uri), data, moreConfigs);
+      const request = this.axiosInstance.put(
+        this.createURL(uri),
+        data,
+        moreConfigs,
+      );
       this._handleRespond(request, resolve, reject);
     });
   }
 
   delete(uri: (string | object)[], moreConfigs = {}) {
     return new Promise((resolve, reject) => {
-      const request = this.axiosInstance.delete(this.createURL(uri), moreConfigs);
+      const request = this.axiosInstance.delete(
+        this.createURL(uri),
+        moreConfigs,
+      );
       this._handleRespond(request, resolve, reject);
     });
   }
 
   multipeGets(apiRequests: string[]) {
-    const apiReqs = apiRequests.map((v) =>
-    this.axiosInstance.get(v),
-    );
+    const apiReqs = apiRequests.map((v) => this.axiosInstance.get(v));
     return new Promise((resolve, reject) => {
-      axios.all(apiReqs)
+      axios
+        .all(apiReqs)
         .then((resp: AxiosResponse[]) => {
           resolve(resp.map((v) => v.data));
         })
@@ -77,20 +89,22 @@ export class ApiService {
   }
 
   private _handleRespond(request: Promise<unknown>, resolve, reject) {
-    return request.then((resp: AxiosResponse) => {
-      resolve(resp.data);
-    }).catch((err: unknown) => {
-      reject(err);
-    });
+    return request
+      .then((resp: AxiosResponse) => {
+        resolve(resp.data);
+      })
+      .catch((err: unknown) => {
+        reject(err);
+      });
   }
 
   private _setInterceptors() {
-    this.axiosInstance.interceptors.request.use(
-      request => this.authHelper.setAuthHeader(request)
+    this.axiosInstance.interceptors.request.use((request) =>
+      this.authHelper.setAuthHeader(request),
     );
     this.axiosInstance.interceptors.response.use(
       (response: AxiosResponse) => response,
-      (error: AxiosError) => this._handleError(error)
+      (error: AxiosError) => this._handleError(error),
     );
   }
 

@@ -13,18 +13,18 @@ const authRoutes: PageRoute[] = [
     children: [
       {
         path: '',
-        redirect: 'login'
+        redirect: 'login',
       },
       {
         path: 'login',
-        element: Login
+        element: Login,
       },
       {
         path: 'register',
-        element: Register
-      }
-    ]
-  }
+        element: Register,
+      },
+    ],
+  },
 ];
 
 export default authRoutes;
