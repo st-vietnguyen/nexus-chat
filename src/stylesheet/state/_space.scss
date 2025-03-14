@@ -1,5 +1,5 @@
-@use '../base/mixins';
-@use '../base/variables';
+@use "../base/mixins";
+@use "../base/variables";
 
 // Padding
 @each $size in variables.$size-list {

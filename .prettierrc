@@ -7,5 +7,13 @@
   "useTabs": false,
   "singleQuote": true,
   "printWidth": 80,
-  "jsxSingleQuote": false
+  "jsxSingleQuote": false,
+  "overrides": [
+    {
+      "files": ["*.scss", "*.css"],
+      "options": {
+        "singleQuote": false
+      }
+    }
+  ]
 }

@@ -1,8 +1,8 @@
-@use 'sass:list';
-@use 'sass:map';
-@use 'sass:math';
-@use 'sass:meta';
-@use 'variables';
+@use "sass:list";
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+@use "variables";
 
 // === RESPOND ABOVE ===
 // @include respond-above(small) {}
@@ -91,7 +91,7 @@
 @mixin clearfix() {
   &::after {
     display: block;
-    content: '';
+    content: "";
     clear: both;
   }
 }
@@ -180,7 +180,7 @@
   $rem-values: ();
 
   // Ensure $values is a list.
-  @if meta.type-of($values) != 'list' {
+  @if meta.type-of($values) != "list" {
     $values: list.join((), $values);
   }
 
