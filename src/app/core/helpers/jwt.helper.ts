@@ -1,4 +1,4 @@
-import JwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { AuthHelperInterface } from './auth.helper';
 import { AuthStorageService } from '../services/auth-storage.service';
 
@@ -47,8 +47,8 @@ export default class JwtHelper extends AuthStorageService implements AuthHelperI
     const { isTokenValid, token } = this._verifyJWTToken();
     if (isTokenValid) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const res: any = JwtDecode(token);
-      return res.data;
+      const res: any = jwtDecode(token);
+      return res;
     } else {
       return null;
     }
@@ -56,7 +56,7 @@ export default class JwtHelper extends AuthStorageService implements AuthHelperI
 
   private _verifyJWTToken() {
     const token: string | boolean = this.getToken();
-    const isTokenValid: boolean = JwtDecode(token);
+    const isTokenValid: boolean = jwtDecode(token);
     if (!isTokenValid) {
       this.removeToken();
     }

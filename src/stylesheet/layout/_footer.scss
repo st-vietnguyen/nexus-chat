@@ -1,6 +1,10 @@
+@use "sass:map";
+@use "../base/mixins";
+@use "../base/variables";
+
 .footer {
-  @include pxRem(font-size, 24);
+  @include mixins.pxRem(font-size, 24);
   height: 64px;
-  border-top: 1px solid map-get($color, grey-c);
-  color: map-get($color, black);
+  border-top: 1px solid map.get(variables.$color, grey-c);
+  color: map.get(variables.$color, black);
 }

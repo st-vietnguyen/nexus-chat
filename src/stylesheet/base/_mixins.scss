@@ -1,8 +1,14 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:math";
+@use "sass:meta";
+@use "variables";
+
 // === RESPOND ABOVE ===
 // @include respond-above(small) {}
 @mixin respond-above($breakpoint) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    $breakpoint-value: map-get($breakpoints, $breakpoint);
+  @if map.has-key(variables.$breakpoints, $breakpoint) {
+    $breakpoint-value: map.get(variables.$breakpoints, $breakpoint);
     @media (min-width: $breakpoint-value) {
       @content;
     }
@@ -14,8 +20,8 @@
 // === RESPOND BELOW ===
 // @include respond-below(small) {}
 @mixin respond-below($breakpoint) {
-  @if map-has-key($breakpoints, $breakpoint) {
-    $breakpoint-value: map-get($breakpoints, $breakpoint);
+  @if map.has-key(variables.$breakpoints, $breakpoint) {
+    $breakpoint-value: map.get(variables.$breakpoints, $breakpoint);
     @media (max-width: ($breakpoint-value - 1)) {
       @content;
     }
@@ -27,17 +33,17 @@
 // === RESPOND BETWEEN ===
 // @include respond-between(small, medium);
 @mixin respond-between($lower, $upper) {
-  @if map-has-key($breakpoints, $lower) and map-has-key($breakpoints, $upper) {
-    $lower-breakpoint: map-get($breakpoints, $lower);
-    $upper-breakpoint: map-get($breakpoints, $upper);
+  @if map.has-key(variables.$breakpoints, $lower) and map.has-key(variables.$breakpoints, $upper) {
+    $lower-breakpoint: map.get(variables.$breakpoints, $lower);
+    $upper-breakpoint: map.get(variables.$breakpoints, $upper);
     @media (min-width: $lower-breakpoint) and (max-width: ($upper-breakpoint - 1)) {
       @content;
     }
   } @else {
-    @if (map-has-key($breakpoints, $lower) == false) {
+    @if (map.has-key(variables.$breakpoints, $lower) == false) {
       @warn 'Your lower breakpoint was invalid: #{$lower}.';
     }
-    @if (map-has-key($breakpoints, $upper) == false) {
+    @if (map.has-key(variables.$breakpoints, $upper) == false) {
       @warn 'Your upper breakpoint was invalid: #{$upper}.';
     }
   }
@@ -88,8 +94,8 @@
   }
 }
 @mixin font-icon($icon) {
-  content: map-get($font-icon, $icon);
-  font-family: map-get($font-family, icon);
+  content: map.get($font-icon, $icon);
+  font-family: map.get($font-family, icon);
   -webkit-font-smoothing: antialiased;
 }
 @mixin border-box($border-box) {
@@ -98,7 +104,7 @@
   box-sizing: $border-box;
 }
 @mixin text-fill-color($prColor) {
-  -webkit-text-fill-color: map-get($color, $prColor) !important;
+  -webkit-text-fill-color: map.get(variables.$color, $prColor) !important;
 }
 @mixin flex-direction($direction) {
   -webkit-flex-direction: $direction;
@@ -123,7 +129,7 @@
 
 @mixin ellipsis-special($number : null) {
   overflow: hidden;
-  @if type-of($number) != number {
+  @if meta.type-of($number) != number {
     text-overflow: ellipsis;
     white-space: nowrap;
   }
@@ -156,7 +162,7 @@
     @return $value;
   }
   // assume em:
-  @if (unitless($value) or unit($value) == em) {
+  @if (math.is-unitless($value) or math.unit($value) == em) {
     @return 0em + $value;
   }
   @else {
@@ -174,20 +180,20 @@
   $rem-values: ();
 
   // Ensure $values is a list.
-  @if type-of($values) != 'list' {
-    $values: join((), $values);
+  @if meta.type-of($values) != 'list' {
+    $values: list.join((), $values);
   }
 
   // Loop through the $values list:
   @each $value in $values {
-    @if type-of($value) == number and (unitless($value) or unit($value) == px) {
-    $px-values: join($px-values, 0px + ($value));
-      $rem-values: join($rem-values, convertPxToRem($value));
+    @if meta.type-of($value) == number and (math.is-unitless($value) or math.unit($value) == px) {
+    $px-values: list.join($px-values, 0px + ($value));
+      $rem-values: list.join($rem-values, convertPxToRem($value));
     }
     @else {
     // no conversion:
-    $px-values: join($px-values, $value);
-    $rem-values: join($rem-values, $value);
+    $px-values: list.join($px-values, $value);
+    $rem-values: list.join($rem-values, $value);
     }
   }
 
