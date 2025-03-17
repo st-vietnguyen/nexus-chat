@@ -1,51 +1,51 @@
-$value : 5;
-$sizeList : 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10;
+@use "../base/mixins";
+@use "../base/variables";
 
 // Padding
-@each $size in $sizeList {
+@each $size in variables.$size-list {
   .pd-#{$size} {
-    @include pxRem(padding, $value * $size);
+    @include mixins.pxRem(padding, variables.$space-value * $size);
   }
   .px-#{$size} {
-    @include pxRem(padding, 0 $value * $size);
+    @include mixins.pxRem(padding, 0 variables.$space-value * $size);
   }
   .py-#{$size} {
-    @include pxRem(padding, $value * $size 0);
+    @include mixins.pxRem(padding, variables.$space-value * $size 0);
   }
   .pl-#{$size} {
-    @include pxRem(padding-left, $value * $size);
+    @include mixins.pxRem(padding-left, variables.$space-value * $size);
   }
   .pr-#{$size} {
-    @include pxRem(padding-right, $value * $size);
+    @include mixins.pxRem(padding-right, variables.$space-value * $size);
   }
   .pt-#{$size} {
-    @include pxRem(padding-top, $value * $size);
+    @include mixins.pxRem(padding-top, variables.$space-value * $size);
   }
   .pb-#{$size} {
-    @include pxRem(padding-bottom, $value * $size);
+    @include mixins.pxRem(padding-bottom, variables.$space-value * $size);
   }
   .mg-#{$size} {
-    @include pxRem(margin, $value * $size);
+    @include mixins.pxRem(margin, variables.$space-value * $size);
   }
   .mx-#{$size} {
-    @include pxRem(margin, 0 $value * $size);
+    @include mixins.pxRem(margin, 0 variables.$space-value * $size);
   }
   .my-#{$size} {
-    @include pxRem(margin, $value * $size 0);
+    @include mixins.pxRem(margin, variables.$space-value * $size 0);
   }
   .mt-#{$size} {
-    @include pxRem(margin-top, $value * $size);
+    @include mixins.pxRem(margin-top, variables.$space-value * $size);
   }
   .ml-#{$size} {
-    @include pxRem(margin-left, $value * $size);
+    @include mixins.pxRem(margin-left, variables.$space-value * $size);
   }
   .mb-#{$size} {
-    @include pxRem(margin-bottom, $value * $size);
+    @include mixins.pxRem(margin-bottom, variables.$space-value * $size);
   }
   .mr-#{$size} {
-    @include pxRem(margin-right, $value * $size);
+    @include mixins.pxRem(margin-right, variables.$space-value * $size);
   }
   .mr-#{$size}-i {
-    @include pxRem(margin-right, $value * $size);
+    @include mixins.pxRem(margin-right, variables.$space-value * $size);
   }
 }

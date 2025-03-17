@@ -1,9 +1,13 @@
+@use "sass:map";
+@use "../base/mixins";
+@use "../base/variables";
+
 .header {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  border-bottom: 1px solid map-get($color, grey-c);
-  background-color: map-get($color, white);
+  border-bottom: 1px solid map.get(variables.$color, grey-c);
+  background-color: map.get(variables.$color, white);
   .menu {
     &.menu-lang {
       display: flex;
@@ -11,10 +15,10 @@
     }
     .menu-item {
       font-weight: 700;
-      @include pxRem(padding, 20);
+      @include mixins.pxRem(padding, 20);
       a {
         text-decoration: none;
-        color: map-get($color, primary);
+        color: map.get(variables.$color, primary);
         &:hover {
           opacity: 0.7;
         }
@@ -25,8 +29,8 @@
         }
       }
       .avatar {
-        @include pxRem(width, 36);
-        @include pxRem(height, 36);
+        @include mixins.pxRem(width, 36);
+        @include mixins.pxRem(height, 36);
         display: block;
         border-radius: 25%;
       }
