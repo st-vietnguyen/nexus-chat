@@ -1,5 +1,5 @@
 import React from 'react';
-import AlertError from '@assets/alert-error.svg?react';
+import AlertError from '@assets/icons/alert-error.svg?react';
 
 const AppErrorBoundaryFallback = ({ error, resetErrorBoundary }) => {
   return (
