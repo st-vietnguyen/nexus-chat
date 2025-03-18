@@ -1,4 +1,5 @@
 @use "sass:map";
+@use "sass:list";
 @use "../base/variables";
 
 $button-colors: (
@@ -37,9 +38,9 @@ $button-sizes: (
   user-select: none;
 
   // default size
-  padding: nth(map.get($button-sizes, "md"), 1)
-    nth(map.get($button-sizes, "md"), 2);
-  font-size: nth(map.get($button-sizes, "md"), 3);
+  padding: list.nth(map.get($button-sizes, "md"), 1)
+    list.nth(map.get($button-sizes, "md"), 2);
+  font-size: list.nth(map.get($button-sizes, "md"), 3);
 
   @each $name, $color in $button-colors {
     &-#{$name} {
@@ -55,8 +56,8 @@ $button-sizes: (
 
   @each $size, $values in $button-sizes {
     &-#{$size} {
-      padding: nth($values, 1) nth($values, 2);
-      font-size: nth($values, 3);
+      padding: list.nth($values, 1) list.nth($values, 2);
+      font-size: list.nth($values, 3);
     }
   }
 }
