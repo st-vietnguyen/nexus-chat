@@ -36,6 +36,7 @@ export default ({ mode }) => {
     ],
     define: {
       'process.env.APP_ENV': JSON.stringify(process.env.VITE_APP_ENV),
+      'process.env.API_BASE_URL': JSON.stringify(process.env.VITE_API_BASE_URL),
     },
     resolve: {
       alias: {

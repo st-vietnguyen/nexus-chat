@@ -65,7 +65,7 @@ export class ApiService {
 
   multipeGets(apiRequests: string[]) {
     const apiReqs = apiRequests.map((v) =>
-    this.axiosInstance.get(v),
+      this.axiosInstance.get(v),
     );
     return new Promise((resolve, reject) => {
       axios.all(apiReqs)
