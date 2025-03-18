@@ -1,0 +1,45 @@
+@use "sass:map";
+@use "../base/variables";
+
+$button-colors: (
+  primary: map.get(variables.$color, primary),
+  danger: map.get(variables.$color, red),
+);
+
+$button-sizes: (
+  "sm": (4px, 12px, 14px),
+  "md": (8px, 16px, 16px),
+  "lg": (12px, 20px, 18px),
+  "xl": (16px, 24px, 20px)
+);
+
+.btn {
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  user-select: none;
+
+  // default size
+  padding: nth(map.get($button-sizes, "md"), 1) nth(map.get($button-sizes, "md"), 2);
+  font-size: nth(map.get($button-sizes, "md"), 3);
+
+  @each $name, $color in $button-colors {
+    &-#{$name} {
+      background-color: $color;
+      color: map.get(variables.$color, white);
+
+      &:hover {
+        opacity: 0.8;
+        transition: opacity 0.3s;
+      }
+    }
+  }
+
+  @each $size, $values in $button-sizes {
+    &-#{$size} {
+      padding: nth($values, 1) nth($values, 2);
+      font-size: nth($values, 3);
+    }
+  }
+}

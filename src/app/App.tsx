@@ -6,6 +6,7 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from 'react-router-dom';
+import { ErrorBoundary } from 'react-error-boundary';
 
 import i18n from './core/services/i18n.service';
 import { Footer, Header } from '@shared/components/layout/index';
@@ -16,19 +17,22 @@ import AppSuspense from './AppSuspense';
 
 import { AuthProvider } from './shared/contexts/auth.context';
 import { renderChildren } from './core/modules/custom-router-dom/RouterOutlet';
+import AppErrorBoundaryFallback from './AppErrorBoundaryFallback';
 
 export const Root = () => {
   return (
     <>
-      <AppSuspense fallback={<></>}>
-        <Header />
-      </AppSuspense>
-      <AppSuspense fallback={<></>}>
-        <Outlet/>
-      </AppSuspense>
-      <AppSuspense fallback={<></>}>
-        <Footer />
-      </AppSuspense>
+      <ErrorBoundary FallbackComponent={AppErrorBoundaryFallback}>
+        <AppSuspense fallback={<></>}>
+          <Header />
+        </AppSuspense>
+        <AppSuspense fallback={<></>}>
+          <Outlet/>
+        </AppSuspense>
+        <AppSuspense fallback={<></>}>
+          <Footer />
+        </AppSuspense>
+      </ErrorBoundary>
     </>
   );
 };
