@@ -7,7 +7,8 @@ export interface User {
   id: number;
   image: string;
   lastName: string;
-  token: string;
+  accessToken: string;
+  refreshToken: string;
   username: string;
 }
 

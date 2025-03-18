@@ -10,11 +10,11 @@ const Login = () => {
   const navigate = useNavigate();
 
   const onLogin = async () => {
-    const account = { username: 'kminchelle', password: '0lelplR' };
+    const account = { username: 'emilys', password: 'emilyspass' };
     try {
       const res = (await auth.signIn(account)) as User;
       login(res);
-      auth.setToken(res.token);
+      auth.setToken(res.accessToken);
       navigate('/');
     } catch (error) {
       auth.removeToken();

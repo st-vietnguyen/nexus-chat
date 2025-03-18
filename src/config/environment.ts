@@ -1,3 +1,3 @@
 export const environment = {
-  apiBaseUrl: 'https://dummyjson.com/',
+  apiBaseUrl: process.env.API_BASE_URL ?? '',
 };
