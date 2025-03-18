@@ -3,7 +3,7 @@
 
 $button-colors: (
   primary: map.get(variables.$color, primary),
-  error: map.get(variables.$color, red),
+  danger: map.get(variables.$color, red),
 );
 
 $button-sizes: (
