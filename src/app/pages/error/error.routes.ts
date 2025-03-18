@@ -11,10 +11,10 @@ const errorRoutes: PageRoute[] = [
     children: [
       {
         path: '*',
-        element: Error
-      }
-    ]
-  }
+        element: Error,
+      },
+    ],
+  },
 ];
 
 export default errorRoutes;

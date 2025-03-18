@@ -4,17 +4,17 @@ export interface User {
   email: string;
   firstName: string;
   gender: string;
-  id: number
-  image: string
-  lastName: string
-  accessToken: string
-  refreshToken: string
-  username: string
+  id: number;
+  image: string;
+  lastName: string;
+  accessToken: string;
+  refreshToken: string;
+  username: string;
 }
 
 export interface AuthData {
   data: User | null;
-  isAuthenticated: boolean
+  isAuthenticated: boolean;
   login: (data: User) => void;
   logout: () => void;
 }
@@ -36,7 +36,10 @@ export const AuthProvider = (props) => {
   };
 
   return (
-    <AuthContext.Provider value={{ data, isAuthenticated, login, logout }} {...props}>
+    <AuthContext.Provider
+      value={{ data, isAuthenticated, login, logout }}
+      {...props}
+    >
       {props.children}
     </AuthContext.Provider>
   );

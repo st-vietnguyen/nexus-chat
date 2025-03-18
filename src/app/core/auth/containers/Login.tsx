@@ -9,10 +9,10 @@ const Login = () => {
   const { login } = useContext(AuthContext);
   const navigate = useNavigate();
 
-  const onLogin = async() => {
+  const onLogin = async () => {
     const account = { username: 'emilys', password: 'emilyspass' };
     try {
-      const res = await auth.signIn(account) as User;
+      const res = (await auth.signIn(account)) as User;
       login(res);
       auth.setToken(res.accessToken);
       navigate('/');

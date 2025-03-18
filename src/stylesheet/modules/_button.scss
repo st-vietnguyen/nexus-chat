@@ -7,10 +7,26 @@ $button-colors: (
 );
 
 $button-sizes: (
-  "sm": (4px, 12px, 14px),
-  "md": (8px, 16px, 16px),
-  "lg": (12px, 20px, 18px),
-  "xl": (16px, 24px, 20px)
+  "sm": (
+    4px,
+    12px,
+    14px,
+  ),
+  "md": (
+    8px,
+    16px,
+    16px,
+  ),
+  "lg": (
+    12px,
+    20px,
+    18px,
+  ),
+  "xl": (
+    16px,
+    24px,
+    20px,
+  ),
 );
 
 .btn {
@@ -21,7 +37,8 @@ $button-sizes: (
   user-select: none;
 
   // default size
-  padding: nth(map.get($button-sizes, "md"), 1) nth(map.get($button-sizes, "md"), 2);
+  padding: nth(map.get($button-sizes, "md"), 1)
+    nth(map.get($button-sizes, "md"), 2);
   font-size: nth(map.get($button-sizes, "md"), 3);
 
   @each $name, $color in $button-colors {

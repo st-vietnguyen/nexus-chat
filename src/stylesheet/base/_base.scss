@@ -8,7 +8,8 @@
   box-sizing: border-box;
   -webkit-overflow-scrolling: touch;
 }
-html, body {
+html,
+body {
   @include mixins.pxRem(font-size, 16);
   font-family: variables.$font-body;
   position: relative;

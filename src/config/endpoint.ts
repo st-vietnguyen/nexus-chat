@@ -1,14 +1,14 @@
 const RESOURCES = {
   auth: 'auth',
-  article: 'posts'
+  article: 'posts',
 };
 
 export const ENDPOINT = {
   auth: {
     index: `${RESOURCES.auth}`,
-    login: `${RESOURCES.auth}/login`
+    login: `${RESOURCES.auth}/login`,
   },
   article: {
-    articleList: `${RESOURCES.article}`
-  }
+    articleList: `${RESOURCES.article}`,
+  },
 };

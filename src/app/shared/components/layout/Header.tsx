@@ -15,7 +15,7 @@ export const Header = (): JSX.Element => {
     i18next.changeLanguage(lang);
   };
 
-  const onLogout = async() => {
+  const onLogout = async () => {
     logout();
     auth.removeToken();
   };
@@ -30,35 +30,43 @@ export const Header = (): JSX.Element => {
           <li className="menu-item">
             <Link to="articles">Articles</Link>
           </li>
-          {
-            isAuthenticated ?
+          {isAuthenticated ? (
+            <li className="menu-item">
+              <Link to="" onClick={onLogout}>
+                Logout
+              </Link>
+            </li>
+          ) : (
+            <>
               <li className="menu-item">
-                <Link to="" onClick={onLogout}>Logout</Link>
+                <Link to="auth/login">Login</Link>
               </li>
-            :
-              <>
-                <li className="menu-item">
-                  <Link to="auth/login">Login</Link>
-                </li>
-                <li className="menu-item">
-                  <Link to="auth/register">Register</Link>
-                </li>
-              </>
-          }
+              <li className="menu-item">
+                <Link to="auth/register">Register</Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
       <ul className="menu menu-lang">
         {LANGUAGES.map((lang: string) => {
           return (
             <li className="menu-item" key={lang}>
-              <button className="menu-action txt-bold" onClick={() => changeLang(lang)}>
+              <button
+                className="menu-action txt-bold"
+                onClick={() => changeLang(lang)}
+              >
                 {lang.toUpperCase()}
               </button>
             </li>
           );
         })}
         <li className="menu-item">
-          <img src={data?.image ? data.image : reactLogo} className="avatar" alt="Avatar" />
+          <img
+            src={data?.image ? data.image : reactLogo}
+            className="avatar"
+            alt="Avatar"
+          />
         </li>
       </ul>
     </header>

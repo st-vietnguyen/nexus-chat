@@ -19,10 +19,10 @@ const articleRoutes: PageRoute[] = [
       },
       {
         path: ':id',
-        element: ArticleDetail
-      }
-    ]
-  }
+        element: ArticleDetail,
+      },
+    ],
+  },
 ];
 
 export default articleRoutes;

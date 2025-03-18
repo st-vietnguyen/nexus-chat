@@ -17,11 +17,11 @@
 }
 
 .logo {
-  &:hover{
+  &:hover {
     filter: drop-shadow(0 0 2em map.get(variables.$color, pimary));
   }
   &.react {
-    &:hover{
+    &:hover {
       filter: drop-shadow(0 0 2em map.get(variables.$color, blue));
     }
   }

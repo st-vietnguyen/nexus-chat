@@ -22,19 +22,9 @@
       "@shared/*": ["src/app/shared/*"],
       "@config/*": ["src/config/*"]
     },
-    "lib": [
-      "es6",
-      "es7",
-      "dom"
-    ],
+    "lib": ["es6", "es7", "dom"],
     "types": ["vite-plugin-svgr/client", "node"]
   },
-  "include": [
-    "./src/**/*",
-  ],
-  "exclude": [
-    "dist",
-    "build",
-    "node_modules"
-  ]
+  "include": ["./src/**/*"],
+  "exclude": ["dist", "build", "node_modules"]
 }

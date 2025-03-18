@@ -33,7 +33,9 @@
 // === RESPOND BETWEEN ===
 // @include respond-between(small, medium);
 @mixin respond-between($lower, $upper) {
-  @if map.has-key(variables.$breakpoints, $lower) and map.has-key(variables.$breakpoints, $upper) {
+  @if map.has-key(variables.$breakpoints, $lower) and
+    map.has-key(variables.$breakpoints, $upper)
+  {
     $lower-breakpoint: map.get(variables.$breakpoints, $lower);
     $upper-breakpoint: map.get(variables.$breakpoints, $upper);
     @media (min-width: $lower-breakpoint) and (max-width: ($upper-breakpoint - 1)) {
@@ -122,18 +124,17 @@
 }
 @mixin flex-wrap($wrap) {
   -webkit-flex-wrap: $wrap;
-     -moz-flex-wrap: $wrap;
-      -ms-flex-wrap: $wrap;
-          flex-wrap: $wrap;
+  -moz-flex-wrap: $wrap;
+  -ms-flex-wrap: $wrap;
+  flex-wrap: $wrap;
 }
 
-@mixin ellipsis-special($number : null) {
+@mixin ellipsis-special($number: null) {
   overflow: hidden;
   @if meta.type-of($number) != number {
     text-overflow: ellipsis;
     white-space: nowrap;
-  }
-  @else {
+  } @else {
     display: box;
     display: -moz-box;
     display: -webkit-box;
@@ -158,14 +159,13 @@
 
 @function convertRootPxToEm($value) {
   // check for null:
-  @if($value == null) {
+  @if ($value == null) {
     @return $value;
   }
   // assume em:
   @if (math.is-unitless($value) or math.unit($value) == em) {
     @return 0em + $value;
-  }
-  @else {
+  } @else {
     @return 0em + calc(strip-units($value) / 16);
   }
 }
@@ -180,20 +180,22 @@
   $rem-values: ();
 
   // Ensure $values is a list.
-  @if meta.type-of($values) != 'list' {
+  @if meta.type-of($values) != "list" {
     $values: list.join((), $values);
   }
 
   // Loop through the $values list:
   @each $value in $values {
-    @if meta.type-of($value) == number and (math.is-unitless($value) or math.unit($value) == px) {
-    $px-values: list.join($px-values, 0px + ($value));
+    @if meta.type-of($value) ==
+      number and
+      (math.is-unitless($value) or math.unit($value) == px)
+    {
+      $px-values: list.join($px-values, 0px + ($value));
       $rem-values: list.join($rem-values, convertPxToRem($value));
-    }
-    @else {
-    // no conversion:
-    $px-values: list.join($px-values, $value);
-    $rem-values: list.join($rem-values, $value);
+    } @else {
+      // no conversion:
+      $px-values: list.join($px-values, $value);
+      $rem-values: list.join($rem-values, $value);
     }
   }
 
@@ -202,7 +204,7 @@
   // don't add media query if it's not needed:
   @if $px-values != $rem-values {
     // @media only all {
-      #{$property}: $rem-values;
+    #{$property}: $rem-values;
     // }
   }
 }
