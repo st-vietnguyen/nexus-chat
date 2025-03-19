@@ -13,8 +13,8 @@ interface ApiState<T> {
 
 interface ApiConfig {
   headers?: Record<string, string>;
-  params?: Record<string, any>;
-  data?: Record<string, any>;
+  params?: Record<string, unknown>;
+  data?: Record<string, unknown>;
 }
 
 type HttpMethod =
