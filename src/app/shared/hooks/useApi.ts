@@ -17,17 +17,9 @@ interface ApiConfig {
   data?: Record<string, unknown>;
 }
 
-type HttpMethod =
-  | 'GET'
-  | 'get'
-  | 'POST'
-  | 'post'
-  | 'PUT'
-  | 'put'
-  | 'DELETE'
-  | 'delete';
+type HttpMethod = 'get' | 'post' | 'put' | 'delete';
 
-export const useApi = <T>(
+const useApi = <T>(
   method: HttpMethod,
   url: (string | object)[],
   config: ApiConfig = {},
@@ -41,24 +33,15 @@ export const useApi = <T>(
   const fetchData = useCallback(async () => {
     setState({ data: null, loading: true, error: null });
     try {
-      let response: T;
       const { headers, params, data } = config;
-      switch (method.toUpperCase()) {
-        case 'GET':
-          response = (await apiService.get(url, params, headers)) as T;
-          break;
-        case 'POST':
-          response = (await apiService.post(url, data, headers)) as T;
-          break;
-        case 'PUT':
-          response = (await apiService.put(url, data, headers)) as T;
-          break;
-        case 'DELETE':
-          response = (await apiService.delete(url, headers)) as T;
-          break;
-        default:
-          throw new Error(`Unsupported method: ${method}`);
-      }
+      const apiMethods: Record<HttpMethod, () => Promise<T>> = {
+        get: () => apiService.get(url, params, headers) as Promise<T>,
+        post: () => apiService.post(url, data, headers) as Promise<T>,
+        put: () => apiService.put(url, data, headers) as Promise<T>,
+        delete: () => apiService.delete(url, headers) as Promise<T>,
+      };
+
+      const response = await apiMethods[method]();
       setState({ data: response, loading: false, error: null });
     } catch (error) {
       const axiosError = error as AxiosError;
@@ -78,15 +61,15 @@ export const useApi = <T>(
 };
 
 export const useGet = <T>(url: (string | object)[], config: ApiConfig = {}) =>
-  useApi<T>('GET', url, config);
+  useApi<T>('get', url, config);
 
 export const usePost = <T>(url: (string | object)[], config: ApiConfig = {}) =>
-  useApi<T>('POST', url, config);
+  useApi<T>('post', url, config);
 
 export const usePut = <T>(url: (string | object)[], config: ApiConfig = {}) =>
-  useApi<T>('PUT', url, config);
+  useApi<T>('put', url, config);
 
 export const useDelete = <T>(
   url: (string | object)[],
   config: ApiConfig = {},
-) => useApi<T>('DELETE', url, config);
+) => useApi<T>('delete', url, config);
