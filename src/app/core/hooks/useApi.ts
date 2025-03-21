@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { AxiosError } from 'axios';
 
-import { ApiService } from '@core/services/api.service';
+import { ApiService } from '../services/api.service';
 
 const apiService = new ApiService();
 
