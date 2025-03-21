@@ -30,7 +30,7 @@ const useApi = <T>(
     error: null,
   });
 
-  const fetchData = useCallback(async () => {
+  const requestData = useCallback(async () => {
     setState({ data: null, loading: true, error: null });
     try {
       const { headers, params, data } = config;
@@ -54,7 +54,7 @@ const useApi = <T>(
   }, [method, url, config]);
 
   useEffect(() => {
-    fetchData();
+    requestData();
   }, []);
 
   return { ...state };
