@@ -37,7 +37,11 @@ export const Header = () => {
               </li>
               {isAuthenticated ? (
                 <li className="nav-item">
-                  <NavLink to="" onClick={handleLogout} className={getNavLinkClass}>
+                  <NavLink
+                    to=""
+                    onClick={handleLogout}
+                    className={getNavLinkClass}
+                  >
                     {t('header.logout')}
                   </NavLink>
                 </li>
@@ -49,7 +53,10 @@ export const Header = () => {
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink to="auth/register" className="nav-link btn btn-primary">
+                    <NavLink
+                      to="auth/register"
+                      className="nav-link btn btn-primary"
+                    >
                       {t('header.register')}
                     </NavLink>
                   </li>
