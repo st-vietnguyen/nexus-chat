@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import logo from '@assets/icons/short-logo.svg';
+import logo from '/icons/short-logo.svg';
 
 const Home = () => {
   const { t } = useTranslation(['common', 'home']);

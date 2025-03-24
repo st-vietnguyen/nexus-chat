@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import logo from '@assets/icons/full-logo.svg';
+import logo from '/icons/full-logo.svg';
 import { AuthContext } from '@app/shared/contexts/auth.context';
 
 export const Header = () => {
@@ -40,8 +40,7 @@ export const Header = () => {
                   <NavLink
                     to=""
                     onClick={handleLogout}
-                    className={getNavLinkClass}
-                  >
+                    className={getNavLinkClass}>
                     {t('header.logout')}
                   </NavLink>
                 </li>
