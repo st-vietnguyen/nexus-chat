@@ -13,8 +13,8 @@ const Home = () => {
           <div className="logo">
             <img src={logo} alt="short-logo" />
           </div>
-          <h1 className="title">{ t('home:title') }</h1>
-          <p className="desc">{ t('home:description') }</p>
+          <h1 className="title">{t('home:title')}</h1>
+          <p className="desc">{t('home:description')}</p>
         </div>
       </div>
     </div>
