@@ -5,7 +5,6 @@ import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 
 import i18n from './core/services/i18n.service';
-import { Footer, Header } from '@shared/components/layout/index';
 import '@stylesheet/styles.scss';
 
 import appRoutes from './app.routes';
@@ -20,13 +19,7 @@ export const Root = () => {
     <>
       <ErrorBoundary FallbackComponent={AppErrorBoundaryFallback}>
         <AppSuspense fallback={<></>}>
-          <Header />
-        </AppSuspense>
-        <AppSuspense fallback={<></>}>
           <Outlet />
-        </AppSuspense>
-        <AppSuspense fallback={<></>}>
-          <Footer />
         </AppSuspense>
       </ErrorBoundary>
     </>

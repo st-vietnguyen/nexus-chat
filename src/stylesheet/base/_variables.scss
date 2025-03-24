@@ -23,7 +23,8 @@ $color: (
   grey-c: #dee2e6,
   blue-a: #0060A7,
   blue-b: #007bff,
-  black: #008CF4,
+  blue-c: #008CF4,
+  black: #000000,
   white: #ffffff,
 );
 
@@ -37,7 +38,12 @@ $font-size: (
   xxxl: 30px,
 );
 
-$font-body: san-serif;
+$layout: (
+  header-height: 85px,
+  footer-height: 40px,
+);
+
+$font-body: "Mulish", sans-serif;
 $font-japan: serif;
 
 $space-value: 5;

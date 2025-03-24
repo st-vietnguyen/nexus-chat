@@ -2,50 +2,27 @@
 @use "../base/mixins";
 @use "../base/variables";
 
-.logo-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.logo {
-  @include mixins.pxRem(height, 300);
-  @include mixins.pxRem(width, 300);
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-
-.logo {
-  &:hover {
-    filter: drop-shadow(0 0 2em map.get(variables.$color, pimary));
+.home-page {
+  .page-inner {
+    @include mixins.pxRem(width, 650);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
-  &.react {
-    &:hover {
-      filter: drop-shadow(0 0 2em map.get(variables.$color, blue));
-    }
+  .logo {
+    @include mixins.pxRem(height, 80);
+    @include mixins.pxRem(width, 80);
+    @include mixins.pxRem(margin-bottom, 36);
+    will-change: filter;
+    transition: filter 300ms;
   }
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+  h1 {
+    @include mixins.pxRem(font-size, 36);
+    @include mixins.pxRem(margin-bottom, 24);
+    font-weight: 600;
   }
-  to {
-    transform: rotate(360deg);
+  .desc {
+    @include mixins.pxRem(font-size, 24);
   }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.read-the-docs {
-  color: map.get(variables.$color, grey-b);
-}
-
-.pages-container {
-  font-size: 2em;
 }
