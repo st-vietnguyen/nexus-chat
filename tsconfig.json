@@ -20,7 +20,8 @@
       "@app/*": ["src/app/*"],
       "@core/*": ["src/app/core/*"],
       "@shared/*": ["src/app/shared/*"],
-      "@config/*": ["src/config/*"]
+      "@config/*": ["src/config/*"],
+      "@assets/*": ["src/assets/*"]
     },
     "lib": ["es6", "es7", "dom"],
     "types": ["vite-plugin-svgr/client", "node"]
