@@ -4,7 +4,7 @@ interface WithLoadingProps {
   isLoading: boolean;
 }
 
-const WithLoading =
+const withLoading =
   <P extends object>(WrappedComponent: React.ComponentType<P>) =>
   (props: P & WithLoadingProps) => {
     const { isLoading, ...rest } = props;
@@ -16,4 +16,4 @@ const WithLoading =
     return <WrappedComponent {...(rest as P)} />;
   };
 
-export default WithLoading;
+export default withLoading;
