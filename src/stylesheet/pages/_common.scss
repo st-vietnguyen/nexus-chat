@@ -1,14 +1,12 @@
-#root {
-  margin: 0 auto;
-  text-align: center;
-}
+@use "sass:map";
+@use "../base/variables";
+@use "../base/mixins";
 
 .pages-container {
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  max-width: 80%;
   margin: auto;
   align-items: center;
-  min-height: calc(100vh - 130px);
+  min-height: calc(100vh - map.get(variables.$layout, footer-height));
+  padding-top: calc(map.get(variables.$layout, header-height) + 10px);
 }

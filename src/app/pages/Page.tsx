@@ -1,11 +1,16 @@
+import { Footer, Header } from '@app/shared/components/layout';
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
 const Page = () => {
   return (
-    <div className="pages-container py-4">
-      <Outlet />
-    </div>
+    <>
+      <Header />
+      <main className="pages-container">
+        <Outlet />
+      </main>
+      <Footer />
+    </>
   );
 };
 

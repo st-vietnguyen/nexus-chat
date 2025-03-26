@@ -1,6 +1,10 @@
 {
-  "pages": {
-    "homepage": "This is home page!",
-    "hello": "Hello"
+  "hello": "Hello",
+  "header": {
+    "home": "Home",
+    "articles": "Articles",
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
   }
 }
