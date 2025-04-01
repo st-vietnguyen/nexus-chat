@@ -1,0 +1,12 @@
+@use "../base/mixins";
+
+.article {
+  &-title {
+    @include mixins.pxRem(font-size, 32);
+    @include mixins.pxRem(padding, 10 0 18);
+  }
+
+  &-body {
+    @include mixins.pxRem(font-size, 18);
+  }
+}
