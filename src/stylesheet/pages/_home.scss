@@ -25,4 +25,22 @@
   .desc {
     @include mixins.pxRem(font-size, 24);
   }
+
+  h2 {
+    @include mixins.pxRem(font-size, 28);
+    @include mixins.pxRem(margin-top, 40);
+    font-weight: 600;
+  }
+
+  .counter {
+    display: flex;
+    align-items: center;
+
+    &-value {
+      @include mixins.pxRem(font-size, 36);
+      @include mixins.pxRem(padding, 0 10);
+      font-weight: 600;
+      color: map.get(variables.$color, primary);
+    }
+  }
 }
