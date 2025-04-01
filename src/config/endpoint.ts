@@ -9,6 +9,6 @@ export const ENDPOINT = {
     login: `${RESOURCES.auth}/login`,
   },
   article: {
-    articleList: `${RESOURCES.article}`,
+    index: `${RESOURCES.article}`,
   },
 };

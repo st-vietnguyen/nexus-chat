@@ -5,6 +5,10 @@ export class ArticleService {
   api = new ApiService();
 
   async getArticleList() {
-    return this.api.get([ENDPOINT.article.articleList]);
+    return this.api.get([ENDPOINT.article.index]);
+  }
+
+  async getArticleDetail(id: string) {
+    return this.api.get([ENDPOINT.article.index, id]);
   }
 }
