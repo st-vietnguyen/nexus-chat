@@ -40,7 +40,7 @@ export const Header = () => {
                   <NavLink
                     to=""
                     onClick={handleLogout}
-                    className={getNavLinkClass}
+                    className="nav-link btn btn-primary"
                   >
                     {t('header.logout')}
                   </NavLink>

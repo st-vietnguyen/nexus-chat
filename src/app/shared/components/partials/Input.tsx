@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 
 interface InputProps {
   type: string;
@@ -9,14 +10,15 @@ interface InputProps {
   maxLength?: number;
   errorMsg?: string;
   minLength?: number;
-  onBlur?: (value: string) => void;
-  onChange?: (value: string) => void;
+  onInputBlur?: (value: string) => void;
+  onInputChange?: (value: string) => void;
   isReadOnly?: boolean;
   hasApiErr?: boolean;
   isDisabled?: boolean;
+  register?: UseFormRegisterReturn;
 }
 
-export const Input: React.FC<InputProps> = ({
+export const Input = forwardRef<HTMLInputElement, InputProps>(({
   type,
   name,
   label,
@@ -24,26 +26,26 @@ export const Input: React.FC<InputProps> = ({
   className = '',
   maxLength,
   errorMsg,
-  onBlur,
-  onChange,
+  onInputBlur,
+  onInputChange,
   isReadOnly = false,
   hasApiErr = false,
   isDisabled = false,
-}) => {
+  register,
+}, ref) => {
   const [inputState, setInputState] = useState({ dirty: false, touched: false });
 
   const isShowError = () => (inputState.dirty || hasApiErr) && errorMsg;
 
   const inputClassName = `form-control ${className} ${isShowError() ? 'is-invalid' : ''}`;
 
-
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     setInputState(prev => ({ ...prev, dirty: true, touched: false }));
-    onBlur?.(e.target.value);
+    onInputBlur?.(e.target.value);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange?.(e.target.value);
+    onInputChange?.(e.target.value);
   };
 
   const handleFocus = () => {
@@ -54,6 +56,7 @@ export const Input: React.FC<InputProps> = ({
     <div className="form-group">
       <div className="input-group">
         <input
+          ref={ref}
           className={inputClassName}
           type={type}
           name={name}
@@ -64,10 +67,12 @@ export const Input: React.FC<InputProps> = ({
           onFocus={handleFocus}
           readOnly={isReadOnly}
           disabled={isDisabled}
+          {...register}
         />
         {label && <label className="form-label" htmlFor={name}>{label}</label>}
       </div>
       {isShowError() && <span className="msg-error">{errorMsg}</span>}
     </div>
   );
-};
+});
+

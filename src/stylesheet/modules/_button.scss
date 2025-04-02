@@ -38,7 +38,9 @@ $button-sizes: (
   outline: none;
   cursor: pointer;
   user-select: none;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
   // default size
   padding: list.nth(map.get($button-sizes, "md"), 1)
     list.nth(map.get($button-sizes, "md"), 2);
@@ -53,6 +55,11 @@ $button-sizes: (
         opacity: 0.8;
         transition: opacity 0.3s;
       }
+
+      &:disabled {
+        background-color: if(type-of($color) == "color", rgba($color, 0.4), $color);
+        cursor: not-allowed;
+      }
     }
   }
 
@@ -64,7 +71,6 @@ $button-sizes: (
   }
 
   &.btn-block {
-    display: block;
     width: 100%;
   }
 }

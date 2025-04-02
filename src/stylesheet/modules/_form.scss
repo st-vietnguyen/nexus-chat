@@ -95,16 +95,6 @@ input:-webkit-autofill:active  {
       }
     }
 
-    &.form-control-custom {
-      @include mixins.pxRem(border-radius, 25);
-      @include mixins.pxRem(padding, 11 30);
-      border-color: map.get(vars.$color, bg-light-secondary);
-
-      &::placeholder {
-        color: map.get(vars.$color, grey-f);
-      }
-    }
-
     &[readonly],
     &:disabled,
     &.disabled {
