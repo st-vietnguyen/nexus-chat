@@ -34,7 +34,7 @@ export class ApiService {
     }
   }
 
-  get(uri: (string | object)[], params = {}, moreConfigs = {}) {
+  get<T>(uri: (string | object)[], params = {}, moreConfigs = {}): Promise<T> {
     return new Promise((resolve, reject) => {
       const request = this.axiosInstance.get(this.createURL(uri), {
         params,
@@ -44,7 +44,7 @@ export class ApiService {
     });
   }
 
-  post(uri: (string | object)[], data = {}, moreConfigs = {}) {
+  post<T>(uri: (string | object)[], data = {}, moreConfigs = {}): Promise<T> {
     return new Promise((resolve, reject) => {
       const request = this.axiosInstance.post(
         this.createURL(uri),
@@ -55,7 +55,7 @@ export class ApiService {
     });
   }
 
-  put(uri: (string | object)[], data = {}, moreConfigs = {}) {
+  put<T>(uri: (string | object)[], data = {}, moreConfigs = {}): Promise<T> {
     return new Promise((resolve, reject) => {
       const request = this.axiosInstance.put(
         this.createURL(uri),
@@ -76,7 +76,7 @@ export class ApiService {
     });
   }
 
-  multipeGets(apiRequests: string[]) {
+  multipleGets(apiRequests: string[]) {
     const apiReqs = apiRequests.map((v) => this.axiosInstance.get(v));
     return new Promise((resolve, reject) => {
       axios

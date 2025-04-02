@@ -6,11 +6,11 @@ import logo from '/icons/full-logo.svg';
 import { AuthContext } from '@app/shared/contexts/auth.context';
 
 export const Header = () => {
-  const { isAuthenticated, logout } = useContext(AuthContext);
+  const { isAuthenticated, clearUserSession } = useContext(AuthContext);
   const { t } = useTranslation('common');
 
-  const handleLogout = async () => {
-    logout();
+  const handleLogout = () => {
+    clearUserSession();
   };
 
   const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
