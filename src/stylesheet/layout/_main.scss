@@ -3,7 +3,10 @@
 @use "../base/variables";
 
 .basic-container {
-  @include mixins.pxRem(padding-top, map.get(variables.$layout, header-basic-padding));
+  @include mixins.pxRem(
+    padding-top,
+    map.get(variables.$layout, header-basic-padding)
+  );
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -16,7 +19,14 @@
     flex-grow: 1;
     flex-shrink: 0;
     width: 100%;
-    min-height: calc(100vh - (map.get(variables.$layout, header-basic-padding) + 90px + 45px));
+    min-height: calc(
+      100vh -
+        (
+          map.get(variables.$layout, header-basic-padding) +
+            map.get(variables.$layout, header-basic-height) +
+            map.get(variables.$layout, footer-basic-height)
+        )
+    );
   }
   .page-heading {
     @include mixins.pxRem(padding-bottom, 32);

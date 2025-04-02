@@ -44,7 +44,7 @@ const Login = () => {
         navigate('/');
       } catch (error) {
         setIsLoading(false);
-        console.log(error);
+        return error;
         //TODO: Handle error
       }
     },

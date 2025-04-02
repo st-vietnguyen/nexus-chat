@@ -10,7 +10,10 @@
   z-index: 1000;
   height: map.get(variables.$layout, header-height);
   &.basic-header {
-    @include mixins.pxRem(height, 90);
+    @include mixins.pxRem(
+      height,
+      map.get(variables.$layout, header-basic-height)
+    );
     width: 100%;
     display: flex;
     justify-content: center;

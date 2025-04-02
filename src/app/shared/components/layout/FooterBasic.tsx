@@ -8,5 +8,5 @@ export const FooterBasic = () => {
         <li className="menu-item">Japanese</li>
       </ul>
     </footer>
-  )
+  );
 };

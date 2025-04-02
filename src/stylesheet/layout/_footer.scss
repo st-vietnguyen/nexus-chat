@@ -10,7 +10,10 @@
   font-weight: 600;
   &.basic-footer {
     @include mixins.pxRem(padding, 0 20);
-    @include mixins.pxRem(height, 45);
+    @include mixins.pxRem(
+      height,
+      map.get(variables.$layout, footer-basic-height)
+    );
     width: 100vw;
     display: flex;
     justify-content: center;
