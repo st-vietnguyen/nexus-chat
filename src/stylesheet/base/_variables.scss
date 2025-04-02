@@ -11,6 +11,8 @@ $breakpoints: (
 $color: (
   primary: #2272c7,
   danger: #e61e56,
+  danger-msg: #a83232,
+  bg-danger: #ffdbdc,
   warning: #ffb000,
   success: #00c853,
   orange-a: #f88c1a,
@@ -21,6 +23,7 @@ $color: (
   grey-a: #f3f3f3,
   grey-b: #888888,
   grey-c: #dee2e6,
+  grey-d: #c9d1d6,
   blue-a: #0060a7,
   blue-b: #007bff,
   blue-c: #008cf4,
@@ -41,6 +44,20 @@ $font-size: (
 $layout: (
   header-height: 85px,
   footer-height: 40px,
+  header-basic-height: 90px,
+  footer-basic-height: 45px,
+  header-basic-padding: 30px,
+);
+
+$container-breakpoints: (
+  medium: 440,
+  wide: 588,
+  large: 840,
+);
+
+$border-radius: (
+  sm: 4px,
+  md: 5px,
 );
 
 $font-body: "Mulish", sans-serif;

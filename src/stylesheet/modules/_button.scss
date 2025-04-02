@@ -1,5 +1,7 @@
 @use "sass:map";
 @use "sass:list";
+@use "sass:meta";
+@use "../base/mixins";
 @use "../base/variables";
 
 $button-colors: (
@@ -31,12 +33,15 @@ $button-sizes: (
 );
 
 .btn {
-  border-radius: 8px;
+  @include mixins.pxRem(border-radius, map.get(variables.$border-radius, md));
+  @include mixins.pxRem(height, 46);
   border: none;
   outline: none;
   cursor: pointer;
   user-select: none;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
   // default size
   padding: list.nth(map.get($button-sizes, "md"), 1)
     list.nth(map.get($button-sizes, "md"), 2);
@@ -51,6 +56,15 @@ $button-sizes: (
         opacity: 0.8;
         transition: opacity 0.3s;
       }
+
+      &:disabled {
+        background-color: if(
+          meta.type-of($color) == "color",
+          rgba($color, 0.4),
+          $color
+        );
+        cursor: not-allowed;
+      }
     }
   }
 
@@ -59,5 +73,9 @@ $button-sizes: (
       padding: list.nth($values, 1) list.nth($values, 2);
       font-size: list.nth($values, 3);
     }
+  }
+
+  &.btn-block {
+    width: 100%;
   }
 }
