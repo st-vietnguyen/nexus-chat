@@ -1,0 +1,35 @@
+@use 'sass:map';
+@use '../base/variables' as vars;
+@use '../base/mixins' as mixins;
+
+.spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .bounce {
+    @include mixins.animation(bounce-delay 1.4s infinite ease-in-out both);
+    @include mixins.pxRem(margin-left, 5);
+    border-radius: 50%;
+    background: rgba(map.get(vars.$color, slate-grey-a), 0.8);
+
+    &:first-child {
+      @include mixins.animation-delay(-0.32s);
+    }
+
+    &:nth-child(2) {
+      @include mixins.animation-delay(-0.16s);
+    }
+  }
+
+  &-lg .bounce,
+  &-md .bounce,
+  &-sm .bounce {
+    @include mixins.pxRem(width, map.get((lg: 20, md: 10, sm: 5), &));
+    @include mixins.pxRem(height, map.get((lg: 20, md: 10, sm: 5), &));
+  }
+
+  &-white .bounce {
+    background: map.get(vars.$color, white);
+  }
+}
