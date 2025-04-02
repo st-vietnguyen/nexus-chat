@@ -38,14 +38,14 @@ const Login = () => {
       setIsLoading(true);
       try {
         const res = await auth.signIn<User>(data);
-        setIsLoading(false);
         setUserSession(res);
         auth.setToken(res.accessToken);
         navigate('/');
       } catch (error) {
-        setIsLoading(false);
         return error;
         //TODO: Handle error
+      } finally {
+        setIsLoading(false);
       }
     },
     [auth, setUserSession, navigate],
