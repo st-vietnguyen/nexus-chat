@@ -154,7 +154,7 @@
 
 // === CONVERT PXREM ===
 @function strip-units($number) {
-  @return $number / ($number * 0 + 1);
+  @return math.div($number, ($number * 0 + 1));
 }
 
 @function convertRootPxToEm($value) {
@@ -171,7 +171,7 @@
 }
 
 @function convertPxToRem($px) {
-  @return 0rem + strip-units($px) / 16;
+  @return 0rem + math.div(strip-units($px), 16);
 }
 
 @mixin pxRem($property, $values) {
