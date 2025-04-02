@@ -1,11 +1,11 @@
-@use 'sass:map';
-@use '../base/variables' as vars;
-@use '../base/mixins' as mixins;
+@use "sass:map";
+@use "../base/variables" as vars;
+@use "../base/mixins" as mixins;
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active  {
+input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px map-get(vars.$color, white) inset !important;
 }
 
@@ -142,7 +142,7 @@ input:-webkit-autofill:active  {
     background-color: map.get(vars.$color, bg-danger);
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       display: block;
       bottom: 100%;
@@ -150,7 +150,8 @@ input:-webkit-autofill:active  {
       height: 0;
       border-left: 8px solid transparent;
       border-right: 8px solid transparent;
-      border-bottom: 6px solid rgba($color: map.get(vars.$color, danger), $alpha: 0.15);
+      border-bottom: 6px solid
+        rgba($color: map.get(vars.$color, danger), $alpha: 0.15);
     }
   }
 }

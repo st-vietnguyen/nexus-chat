@@ -38,16 +38,25 @@
     }
   }
   .page-content {
-    @include mixins.pxRem(max-width, map.get(variables.$container-breakpoints, medium));
+    @include mixins.pxRem(
+      max-width,
+      map.get(variables.$container-breakpoints, medium)
+    );
     width: 100%;
     .form-wrapper {
       width: 100%;
     }
     &.page-content-wide {
-      @include mixins.pxRem(max-width, map.get(variables.$container-breakpoints, wide));
+      @include mixins.pxRem(
+        max-width,
+        map.get(variables.$container-breakpoints, wide)
+      );
     }
     &.page-content-lg {
-      @include mixins.pxRem(max-width, map.get(variables.$container-breakpoints, large));
+      @include mixins.pxRem(
+        max-width,
+        map.get(variables.$container-breakpoints, large)
+      );
     }
     &.page-content-center {
       text-align: center;

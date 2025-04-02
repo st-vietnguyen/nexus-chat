@@ -1,6 +1,6 @@
-@use 'sass:map';
-@use '../base/variables' as vars;
-@use '../base/mixins' as mixins;
+@use "sass:map";
+@use "../base/variables" as vars;
+@use "../base/mixins" as mixins;
 
 .txt-prewarp {
   white-space: pre-wrap;

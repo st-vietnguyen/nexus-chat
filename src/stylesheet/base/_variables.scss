@@ -11,8 +11,8 @@ $breakpoints: (
 $color: (
   primary: #2272c7,
   danger: #e61e56,
-  danger-msg: #A83232,
-  bg-danger: #FFDBDC,
+  danger-msg: #a83232,
+  bg-danger: #ffdbdc,
   warning: #ffb000,
   success: #00c853,
   orange-a: #f88c1a,
@@ -49,12 +49,12 @@ $layout: (
 $container-breakpoints: (
   medium: 440,
   wide: 588,
-  large: 840
+  large: 840,
 );
 
 $border-radius: (
   sm: 4px,
-  md: 5px
+  md: 5px,
 );
 
 $font-body: "Mulish", sans-serif;

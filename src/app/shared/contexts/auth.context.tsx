@@ -8,7 +8,9 @@ export interface AuthContextType {
   clearUserSession: () => void;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined,
+);
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -29,7 +31,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, isAuthenticated, setUserSession, clearUserSession }}>
+    <AuthContext.Provider
+      value={{ user, isAuthenticated, setUserSession, clearUserSession }}
+    >
       {children}
     </AuthContext.Provider>
   );

@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useEffect, useState } from 'react';
+import React, { useContext, useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
@@ -47,7 +47,7 @@ const Login = () => {
         //TODO: Handle error
       }
     },
-    [auth, setUserSession, navigate]
+    [auth, setUserSession, navigate],
   );
 
   return (
@@ -60,14 +60,14 @@ const Login = () => {
           <Input
             type="text"
             name="username"
-            register={register("username")}
+            register={register('username')}
             label={t('logIn.username.label')}
             errorMsg={errors.username?.message}
           />
           <Input
             type="password"
             name="password"
-            register={register("password")}
+            register={register('password')}
             label={t('logIn.password.label')}
             errorMsg={errors.password?.message}
           />
@@ -82,10 +82,14 @@ const Login = () => {
           </div>
         </form>
         <div className="tips txt-center">
-          <Link to="/" className="txt-link">{t('logIn.forgotPassword')}</Link>
+          <Link to="/" className="txt-link">
+            {t('logIn.forgotPassword')}
+          </Link>
           <p>
             {t('logIn.noAccount')}
-            <Link to="/auth/register" className="txt-link ml-1">{t('logIn.register')}</Link>
+            <Link to="/auth/register" className="txt-link ml-1">
+              {t('logIn.register')}
+            </Link>
           </p>
         </div>
       </div>
