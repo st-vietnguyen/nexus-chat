@@ -1,46 +1,40 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useState, ReactNode } from 'react';
+import { User } from '../models/user';
 
-export interface User {
-  email: string;
-  firstName: string;
-  gender: string;
-  id: number;
-  image: string;
-  lastName: string;
-  accessToken: string;
-  refreshToken: string;
-  username: string;
-}
-
-export interface AuthData {
-  data: User | null;
+export interface AuthContextType {
+  user: User | null;
   isAuthenticated: boolean;
-  login: (data: User) => void;
-  logout: () => void;
+  setUserSession: (user: User) => void;
+  clearUserSession: () => void;
 }
 
-export const AuthContext = createContext<AuthData | null>(null);
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined,
+);
 
-export const AuthProvider = (props) => {
-  const [data, setData] = useState<User>(null);
+interface AuthProviderProps {
+  children: ReactNode;
+}
+
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [user, setUser] = useState<User | null>(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = (user: User) => {
-    setData(user);
+  const setUserSession = (user: User) => {
+    setUser(user);
     setIsAuthenticated(true);
   };
 
-  const logout = () => {
-    setData(null);
+  const clearUserSession = () => {
+    setUser(null);
     setIsAuthenticated(false);
   };
 
   return (
     <AuthContext.Provider
-      value={{ data, isAuthenticated, login, logout }}
-      {...props}
+      value={{ user, isAuthenticated, setUserSession, clearUserSession }}
     >
-      {props.children}
+      {children}
     </AuthContext.Provider>
   );
 };
