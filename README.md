@@ -73,4 +73,4 @@ Run preview
 ## Apply SWR
 
 - Merge code from branch `task/long-apply_swr` on cloned repository if you want to apply SWR.
-- See what's changed here: https://github.com/st-fe-rd/b-react-vite-ts/pull/40
+- See what's changed here: https://github.com/st-fe-rd/b-react-vite-ts/pull/41
