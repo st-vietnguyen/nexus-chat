@@ -1,4 +1,5 @@
 import React from 'react';
+import { SWRConfig } from 'swr';
 import { I18nextProvider } from 'react-i18next';
 import { createRoot } from 'react-dom/client';
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom';
@@ -13,13 +14,16 @@ import AppSuspense from './AppSuspense';
 import { AuthProvider } from './shared/contexts/auth.context';
 import { renderChildren } from './core/modules/custom-router-dom/RouterOutlet';
 import AppErrorBoundaryFallback from './AppErrorBoundaryFallback';
+import { swrConfig } from '@config/swr';
 
 export const Root = () => {
   return (
     <>
       <ErrorBoundary FallbackComponent={AppErrorBoundaryFallback}>
         <AppSuspense fallback={<></>}>
-          <Outlet />
+          <SWRConfig value={swrConfig}>
+            <Outlet />
+          </SWRConfig>
         </AppSuspense>
       </ErrorBoundary>
     </>

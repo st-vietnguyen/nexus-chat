@@ -1,5 +1,7 @@
 import React from 'react';
-import { NavLink, useLoaderData } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+
+import { useFetchArticles } from '@app/core/hooks/data/useFetchArticles';
 
 export type Post = {
   id: number;
@@ -12,7 +14,15 @@ export type Posts = {
 };
 
 const ArticleList = () => {
-  const posts = useLoaderData() as Posts;
+  const { posts, isLoading } = useFetchArticles<Posts>();
+
+  if (isLoading) {
+    return (
+      <div>
+        <span className="loader"></span>
+      </div>
+    );
+  }
 
   return (
     <div>
