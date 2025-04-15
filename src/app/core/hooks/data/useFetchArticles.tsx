@@ -5,10 +5,13 @@ const SWR_KEY = 'GET_ARTICLE_LIST';
 
 export const useFetchArticles = <T,>() => {
   const client = new ArticleService();
-  const { data, ...rest } = useSWR(SWR_KEY, () => client.getArticleList<T>());
+  const { data, error, ...rest } = useSWR(SWR_KEY, () =>
+    client.getArticleList<T>(),
+  );
 
   return {
     posts: data,
+    error,
     ...rest,
   };
 };
