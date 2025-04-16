@@ -1,8 +1,9 @@
-import { AppDispatch, RootState } from '@app/store';
-import { fetchArticleDetail } from '@app/store/slices/articleSlice';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+
+import { AppDispatch, RootState } from '@app/store';
+import { fetchArticleDetail } from '@app/store/slices/articleSlice';
 import { FetchingStatus } from '@app/shared/enum/fetchingStatus';
 import ArticleDetailContent from '../components/ArticleDetailContent';
 
