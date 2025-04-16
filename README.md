@@ -68,3 +68,8 @@ Run preview
 
 - Merge code from branch `task/luc-apply_redux` on cloned repository if you want to apply redux.
 - See what's changed here: https://github.com/st-fe-rd/b-react-vite-ts/pull/9
+
+## Apply Redux Toolkit
+
+- Merge code from branch `feature/can_20250326-apply-redux-toolkit` on cloned repository if you want to apply Redux Toolkit.
+- See what's changed here: https://github.com/st-fe-rd/b-react-vite-ts/pull/38
