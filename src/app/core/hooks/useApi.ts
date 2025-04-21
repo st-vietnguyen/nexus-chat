@@ -30,7 +30,7 @@ const useApi = <T>(
     error: null,
   });
 
-  const requestData = useCallback(async () => {
+  const requestData = async () => {
     setState({ data: null, loading: true, error: null });
     try {
       const { headers, params, data } = config;
@@ -51,13 +51,9 @@ const useApi = <T>(
         error: axiosError,
       });
     }
-  }, [method, url, config]);
+  };
 
-  useEffect(() => {
-    requestData();
-  }, []);
-
-  return { ...state };
+  return { ...state, requestData };
 };
 
 export const useGet = <T>(url: (string | object)[], config: ApiConfig = {}) =>
