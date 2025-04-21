@@ -1,74 +1,71 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import i18next from 'i18next';
+import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import reactLogo from '/react.svg';
-import { LANGUAGES } from '@app/core/services/i18n.service';
+import logo from '/icons/full-logo.svg';
 import { AuthContext } from '@app/shared/contexts/auth.context';
-import { AuthService } from '@app/core/services/auth.service';
 
-export const Header = (): JSX.Element => {
-  const auth = new AuthService();
-  const { data, isAuthenticated, logout } = useContext(AuthContext);
+export const Header = () => {
+  const { isAuthenticated, clearUserSession } = useContext(AuthContext);
+  const { t } = useTranslation('common');
 
-  const changeLang = (lang: string) => {
-    i18next.changeLanguage(lang);
+  const handleLogout = () => {
+    clearUserSession();
   };
 
-  const onLogout = async () => {
-    logout();
-    auth.removeToken();
-  };
+  const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>
+    isActive ? 'nav-link nav-link-active' : 'nav-link';
 
   return (
     <header className="header">
-      <nav className="menu-nav">
-        <ul className="menu menu-nav d-flex">
-          <li className="menu-item">
-            <Link to="">Home</Link>
-          </li>
-          <li className="menu-item">
-            <Link to="articles">Articles</Link>
-          </li>
-          {isAuthenticated ? (
-            <li className="menu-item">
-              <Link to="" onClick={onLogout}>
-                Logout
-              </Link>
-            </li>
-          ) : (
-            <>
-              <li className="menu-item">
-                <Link to="auth/login">Login</Link>
+      <div className="container">
+        <nav className="navbar">
+          <NavLink to="/" className="navbar-brand">
+            <img src={logo} alt="Logo" />
+          </NavLink>
+          <div className="navbar-collapse">
+            <ul className="navbar-nav d-flex">
+              <li className="nav-item">
+                <NavLink to="" className={getNavLinkClass}>
+                  {t('header.home')}
+                </NavLink>
               </li>
-              <li className="menu-item">
-                <Link to="auth/register">Register</Link>
+              <li className="nav-item">
+                <NavLink to="articles" className={getNavLinkClass}>
+                  {t('header.articles')}
+                </NavLink>
               </li>
-            </>
-          )}
-        </ul>
-      </nav>
-      <ul className="menu menu-lang">
-        {LANGUAGES.map((lang: string) => {
-          return (
-            <li className="menu-item" key={lang}>
-              <button
-                className="menu-action txt-bold"
-                onClick={() => changeLang(lang)}
-              >
-                {lang.toUpperCase()}
-              </button>
-            </li>
-          );
-        })}
-        <li className="menu-item">
-          <img
-            src={data?.image ? data.image : reactLogo}
-            className="avatar"
-            alt="Avatar"
-          />
-        </li>
-      </ul>
+              {isAuthenticated ? (
+                <li className="nav-item">
+                  <NavLink
+                    to=""
+                    onClick={handleLogout}
+                    className="nav-link btn btn-primary"
+                  >
+                    {t('header.logout')}
+                  </NavLink>
+                </li>
+              ) : (
+                <>
+                  <li className="nav-item">
+                    <NavLink to="auth/login" className={getNavLinkClass}>
+                      {t('header.login')}
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink
+                      to="auth/register"
+                      className="nav-link btn btn-primary"
+                    >
+                      {t('header.register')}
+                    </NavLink>
+                  </li>
+                </>
+              )}
+            </ul>
+          </div>
+        </nav>
+      </div>
     </header>
   );
 };

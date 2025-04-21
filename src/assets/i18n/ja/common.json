@@ -1,6 +1,10 @@
 {
-  "pages": {
-    "homepage": "ホームページです！",
-    "hello": "こんにちは"
+  "hello": "こんにちは",
+  "header": {
+    "home": "ホーム",
+    "articles": "記事",
+    "login": "ログイン",
+    "register": "登録",
+    "logout": "ログアウト"
   }
 }

@@ -13,8 +13,8 @@ body {
   @include mixins.pxRem(font-size, 16);
   font-family: variables.$font-body;
   position: relative;
-  font-weight: 300;
-  color: map.get(variables.$color, black);
+  font-weight: 400;
+  color: map.get(variables.$color, slate-grey-a);
   line-height: 1.7;
   letter-spacing: 0.8px;
   background-color: map.get(variables.$color, white);
@@ -24,7 +24,26 @@ body {
   margin: 0;
   padding: 0;
 }
-image {
+
+a {
+  text-decoration: none;
+  color: inherit;
+  &:hover {
+    color: map.get(variables.$color, primary);
+  }
+}
+
+img {
   max-width: 100%;
   width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @include mixins.pxRem(margin-bottom, 10);
+  font-weight: bold;
 }
