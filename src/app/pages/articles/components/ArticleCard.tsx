@@ -14,12 +14,28 @@ export const ArticleCard = ({ post }) => {
             {post?.title}
           </NavLink>
         </h5>
-        <p className="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        <p className="card-text">
+          Some quick example text to build on the card title and make up the
+          bulk of the card's content.
+        </p>
         <div className="card-footer">
           <ul className="card-meta">
-            <li className="card-meta-item"><img className="card-meta-icon" src={likeIcon} alt="like-icon" /> <span>{post?.reactions?.likes}</span></li>
-            <li className="card-meta-item"><img className="card-meta-icon" src={dislikeIcon} alt="dislike-icon" /><span>{post?.reactions?.dislikes}</span></li>
-            <li className="card-meta-item"><img className="card-meta-icon" src={eyeIcon} alt="eye-icon" /><span>{post?.views}</span></li>
+            <li className="card-meta-item">
+              <img className="card-meta-icon" src={likeIcon} alt="like-icon" />{' '}
+              <span>{post?.reactions?.likes}</span>
+            </li>
+            <li className="card-meta-item">
+              <img
+                className="card-meta-icon"
+                src={dislikeIcon}
+                alt="dislike-icon"
+              />
+              <span>{post?.reactions?.dislikes}</span>
+            </li>
+            <li className="card-meta-item">
+              <img className="card-meta-icon" src={eyeIcon} alt="eye-icon" />
+              <span>{post?.views}</span>
+            </li>
           </ul>
         </div>
       </div>
