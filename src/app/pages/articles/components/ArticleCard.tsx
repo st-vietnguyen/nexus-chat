@@ -14,10 +14,7 @@ export const ArticleCard = ({ post }) => {
             {post?.title}
           </NavLink>
         </h5>
-        <p className="card-text">
-          Some quick example text to build on the card title and make up the
-          bulk of the card's content.
-        </p>
+        <p className="card-text">{post?.body}</p>
         <div className="card-footer">
           <ul className="card-meta">
             <li className="card-meta-item">
