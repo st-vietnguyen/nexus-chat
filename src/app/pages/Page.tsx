@@ -6,7 +6,7 @@ const Page = () => {
   return (
     <>
       <Header />
-      <main className="pages-container">
+      <main className="main">
         <Outlet />
       </main>
       <Footer />
