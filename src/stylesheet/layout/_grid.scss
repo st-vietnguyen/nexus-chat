@@ -50,6 +50,7 @@ $container-width: 1180px;
   > [class*="col-"] {
     padding-left: $grid-gutter;
     padding-right: $grid-gutter;
+    display: flex;
     @include mixins.respond-below(medium) {
       padding: 0 12px;
     }

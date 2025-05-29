@@ -1,8 +1,10 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+
+import { ArticleCard } from '../components/ArticleCard';
 
 import { useFetchArticles } from '@app/core/hooks/data/useFetchArticles';
 import withLoading from '@app/shared/hoc/withLoading';
+
 
 export type Post = {
   id: number;
@@ -14,29 +16,22 @@ export type Posts = {
   posts: Post[];
 };
 
-type ArticleListTemplateProps = {
-  posts: Post[];
-};
-
-const ArticleListTemplate = ({ posts }: ArticleListTemplateProps) => {
+const ArticleListTemplate = ({ posts }: Posts) => {
   return (
-    <div>
-      <h1 className="txt-bold">This is article-list page</h1>
-      <ul className="article-list mt-4 px-10">
-        {posts.map((post) => {
-          return (
-            <li key={post.id} className="article-item txt-left mb-4 pd-4">
-              <h3 className="article-title txt-bold">
-                <NavLink className="article-link" to={post.id.toString()}>
-                  {post.title}
-                </NavLink>
-              </h3>
-              <p className="article-content">{post.body}</p>
+    <>
+      <div className="page-heading">
+        <h1 className="page-title">Explore all articles</h1>
+      </div>
+      <div className="page-content">
+        <ul className="article-list row">
+          {posts.map((post) => (
+            <li key={post.id} className="col-12 col-md-6 col-lg-4">
+              <ArticleCard post={post} />
             </li>
-          );
-        })}
-      </ul>
-    </div>
+          ))}
+        </ul>
+      </div>
+    </>
   );
 };
 
