@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { AppDispatch, RootState } from '@app/store';
-import { fetchArticleDetail } from '@app/store/slices/article.slice';
+import { fetchArticleDetail } from '@app/pages/articles/article.slice';
 import { FetchingStatus } from '@app/shared/enum/fetching-status';
 import ArticleDetailContent from '../components/ArticleDetailContent';
 
