@@ -1,4 +1,5 @@
 import useSWR from 'swr';
+
 import { ArticleService } from '@app/core/services/article.service';
 
 const SWR_KEY = 'GET_ARTICLE_LIST';

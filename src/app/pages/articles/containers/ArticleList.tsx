@@ -2,9 +2,8 @@ import React from 'react';
 
 import { ArticleCard } from '../components/ArticleCard';
 
-import { useFetchArticles } from '@app/core/hooks/data/useFetchArticles';
+import { useFetchArticles } from '@app/shared/hooks/data/useFetchArticles';
 import withLoading from '@app/shared/hoc/withLoading';
-
 
 export type Post = {
   id: number;
