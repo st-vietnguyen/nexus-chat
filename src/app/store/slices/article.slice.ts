@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { Post } from '@app/pages/articles/containers/ArticleList';
-import { FetchingStatus } from '@app/shared/enum/fetchingStatus';
+import { FetchingStatus } from '@app/shared/enum/fetching-status';
 import { ArticleService } from '@app/shared/services/article.service';
 
 export interface ArticleState {

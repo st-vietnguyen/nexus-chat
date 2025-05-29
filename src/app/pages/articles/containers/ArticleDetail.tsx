@@ -3,8 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 import { AppDispatch, RootState } from '@app/store';
-import { fetchArticleDetail } from '@app/store/slices/articleSlice';
-import { FetchingStatus } from '@app/shared/enum/fetchingStatus';
+import { fetchArticleDetail } from '@app/store/slices/article.slice';
+import { FetchingStatus } from '@app/shared/enum/fetching-status';
 import ArticleDetailContent from '../components/ArticleDetailContent';
 
 const ArticleDetail = () => {

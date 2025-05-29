@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
-import articleReducer from '@app/store/slices/article-slice';
+import articleReducer from '@app/store/slices/article.slice';
 
 export const store = configureStore({
   reducer: {
