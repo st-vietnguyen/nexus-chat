@@ -1,0 +1,10 @@
+{
+  "hello": "こんにちは",
+  "header": {
+    "home": "ホーム",
+    "articles": "記事",
+    "login": "ログイン",
+    "register": "登録",
+    "logout": "ログアウト"
+  }
+}
