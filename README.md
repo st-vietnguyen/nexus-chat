@@ -1,33 +1,57 @@
-# Nexus Gallery
+# Nexus Chat
 
-Immersive 3D art gallery built with React, Vite and Three.js.
+Real-time chat application built with React, TypeScript, Redux Toolkit, TanStack Query, and Supabase.
 
 ## Overview
 
-Nexus Gallery is a personal front-end project focused on applying team engineering standards, clean architecture, and modern web development best practices in a real-world interactive application.
+Nexus Chat is a personal front-end project focused on applying production-level frontend architecture, clean code practices, scalable state management, and realtime data synchronization in a real-world application.
 
-The application allows users to explore a virtual 3D gallery space, view artworks fetched from public art APIs, and interact with artworks inside an immersive environment.
+The app allows users to:
+
+- Authenticate with Supabase Auth
+- Join and manage chat rooms
+- Send and receive realtime messages
+- See online users and typing indicators
+- Experience optimistic UI updates and responsive interactions
+
+This project emphasizes implementation quality, maintainability, and engineering standards over feature quantity.
 
 ## Tech Stack
 
 - React
 - Vite
 - TypeScript
-- Three.js
-- React Three Fiber
-- Zustand
+- React Router
+- Redux Toolkit
 - TanStack Query
+- React Hook Form
+- Zod
+- Supabase
+- Vitest
+- React Testing Library
 
 ## Features
 
-- Interactive 3D gallery experience
-- Dynamic artwork loading from public APIs
-- Artwork detail viewer
-- Camera movement and navigation
-- Responsive UI and loading states
-- Performance-focused rendering
+- Authentication (Sign up / Login / Logout)
+- Protected routes
+- Realtime chat rooms
+- Realtime message synchronization
+- Optimistic message updates
+- Typing indicators
+- Online/offline presence
+- Infinite message pagination
+- Loading, empty, and error states
+- Row Level Security (RLS)
 
+## Architecture
 
+```txt
+React App
+  ↓
+Supabase SDK
+  ↓
+Auth + Postgres + Realtime + RLS
+```
 
 ## Branches
 
@@ -35,7 +59,7 @@ The application allows users to explore a virtual 3D gallery space, view artwork
 |------------------|-----------------------------------------------|
 | `main`           | Basic setup with React, Vite, TypeScript, and Context API |
 | `additional/apply-redux-toolkit`  | Adds Redux Toolkit for advanced state management |
-| `addition/apply-swr`            | Adds SWR for data fetching and caching        |
+| `additional/apply-swr`            | Adds SWR for data fetching and caching        |
 | `additional/apply-storybook`    | Adds Storybook for isolated UI component development and docs |
 | `additional/apply-unit-test`        | Adds testing setup with Vitest, React Testing Library, and setup utilities |
 
