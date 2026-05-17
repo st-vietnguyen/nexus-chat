@@ -72,6 +72,7 @@ const Login = () => {
           type="password"
           name="password"
           label="Password"
+          placeHolder="Password"
           register={register('password')}
           errorMsg={errors.password?.message}
         />
