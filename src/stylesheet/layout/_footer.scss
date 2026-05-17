@@ -18,7 +18,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: 1px solid map.get(variables.$color, grey-d);
+    border-top: 1px solid map.get(variables.$color, border-strong);
     .menu-list {
       display: flex;
       justify-content: center;

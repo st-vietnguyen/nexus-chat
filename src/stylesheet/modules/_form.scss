@@ -36,19 +36,19 @@ input:-webkit-autofill:active {
   }
 
   .form-control {
-    @include mixins.pxRem(border-radius, map.get(vars.$border-radius, md));
-    @include mixins.pxRem(padding, 8 15);
+    @include mixins.pxRem(border-radius, map.get(vars.$border-radius, rounded));
+    @include mixins.pxRem(padding, 14 20);
     @include mixins.pxRem(font-size, map.get(vars.$font-size, normal));
     @include mixins.pxRem(line-height, 22.4);
     width: 100%;
-    color: map.get(vars.$color, secondary);
+    color: map.get(vars.$color, text-primary);
     outline: none;
-    border: 1px solid map.get(vars.$color, bg-light-secondary);
+    border: 1px solid map.get(vars.$color, border);
 
     &.input-underline {
       border-radius: 0;
       border: none;
-      border-bottom: 1px solid map.get(vars.$color, bg-light-secondary);
+      border-bottom: 1px solid map.get(vars.$color, border);
       position: relative;
 
       & + .line {
@@ -88,6 +88,8 @@ input:-webkit-autofill:active {
     &:not(:placeholder-shown) {
       ~ .form-label {
         opacity: 1;
+        transform: translateY(0);
+        color: map.get(vars.$color, primary);
       }
 
       &::placeholder {
@@ -98,17 +100,17 @@ input:-webkit-autofill:active {
     &[readonly],
     &:disabled,
     &.disabled {
-      color: map.get(vars.$color, disabled);
+      color: map.get(vars.$color, text-muted);
       background-color: map.get(vars.$color, "white");
       cursor: default;
 
       ~ .form-label,
       &::placeholder {
-        color: map.get(vars.$color, disabled);
+        color: map.get(vars.$color, text-muted);
       }
 
       &:focus {
-        border-color: map.get(vars.$color, bg-light-secondary);
+        border-color: map.get(vars.$color, border);
       }
     }
 
@@ -120,15 +122,21 @@ input:-webkit-autofill:active {
   .form-label {
     @include mixins.pxRem(font-size, 12);
     @include mixins.pxRem(line-height, 12);
-    @include mixins.pxRem(left, 11);
-    @include mixins.pxRem(padding, 4 4);
+    @include mixins.pxRem(left, 20);
+    @include mixins.pxRem(padding, 0 4);
     @include mixins.pxRem(border-radius, 4);
     @include mixins.pxRem(top, -10);
-    color: map.get(vars.$color, state-grey-b);
+    color: map.get(vars.$color, text-muted);
     position: absolute;
     background-color: map.get(vars.$color, white);
     display: inline-block;
     opacity: 0;
+    transform: translateY(22px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      color 0.2s ease;
+    pointer-events: none;
   }
 
   .msg-error {
@@ -136,10 +144,10 @@ input:-webkit-autofill:active {
     @include mixins.pxRem(font-size, 12);
     @include mixins.pxRem(margin-top, 6);
     @include mixins.pxRem(border-radius, 5);
-    color: map.get(vars.$color, danger-msg);
+    color: map.get(vars.$color, danger-text);
     position: relative;
     display: block;
-    background-color: map.get(vars.$color, bg-danger);
+    background-color: map.get(vars.$color, danger-bg);
 
     &::after {
       content: "";

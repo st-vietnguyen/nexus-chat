@@ -1,26 +1,10 @@
-import AuthHelper from '../helpers/auth.helper';
-import { ENDPOINT } from '@config/endpoint';
-import { ApiService } from './api.service';
+import { supabase } from '@app/libs/supabase/client';
 
-type SignInBody = {
-  username: string;
-  password: string;
-};
-export class AuthService extends AuthHelper {
-  http = new ApiService();
+export const signInWithEmail = (email: string, password: string) =>
+  supabase.auth.signInWithPassword({ email, password });
 
-  constructor() {
-    super();
-  }
+export const signOut = () => supabase.auth.signOut();
 
-  async signIn<T>(body: SignInBody): Promise<T> {
-    /* this is the default signIn,
-      If you want to override it, please write the same function in specific type of auth.
-    */
-    return this.http.post<T>([ENDPOINT.auth.login], body);
-  }
-
-  signOut() {
-    this.removeToken();
-  }
-}
+export const onAuthStateChange = (
+  callback: Parameters<typeof supabase.auth.onAuthStateChange>[0],
+) => supabase.auth.onAuthStateChange(callback);

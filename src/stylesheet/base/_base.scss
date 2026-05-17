@@ -14,7 +14,7 @@ body {
   font-family: variables.$font-body;
   position: relative;
   font-weight: 400;
-  color: map.get(variables.$color, slate-grey-a);
+  color: map.get(variables.$color, text-primary);
   line-height: 1.7;
   letter-spacing: 0.8px;
   background-color: map.get(variables.$color, white);
