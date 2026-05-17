@@ -16,6 +16,7 @@ import { AuthProvider } from './shared/contexts/auth.context';
 import { renderChildren } from './core/modules/custom-router-dom/RouterOutlet';
 import AppErrorBoundaryFallback from './AppErrorBoundaryFallback';
 import { swrConfig } from '@config/swr';
+import { store } from './store';
 
 export const Root = () => {
   return (
