@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signInWithEmail } from '@app/libs/supabase/auth.service';
+import { signInWithEmail } from '@app/core/services/auth.service';
 import { Button, Input, Typography } from '@app/shared/components/partials';
 
 const schema = z.object({
