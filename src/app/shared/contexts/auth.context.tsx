@@ -1,4 +1,12 @@
-import React, { createContext, useState, useEffect, useContext, useCallback, useMemo, ReactNode } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  useMemo,
+  ReactNode,
+} from 'react';
 import type { User } from '@supabase/supabase-js';
 import { onAuthStateChange, signOut } from '@app/libs/supabase/auth.service';
 
@@ -16,12 +24,16 @@ export const AuthContext = createContext<AuthContextType>({
   clearUserSession: async () => {},
 });
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const { data: { subscription } } = onAuthStateChange(async (_event, session) => {
+    const {
+      data: { subscription },
+    } = onAuthStateChange(async (_event, session) => {
       setUser(session?.user ?? null);
       setIsLoading(false);
     });
@@ -38,11 +50,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     [user, isLoading, clearUserSession],
   );
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => useContext(AuthContext);
