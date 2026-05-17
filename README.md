@@ -1,6 +1,6 @@
 # Nexus Chat
 
-Real-time chat application built with React, TypeScript, Redux Toolkit, TanStack Query, and Supabase.
+Real-time chat application built with React, TypeScript, Redux Toolkit, SWR, and Supabase.
 
 ## Overview
 
@@ -23,7 +23,7 @@ This project emphasizes implementation quality, maintainability, and engineering
 - TypeScript
 - React Router
 - Redux Toolkit
-- TanStack Query
+- SWR
 - React Hook Form
 - Zod
 - Supabase

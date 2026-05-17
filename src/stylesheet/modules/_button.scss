@@ -58,11 +58,11 @@ $button-sizes: (
       }
 
       &:disabled {
-        background-color: if(
-          meta.type-of($color) == "color",
-          rgba($color, 0.4),
-          $color
-        );
+        @if meta.type-of($color) == "color" {
+          background-color: rgba($color, 0.4);
+        } @else {
+          background-color: $color;
+        }
         cursor: not-allowed;
       }
     }

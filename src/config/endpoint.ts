@@ -10,5 +10,6 @@ export const ENDPOINT = {
   },
   article: {
     articleList: `${RESOURCES.article}`,
+    index: `${RESOURCES.article}`,
   },
 };
