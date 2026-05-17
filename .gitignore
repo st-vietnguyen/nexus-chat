@@ -25,3 +25,8 @@ dist-ssr
 
 # Env
 .env
+
+# AI Agents
+.claude/
+CLAUDE.md
+.agents/
