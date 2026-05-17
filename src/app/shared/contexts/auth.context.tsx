@@ -1,40 +1,48 @@
-import React, { createContext, useState, ReactNode } from 'react';
-import { User } from '../models/user';
+import React, { createContext, useState, useEffect, useContext, useCallback, useMemo, ReactNode } from 'react';
+import type { User } from '@supabase/supabase-js';
+import { onAuthStateChange, signOut } from '@app/libs/supabase/auth.service';
 
-export interface AuthContextType {
+interface AuthContextType {
   user: User | null;
   isAuthenticated: boolean;
-  setUserSession: (user: User) => void;
-  clearUserSession: () => void;
+  isLoading: boolean;
+  clearUserSession: () => Promise<void>;
 }
 
-export const AuthContext = createContext<AuthContextType | undefined>(
-  undefined,
-);
+export const AuthContext = createContext<AuthContextType>({
+  user: null,
+  isAuthenticated: false,
+  isLoading: true,
+  clearUserSession: async () => {},
+});
 
-interface AuthProviderProps {
-  children: ReactNode;
-}
-
-export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const setUserSession = (user: User) => {
-    setUser(user);
-    setIsAuthenticated(true);
-  };
+  useEffect(() => {
+    const { data: { subscription } } = onAuthStateChange(async (_event, session) => {
+      setUser(session?.user ?? null);
+      setIsLoading(false);
+    });
 
-  const clearUserSession = () => {
-    setUser(null);
-    setIsAuthenticated(false);
-  };
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const clearUserSession = useCallback(async () => {
+    await signOut();
+  }, []);
+
+  const value = useMemo(
+    () => ({ user, isAuthenticated: !!user, isLoading, clearUserSession }),
+    [user, isLoading, clearUserSession],
+  );
 
   return (
-    <AuthContext.Provider
-      value={{ user, isAuthenticated, setUserSession, clearUserSession }}
-    >
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
 };
+
+export const useAuth = () => useContext(AuthContext);

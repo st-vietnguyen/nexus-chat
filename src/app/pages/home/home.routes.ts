@@ -8,6 +8,7 @@ const homeRoutes: PageRoute[] = [
   {
     path: '/',
     element: Home,
+    isProtected: true,
   },
 ];
 

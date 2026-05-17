@@ -1,16 +1,18 @@
-import React, { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
+import React from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import logo from '/icons/full-logo.svg';
-import { AuthContext } from '@app/shared/contexts/auth.context';
+import { useAuth } from '@app/shared/contexts/auth.context';
 
 export const Header = () => {
-  const { isAuthenticated, clearUserSession } = useContext(AuthContext);
+  const { isAuthenticated, clearUserSession } = useAuth();
   const { t } = useTranslation('common');
+  const navigate = useNavigate();
 
-  const handleLogout = () => {
-    clearUserSession();
+  const handleLogout = async () => {
+    await clearUserSession();
+    navigate('/auth/login');
   };
 
   const getNavLinkClass = ({ isActive }: { isActive: boolean }) =>

@@ -1,12 +1,11 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { ACCESS_TOKEN_KEY } from '@app/core/constants/constant';
-
-const isAuthenticated = (): boolean => {
-  const token = localStorage.getItem(ACCESS_TOKEN_KEY);
-  return !!token;
-};
+import { useAuth } from '@app/shared/contexts/auth.context';
 
 export const PrivateRoute = ({ component: Wrapped }) => {
-  return isAuthenticated() ? <Wrapped /> : <Navigate to="/auth/login" />;
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) return null;
+
+  return isAuthenticated ? <Wrapped /> : <Navigate to="/auth/login" />;
 };

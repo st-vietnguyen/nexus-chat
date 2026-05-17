@@ -1,16 +1,10 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { FooterBasic, HeaderBasic } from '@app/shared/components/layout';
-
 const Auth = () => {
   return (
-    <div className="container basic-container">
-      <HeaderBasic />
-      <main className="main">
-        <Outlet />
-      </main>
-      <FooterBasic />
+    <div className="auth-page">
+      <Outlet />
     </div>
   );
 };

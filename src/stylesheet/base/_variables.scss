@@ -9,31 +9,35 @@ $breakpoints: (
 );
 
 $color: (
-  primary: #2272c7,
-  danger: #e61e56,
-  danger-msg: #a83232,
-  bg-danger: #ffdbdc,
+  primary: #ff6b9d,
+  primary-dark: #ac2a5d,
+  secondary: #ff9f67,
+  accent: #d65db1,
+
+  danger: #ff8b8b,
+  danger-text: #a83232,
+  danger-bg: #ffdbdc,
   warning: #ffb000,
-  success: #00c853,
-  orange-a: #f88c1a,
-  orange-b: #ff5b00,
-  slate-grey-a: #1a1d21,
-  state-grey-b: #666666,
-  state-grey-c: #ebeaeb,
-  grey-a: #f3f3f3,
-  grey-b: #888888,
-  grey-c: #dee2e6,
-  grey-d: #c9d1d6,
-  blue-a: #0060a7,
-  blue-b: #007bff,
-  blue-c: #008cf4,
+  success: #a8e6cf,
+
+  text-primary: #1c1c19,
+  text-secondary: #574146,
+  text-muted: #8a7176,
+
+  surface: #fffbf7,
+  surface-soft: #f7f3ef,
+  surface-muted: #ebe7e4,
+
+  border: #dee2e6,
+  border-strong: #c9d1d6,
+
   black: #000000,
   white: #ffffff,
 );
 
 $font-size: (
-  xs: 11px,
-  sm: 13px,
+  xs: 12px,
+  sm: 14px,
   normal: 16px,
   lg: 18px,
   xl: 20px,
@@ -57,10 +61,14 @@ $container-breakpoints: (
 
 $border-radius: (
   sm: 4px,
-  md: 5px,
+  md: 8px,
+  lg: 12px,
+  xl: 16px,
+  xxl: 32px,
+  rounded: 9999px,
 );
 
-$font-body: "Mulish", sans-serif;
+$font-body: "Quicksand", sans-serif;
 $font-japan: serif;
 
 $space-value: 5;
