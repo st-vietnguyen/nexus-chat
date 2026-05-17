@@ -11,7 +11,7 @@ const PATHS = {
 };
 
 // https://vitejs.dev/config/
-export default ({ mode }) => {
+export default ({ mode }: { mode: string }) => {
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   return defineConfig({
     root: PATHS.source,
@@ -46,6 +46,7 @@ export default ({ mode }) => {
         '@shared': Path.resolve(__dirname, './src/app/shared'),
         '@core': Path.resolve(__dirname, './src/app/core'),
         '@assets': Path.resolve(__dirname, './src/assets'),
+        '@libs': Path.resolve(__dirname, './src/app/libs'),
       },
     },
     build: {

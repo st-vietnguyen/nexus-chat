@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "ignoreDeprecations": "6.0",
     "baseUrl": "./",
     "sourceMap": true,
     "target": "es5",
@@ -15,12 +16,14 @@
     "removeComments": true,
     "strictNullChecks": false,
     "skipLibCheck": true,
+    "rootDir": "./src",
     "outDir": "build",
     "paths": {
       "@app/*": ["src/app/*"],
       "@core/*": ["src/app/core/*"],
       "@shared/*": ["src/app/shared/*"],
-      "@config/*": ["src/config/*"]
+      "@config/*": ["src/config/*"],
+      "@libs/*": ["src/app/libs/*"]
     },
     "lib": ["es6", "es7", "dom"],
     "types": ["vite-plugin-svgr/client", "node"]
