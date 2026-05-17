@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { PageRoute } from '@core/modules/custom-router-dom/router.interface';
-import { articleLoader } from './articlesLoader';
 
 const Articles = React.lazy(() => import('./containers/Articles'));
 const ArticleDetail = React.lazy(() => import('./containers/ArticleDetail'));
@@ -15,7 +14,6 @@ const articleRoutes: PageRoute[] = [
       {
         path: '',
         element: ArticleList,
-        loader: articleLoader,
       },
       {
         path: ':id',
