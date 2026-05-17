@@ -8,7 +8,7 @@ import React, {
   ReactNode,
 } from 'react';
 import type { User } from '@supabase/supabase-js';
-import { onAuthStateChange, signOut } from '@app/libs/supabase/auth.service';
+import { onAuthStateChange, signOut } from '@core/services/auth.service';
 
 interface AuthContextType {
   user: User | null;
