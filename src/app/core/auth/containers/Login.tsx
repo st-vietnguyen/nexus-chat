@@ -1,21 +1,27 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { TFunction } from 'i18next';
 import { signInWithEmail } from '@app/core/services/auth.service';
 import { Button, Input, Typography } from '@app/shared/components/partials';
 
-const schema = z.object({
-  email: z.string().email('Enter a valid email'),
-  password: z.string().min(1, 'Password is required'),
-});
+const createSchema = (t: TFunction) =>
+  z.object({
+    email: z.string().email(t('logIn.email.error')),
+    password: z.string().min(1, t('logIn.password.error')),
+  });
 
-type LoginForm = z.infer<typeof schema>;
+type LoginForm = z.infer<ReturnType<typeof createSchema>>;
 
 const Login = () => {
+  const { t } = useTranslation('auth');
   const [apiError, setApiError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const schema = useMemo(() => createSchema(t), [t]);
 
   const {
     register,
@@ -36,7 +42,7 @@ const Login = () => {
       }
       navigate('/');
     } catch {
-      setApiError('Network error. Please try again.');
+      setApiError(t('logIn.networkError'));
     }
   };
 
@@ -48,7 +54,7 @@ const Login = () => {
         </Typography>
       </div>
       <Typography variant="h3" align="center">
-        Welcome back
+        {t('logIn.heading')}
       </Typography>
       <Typography
         variant="body-sm"
@@ -56,24 +62,24 @@ const Login = () => {
         align="center"
         className="auth-subtitle"
       >
-        Sign in to continue chatting
+        {t('logIn.subtitle')}
       </Typography>
 
       <form className="form" onSubmit={handleSubmit(onLogin)}>
         <Input
           type="email"
           name="email"
-          label="Email"
+          label={t('logIn.email.label')}
           register={register('email')}
           errorMsg={errors.email?.message}
           hasApiErr={!!errors.email?.message}
-          placeHolder="Example@email.com"
+          placeHolder={t('logIn.email.placeholder')}
         />
         <Input
           type="password"
           name="password"
-          label="Password"
-          placeHolder="Password"
+          label={t('logIn.password.label')}
+          placeHolder={t('logIn.password.placeholder')}
           register={register('password')}
           errorMsg={errors.password?.message}
           hasApiErr={!!errors.password?.message}
@@ -91,16 +97,16 @@ const Login = () => {
             className="btn-primary btn-block"
             isLoading={isSubmitting}
             isDisabled={!isValid || isSubmitting}
-            title="Sign in"
+            title={t('logIn.btn')}
           />
         </div>
       </form>
 
       <div className="auth-links">
         <p>
-          Don't have an account?{' '}
+          {t('logIn.noAccount')}{' '}
           <Link to="/auth/register" className="auth-link">
-            Register
+            {t('logIn.register')}
           </Link>
         </p>
       </div>

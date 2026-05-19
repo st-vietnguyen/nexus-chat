@@ -1,30 +1,36 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import type { TFunction } from 'i18next';
 import { signUpWithEmail } from '@app/core/services/auth.service';
 import { Button, Input, Typography } from '@app/shared/components/partials';
 
-const schema = z
-  .object({
-    email: z.string().email('Enter a valid email'),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
-    confirmPassword: z.string().min(1, 'Please confirm your password'),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword'],
-  });
+const createSchema = (t: TFunction) =>
+  z
+    .object({
+      email: z.string().email(t('register.email.error')),
+      password: z.string().min(6, t('register.password.error')),
+      confirmPassword: z.string().min(1, t('register.confirmPassword.error')),
+    })
+    .refine((data) => data.password === data.confirmPassword, {
+      message: t('register.confirmPassword.mismatch'),
+      path: ['confirmPassword'],
+    });
 
-type RegisterForm = z.infer<typeof schema>;
+type RegisterForm = z.infer<ReturnType<typeof createSchema>>;
 
 const Register = () => {
+  const { t } = useTranslation('auth');
   const [status, setStatus] = useState<{
     type: 'error' | 'success';
     msg: string;
   } | null>(null);
   const navigate = useNavigate();
+
+  const schema = useMemo(() => createSchema(t), [t]);
 
   const {
     register,
@@ -49,13 +55,10 @@ const Register = () => {
       if (result.session) {
         navigate('/');
       } else {
-        setStatus({
-          type: 'success',
-          msg: 'Check your email to confirm your account.',
-        });
+        setStatus({ type: 'success', msg: t('register.confirmEmail') });
       }
     } catch {
-      setStatus({ type: 'error', msg: 'Network error. Please try again.' });
+      setStatus({ type: 'error', msg: t('register.networkError') });
     }
   };
 
@@ -67,7 +70,7 @@ const Register = () => {
         </Typography>
       </div>
       <Typography variant="h3" align="center">
-        Create account
+        {t('register.heading')}
       </Typography>
       <Typography
         variant="body-sm"
@@ -75,33 +78,33 @@ const Register = () => {
         align="center"
         className="auth-subtitle"
       >
-        Sign up to start chatting
+        {t('register.subtitle')}
       </Typography>
 
       <form className="form" onSubmit={handleSubmit(onRegister)}>
         <Input
           type="email"
           name="email"
-          label="Email"
+          label={t('register.email.label')}
           register={register('email')}
           errorMsg={errors.email?.message}
           hasApiErr={!!errors.email?.message}
-          placeHolder="Example@email.com"
+          placeHolder={t('register.email.placeholder')}
         />
         <Input
           type="password"
           name="password"
-          label="Password"
+          label={t('register.password.label')}
           register={register('password')}
-          placeHolder="Password"
+          placeHolder={t('register.password.placeholder')}
           errorMsg={errors.password?.message}
           hasApiErr={!!errors.password?.message}
         />
         <Input
           type="password"
           name="confirmPassword"
-          label="Confirm password"
-          placeHolder="Confirm password"
+          label={t('register.confirmPassword.label')}
+          placeHolder={t('register.confirmPassword.placeholder')}
           register={register('confirmPassword')}
           errorMsg={errors.confirmPassword?.message}
           hasApiErr={!!errors.confirmPassword?.message}
@@ -122,16 +125,16 @@ const Register = () => {
             className="btn-primary btn-block"
             isLoading={isSubmitting}
             isDisabled={!isValid || isSubmitting}
-            title="Create account"
+            title={t('register.btn')}
           />
         </div>
       </form>
 
       <div className="auth-links">
         <p>
-          Already have an account?{' '}
+          {t('register.hasAccount')}{' '}
           <Link to="/auth/login" className="auth-link">
-            Sign in
+            {t('register.signIn')}
           </Link>
         </p>
       </div>
