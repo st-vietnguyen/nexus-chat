@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -22,7 +22,7 @@ const Login = () => {
     handleSubmit,
     formState: { errors, isValid, isSubmitting },
   } = useForm<LoginForm>({
-    mode: 'onChange',
+    mode: 'onTouched',
     resolver: zodResolver(schema),
   });
 
@@ -41,8 +41,8 @@ const Login = () => {
   };
 
   return (
-    <div className="login-card">
-      <div className="login-logo">
+    <div className="auth-card">
+      <div className="auth-logo">
         <Typography variant="h2" color="gradient" align="center">
           Nexus
         </Typography>
@@ -54,7 +54,7 @@ const Login = () => {
         variant="body-sm"
         color="text-secondary"
         align="center"
-        className="login-subtitle"
+        className="auth-subtitle"
       >
         Sign in to continue chatting
       </Typography>
@@ -66,6 +66,7 @@ const Login = () => {
           label="Email"
           register={register('email')}
           errorMsg={errors.email?.message}
+          hasApiErr={!!errors.email?.message}
           placeHolder="Example@email.com"
         />
         <Input
@@ -75,9 +76,14 @@ const Login = () => {
           placeHolder="Password"
           register={register('password')}
           errorMsg={errors.password?.message}
+          hasApiErr={!!errors.password?.message}
         />
 
-        {apiError && <div className="login-api-error">{apiError}</div>}
+        {apiError && (
+          <div className="auth-alert auth-alert-error" role="alert">
+            {apiError}
+          </div>
+        )}
 
         <div className="form-group">
           <Button
@@ -90,13 +96,10 @@ const Login = () => {
         </div>
       </form>
 
-      <div className="login-links">
-        <Link to="/" className="login-link">
-          Forgot password?
-        </Link>
+      <div className="auth-links">
         <p>
           Don't have an account?{' '}
-          <Link to="/auth/register" className="login-link">
+          <Link to="/auth/register" className="auth-link">
             Register
           </Link>
         </p>
