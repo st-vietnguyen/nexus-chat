@@ -1,0 +1,513 @@
+@use "sass:map";
+@use "../base/variables" as vars;
+
+$gradient-pink: map.get(vars.$color, primary);
+$gradient-orange: map.get(vars.$color, secondary);
+$glass-bg: rgba(map.get(vars.$color, surface), 0.4);
+$glass-border: rgba(255, 255, 255, 0.3);
+$glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
+
+.material-symbols-outlined {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
+
+.chat-page {
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(255, 107, 157, 0.2) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 90% 80%,
+      rgba(255, 159, 103, 0.2) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(214, 93, 177, 0.1) 0%,
+      transparent 50%
+    ),
+    map.get(vars.$color, surface);
+  color: map.get(vars.$color, text-primary);
+  overflow: hidden;
+}
+
+.side-nav {
+  position: fixed;
+  top: 8px;
+  bottom: 8px;
+  left: 8px;
+  width: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 32px 0;
+  background: $glass-bg;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid $glass-border;
+  border-radius: 2rem;
+  box-shadow: $glass-shadow;
+  z-index: 50;
+
+  &-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid map.get(vars.$color, primary);
+    padding: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.6);
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .material-symbols-outlined {
+      color: map.get(vars.$color, text-muted);
+      font-size: 24px;
+    }
+  }
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+    padding: 0 16px;
+    list-style: none;
+    margin: 0;
+  }
+
+  &-item {
+    width: 100%;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: map.get(vars.$color, text-secondary);
+    border-radius: 9999px;
+    cursor: pointer;
+    transition:
+      background 0.2s ease,
+      transform 0.1s ease;
+
+    &:hover {
+      background: rgba(255, 255, 255, 0.4);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    &-active {
+      background: linear-gradient(135deg, $gradient-pink, $gradient-orange);
+      color: map.get(vars.$color, white);
+      box-shadow: 0 4px 12px rgba($gradient-pink, 0.3);
+
+      &:hover {
+        background: linear-gradient(135deg, $gradient-pink, $gradient-orange);
+      }
+    }
+  }
+}
+
+.chat-main {
+  position: absolute;
+  top: 32px;
+  bottom: 32px;
+  left: calc(80px + 8px + 24px);
+  right: 32px;
+  display: flex;
+  gap: 24px;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.room-sidebar {
+  width: 320px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  background: $glass-bg;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid $glass-border;
+  border-radius: 2rem;
+  box-shadow: $glass-shadow;
+  overflow: hidden;
+
+  &-header {
+    padding: 24px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+
+    .typo-h1 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin: 0 0 16px;
+    }
+  }
+
+  &-search {
+    position: relative;
+
+    &-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: map.get(vars.$color, text-secondary);
+      pointer-events: none;
+    }
+
+    &-input {
+      width: 100%;
+      padding: 12px 16px 12px 48px;
+      background: rgba(255, 255, 255, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 9999px;
+      font-family: inherit;
+      font-size: 16px;
+      font-weight: 500;
+      color: map.get(vars.$color, text-primary);
+      transition: border-color 0.2s ease;
+
+      &::placeholder {
+        color: map.get(vars.$color, text-secondary);
+      }
+
+      &:focus {
+        outline: none;
+        border-color: map.get(vars.$color, primary);
+      }
+    }
+  }
+
+  &-body {
+    flex: 1;
+    overflow-y: auto;
+  }
+}
+
+.room-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.room-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: none;
+  background: transparent;
+  border-radius: 1.5rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.4);
+  }
+
+  &-active {
+    background: rgba(255, 107, 157, 0.15);
+
+    &:hover {
+      background: rgba(255, 107, 157, 0.2);
+    }
+  }
+
+  &-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    border: 2px solid map.get(vars.$color, white);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .material-symbols-outlined {
+      color: map.get(vars.$color, text-muted);
+    }
+  }
+
+  &-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  &-name {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: map.get(vars.$color, text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &-meta {
+    margin: 2px 0 0;
+    font-size: 12px;
+    font-weight: 500;
+    color: map.get(vars.$color, text-secondary);
+  }
+}
+
+.room-list-empty {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  text-align: center;
+  gap: 8px;
+
+  &-icon {
+    width: 96px;
+    height: 96px;
+    margin-bottom: 24px;
+    border-radius: 50%;
+    background: rgba(255, 217, 225, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .material-symbols-outlined {
+      font-size: 40px;
+      color: map.get(vars.$color, primary-dark);
+    }
+  }
+
+  .btn {
+    margin-top: 24px;
+  }
+}
+
+.room-list-status {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 32px;
+  color: map.get(vars.$color, text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+
+  &-error {
+    color: map.get(vars.$color, danger-text);
+  }
+}
+
+.chat-panel {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: $glass-bg;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid $glass-border;
+  border-radius: 2rem;
+  box-shadow: $glass-shadow;
+  position: relative;
+  overflow: hidden;
+
+  &-empty {
+    text-align: center;
+  }
+
+  &-bubble {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(48px);
+    pointer-events: none;
+
+    &-top {
+      top: -10%;
+      right: -5%;
+      width: 256px;
+      height: 256px;
+      background: rgba($gradient-orange, 0.2);
+    }
+
+    &-bottom {
+      bottom: -10%;
+      left: -5%;
+      width: 320px;
+      height: 320px;
+      background: rgba($gradient-pink, 0.2);
+    }
+  }
+
+  &-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 480px;
+    padding: 32px;
+    gap: 16px;
+  }
+
+  &-card {
+    width: 192px;
+    height: 192px;
+    margin-bottom: 32px;
+    border-radius: 2rem;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.2)
+    );
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transform: rotate(3deg);
+    transition: transform 0.5s ease;
+
+    &:hover {
+      transform: rotate(0);
+    }
+
+    &-icon {
+      font-size: 64px;
+      color: map.get(vars.$color, accent);
+    }
+
+    &-dot {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+      &-pink {
+        top: -16px;
+        right: -16px;
+        width: 48px;
+        height: 48px;
+        background: $gradient-orange;
+
+        .material-symbols-outlined {
+          color: map.get(vars.$color, white);
+          font-size: 18px;
+        }
+      }
+
+      &-magenta {
+        bottom: -8px;
+        left: -8px;
+        width: 32px;
+        height: 32px;
+        background: map.get(vars.$color, primary-dark);
+      }
+    }
+  }
+}
+
+@media (max-width: map.get(vars.$breakpoints, large)) {
+  .side-nav {
+    flex-direction: row;
+    top: auto;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    width: auto;
+    height: 64px;
+    padding: 8px 16px;
+    border-radius: 9999px;
+
+    &-brand {
+      display: none;
+    }
+
+    &-list {
+      flex-direction: row;
+      justify-content: space-around;
+      padding: 0;
+    }
+
+    &-item {
+      width: 48px;
+      height: 48px;
+    }
+  }
+
+  .chat-main {
+    top: 16px;
+    bottom: calc(64px + 16px + 8px);
+    left: 16px;
+    right: 16px;
+    flex-direction: column;
+  }
+
+  .room-sidebar {
+    width: 100%;
+    flex: 1;
+  }
+
+  .chat-panel {
+    display: none;
+  }
+}

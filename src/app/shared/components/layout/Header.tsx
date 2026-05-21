@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
-import logo from '/icons/full-logo.svg';
+import FullLogoIcon from '@assets/icons/ic-full-logo.svg?react';
 import { useAuth } from '@app/shared/contexts/auth.context';
 
 export const Header = () => {
@@ -23,7 +23,7 @@ export const Header = () => {
       <div className="container">
         <nav className="navbar">
           <NavLink to="/" className="navbar-brand">
-            <img src={logo} alt="Logo" />
+            <FullLogoIcon aria-label="Logo" />
           </NavLink>
           <div className="navbar-collapse">
             <ul className="navbar-nav d-flex">

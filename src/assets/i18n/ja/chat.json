@@ -1,0 +1,25 @@
+{
+  "sidebar": {
+    "title": "メッセージ",
+    "searchPlaceholder": "友達を検索..."
+  },
+  "emptyRooms": {
+    "heading": "ここは静かです",
+    "subtitle": "友達を見つけてチャットを始めましょう。",
+    "cta": "友達を探す"
+  },
+  "emptyPanel": {
+    "heading": "友達を選んでチャットを始めましょう",
+    "subtitle": "左から会話を選ぶか、新しいつながりを見つけて始めましょう。"
+  },
+  "list": {
+    "loading": "ルームを読み込み中...",
+    "error": "ルームの読み込みに失敗しました。もう一度お試しください。"
+  },
+  "nav": {
+    "chat": "チャット",
+    "friends": "友達",
+    "calls": "通話",
+    "settings": "設定"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "sidebar": {
+    "title": "Messages",
+    "searchPlaceholder": "Search friends..."
+  },
+  "emptyRooms": {
+    "heading": "It's quiet here",
+    "subtitle": "Find friends to start chatting and share your moments.",
+    "cta": "Find Friends"
+  },
+  "emptyPanel": {
+    "heading": "Choose a friend to start chatting",
+    "subtitle": "Select a conversation from the left or discover new connections to get the party started."
+  },
+  "list": {
+    "loading": "Loading rooms...",
+    "error": "Failed to load rooms. Please try again."
+  },
+  "nav": {
+    "chat": "Chat",
+    "friends": "Friends",
+    "calls": "Calls",
+    "settings": "Settings"
+  }
+}

@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import logger from 'redux-logger';
 import articleReducer from '@app/pages/articles/article.slice';
+import chatReducer from '@app/pages/chat/chat.slice';
 
 export const store = configureStore({
   reducer: {
     article: articleReducer,
+    chat: chatReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });
