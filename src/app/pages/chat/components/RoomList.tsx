@@ -1,20 +1,34 @@
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import useSWR from 'swr';
 import { Spinner } from '@app/shared/components/common';
 import type { RootState } from '@app/store';
+import { useAuth } from '@app/shared/contexts/auth.context';
+import { getJoinedRooms } from '@app/core/services/room.service';
 import { setSelectedRoomId } from '../chat.slice';
-import { useRooms } from '../hooks/useRooms';
 import { EmptyRoomList } from './EmptyRoomList';
 import { RoomItem } from './RoomItem';
 
 export const RoomList = () => {
   const { t } = useTranslation('chat');
   const dispatch = useDispatch();
+  const { user } = useAuth();
   const selectedRoomId = useSelector(
     (state: RootState) => state.chat.selectedRoomId,
   );
 
-  const { data: rooms, isLoading, error } = useRooms();
+  const fetcher = useCallback(() => getJoinedRooms(user!.id), [user?.id]);
+
+  const {
+    data: rooms,
+    isLoading,
+    error,
+  } = useSWR(user ? ['rooms', user.id] : null, fetcher);
+  const handleSelect = useCallback(
+    (id: string) => dispatch(setSelectedRoomId(id)),
+    [dispatch],
+  );
 
   if (isLoading) {
     return (
@@ -44,7 +58,7 @@ export const RoomList = () => {
           key={room.id}
           room={room}
           isActive={room.id === selectedRoomId}
-          onSelect={(id) => dispatch(setSelectedRoomId(id))}
+          onSelect={handleSelect}
         />
       ))}
     </ul>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import type { Room } from '@app/core/services/room.service';
 import { formatTime } from '@core/helpers/date.helper';
 import PersonIcon from '@assets/icons/ic-person.svg?react';
@@ -9,7 +10,8 @@ interface RoomItemProps {
 }
 
 export const RoomItem = ({ room, isActive, onSelect }: RoomItemProps) => {
-  const label = room.name ?? 'Untitled';
+  const { t } = useTranslation('chat');
+  const label = room.name ?? t('room.untitled');
 
   return (
     <li>

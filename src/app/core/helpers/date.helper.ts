@@ -23,7 +23,7 @@ export const formatDate = (iso: string | null): string => {
 export const formatDateTime = (iso: string | null): string => {
   if (!iso) return '';
   const date = new Date(iso);
-  return `${formatDate(iso)} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+  return `${date.toLocaleDateString([], { year: 'numeric', month: 'short', day: 'numeric' })} ${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
 };
 
 export const formatRelative = (iso: string | null): string => {

@@ -16,6 +16,9 @@
     "loading": "Loading rooms...",
     "error": "Failed to load rooms. Please try again."
   },
+  "room": {
+    "untitled": "Untitled"
+  },
   "nav": {
     "chat": "Chat",
     "friends": "Friends",

@@ -39,6 +39,7 @@ export const SideNav = () => {
       <ul className="side-nav-list">
         {navItems.map((item) => {
           const isActive = item.key === activeKey;
+          const Icon = NAV_ICONS[item.key];
           return (
             <li key={item.key}>
               <button
@@ -47,10 +48,7 @@ export const SideNav = () => {
                 aria-label={t(`nav.${item.key}`)}
                 aria-current={isActive ? 'page' : undefined}
               >
-                {(() => {
-                  const Icon = NAV_ICONS[item.key];
-                  return <Icon />;
-                })()}
+                <Icon />
               </button>
             </li>
           );
