@@ -13,3 +13,14 @@ export const getJoinedRooms = async (userId: string): Promise<Room[]> => {
   if (error) throw error;
   return (data ?? []) as Room[];
 };
+
+export const getOrCreateDirectRoom = async (
+  otherUserId: string,
+): Promise<string> => {
+  const { data, error } = await supabase.rpc('get_or_create_direct_room', {
+    // eslint-disable-next-line camelcase -- matches Postgres function parameter
+    other_user_id: otherUserId,
+  });
+  if (error) throw error;
+  return data as string;
+};

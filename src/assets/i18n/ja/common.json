@@ -6,5 +6,8 @@
     "login": "ログイン",
     "register": "登録",
     "logout": "ログアウト"
+  },
+  "modal": {
+    "close": "閉じる"
   }
 }

@@ -64,9 +64,38 @@ export interface Database {
           },
         ];
       };
+      profiles: {
+        Row: {
+          id: string;
+          display_name: string | null;
+          email: string | null;
+          avatar_url: string | null;
+          created_at: string;
+        };
+        Insert: {
+          id: string;
+          display_name?: string | null;
+          email?: string | null;
+          avatar_url?: string | null;
+          created_at?: string;
+        };
+        Update: {
+          id?: string;
+          display_name?: string | null;
+          email?: string | null;
+          avatar_url?: string | null;
+          created_at?: string;
+        };
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
-    Functions: Record<string, never>;
+    Functions: {
+      get_or_create_direct_room: {
+        Args: { other_user_id: string };
+        Returns: string;
+      };
+    };
     Enums: Record<string, never>;
   };
 }
