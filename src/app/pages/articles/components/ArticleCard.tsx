@@ -1,9 +1,9 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-import likeIcon from '@assets/icons/like.svg';
-import dislikeIcon from '@assets/icons/dislike.svg';
-import eyeIcon from '@assets/icons/eye.svg';
+import likeIcon from '@assets/icons/ic-like.svg';
+import dislikeIcon from '@assets/icons/ic-dislike.svg';
+import eyeIcon from '@assets/icons/ic-eye.svg';
 
 export const ArticleCard = ({ post }) => {
   return (
