@@ -34,6 +34,7 @@ interface TypographyProps {
   color?: TypographyColor;
   align?: TypographyAlign;
   className?: string;
+  id?: string;
   children: ReactNode;
 }
 
@@ -54,6 +55,7 @@ export const Typography = ({
   color,
   align,
   className = '',
+  id,
   children,
 }: TypographyProps) => {
   const Tag = as ?? defaultTag[variant];
@@ -68,5 +70,9 @@ export const Typography = ({
     .filter(Boolean)
     .join(' ');
 
-  return <Tag className={classes}>{children}</Tag>;
+  return (
+    <Tag id={id} className={classes}>
+      {children}
+    </Tag>
+  );
 };

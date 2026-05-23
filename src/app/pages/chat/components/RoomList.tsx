@@ -10,7 +10,11 @@ import { setSelectedRoomId } from '../chat.slice';
 import { EmptyRoomList } from './EmptyRoomList';
 import { RoomItem } from './RoomItem';
 
-export const RoomList = () => {
+interface RoomListProps {
+  onFindFriends: () => void;
+}
+
+export const RoomList = ({ onFindFriends }: RoomListProps) => {
   const { t } = useTranslation('chat');
   const dispatch = useDispatch();
   const { user } = useAuth();
@@ -48,7 +52,7 @@ export const RoomList = () => {
   }
 
   if (!rooms?.length) {
-    return <EmptyRoomList />;
+    return <EmptyRoomList onFindFriends={onFindFriends} />;
   }
 
   return (

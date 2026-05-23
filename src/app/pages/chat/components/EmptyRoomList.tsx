@@ -2,7 +2,11 @@ import { useTranslation } from 'react-i18next';
 import { Button, Typography } from '@app/shared/components/partials';
 import WavingHandIcon from '@assets/icons/ic-waving-hand.svg?react';
 
-export const EmptyRoomList = () => {
+interface EmptyRoomListProps {
+  onFindFriends: () => void;
+}
+
+export const EmptyRoomList = ({ onFindFriends }: EmptyRoomListProps) => {
   const { t } = useTranslation('chat');
 
   return (
@@ -20,6 +24,7 @@ export const EmptyRoomList = () => {
         type="button"
         className="btn-primary btn-block"
         title={t('emptyRooms.cta')}
+        onClick={onFindFriends}
       />
     </div>
   );

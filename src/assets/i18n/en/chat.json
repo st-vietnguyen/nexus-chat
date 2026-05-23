@@ -19,6 +19,17 @@
   "room": {
     "untitled": "Untitled"
   },
+  "findFriends": {
+    "title": "Find Friends",
+    "searchPlaceholder": "Search by name or email...",
+    "hint": "Type at least 2 characters to search.",
+    "suggested": "Suggested friends",
+    "loading": "Searching...",
+    "empty": "No users found.",
+    "error": "Failed to load users. Please try again.",
+    "startError": "Failed to start chat. Please try again.",
+    "close": "Close"
+  },
   "nav": {
     "chat": "Chat",
     "friends": "Friends",

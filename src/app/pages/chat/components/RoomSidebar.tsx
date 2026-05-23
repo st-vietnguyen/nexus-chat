@@ -1,10 +1,19 @@
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@app/shared/components/partials';
+import { useModal } from '@app/shared/contexts/modal.context';
 import { RoomList } from './RoomList';
+import { FindFriendsModal } from './FindFriendsModal';
 import SearchIcon from '@assets/icons/ic-search.svg?react';
 
 export const RoomSidebar = () => {
   const { t } = useTranslation('chat');
+  const { openModal } = useModal();
+
+  const handleFindFriends = () =>
+    openModal({
+      title: t('findFriends.title'),
+      content: <FindFriendsModal />,
+    });
 
   return (
     <aside className="room-sidebar" aria-label={t('sidebar.title')}>
@@ -21,7 +30,7 @@ export const RoomSidebar = () => {
         </div>
       </div>
       <div className="room-sidebar-body">
-        <RoomList />
+        <RoomList onFindFriends={handleFindFriends} />
       </div>
     </aside>
   );

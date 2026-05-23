@@ -13,6 +13,7 @@ import appRoutes from './app.routes';
 import AppSuspense from './AppSuspense';
 
 import { AuthProvider } from './shared/contexts/auth.context';
+import { ModalProvider } from './shared/contexts/modal.context';
 import { renderChildren } from './core/modules/custom-router-dom/RouterOutlet';
 import AppErrorBoundaryFallback from './AppErrorBoundaryFallback';
 import { swrConfig } from '@config/swr';
@@ -41,7 +42,9 @@ root.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
       <AuthProvider>
-        <RouterProvider router={router} />
+        <ModalProvider>
+          <RouterProvider router={router} />
+        </ModalProvider>
       </AuthProvider>
     </I18nextProvider>
   </Provider>,
