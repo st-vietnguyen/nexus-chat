@@ -30,10 +30,31 @@
     "startError": "Failed to start chat. Please try again.",
     "close": "Close"
   },
+  "messages": {
+    "loading": "Loading messages...",
+    "error": "Failed to load messages.",
+    "retry": "Retry",
+    "empty": "No messages yet. Say hi!",
+    "loadOlder": "Load older messages",
+    "loadingMore": "Loading..."
+  },
   "nav": {
     "chat": "Chat",
     "friends": "Friends",
     "calls": "Calls",
     "settings": "Settings"
+  },
+  "header": {
+    "online": "Online",
+    "call": "Start call",
+    "video": "Start video call",
+    "more": "More options"
+  },
+  "compose": {
+    "placeholder": "Type a message...",
+    "send": "Send",
+    "attach": "Attach file",
+    "image": "Add image",
+    "emoji": "Add emoji"
   }
 }
