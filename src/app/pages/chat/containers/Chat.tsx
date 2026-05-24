@@ -3,6 +3,7 @@ import type { RootState } from '@app/store';
 import { SideNav } from '../components/SideNav';
 import { RoomSidebar } from '../components/RoomSidebar';
 import { EmptyChatPanel } from '../components/EmptyChatPanel';
+import { ChatRoomPanel } from '../components/ChatRoomPanel';
 
 const Chat = () => {
   const selectedRoomId = useSelector(
@@ -15,7 +16,7 @@ const Chat = () => {
       <main className="chat-main">
         <RoomSidebar />
         {selectedRoomId ? (
-          <section className="chat-panel" aria-live="polite" />
+          <ChatRoomPanel roomId={selectedRoomId} />
         ) : (
           <EmptyChatPanel />
         )}

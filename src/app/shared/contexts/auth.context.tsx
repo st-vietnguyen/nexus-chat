@@ -7,8 +7,11 @@ import React, {
   useMemo,
   ReactNode,
 } from 'react';
-import type { User } from '@supabase/supabase-js';
+import { AuthError, type User } from '@supabase/supabase-js';
+import { supabase } from '@app/libs/supabase/client';
 import { onAuthStateChange, signOut } from '@core/services/auth.service';
+
+const VERIFY_EVENTS = new Set(['INITIAL_SESSION', 'SIGNED_IN', 'USER_UPDATED']);
 
 interface AuthContextType {
   user: User | null;
@@ -33,8 +36,19 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   useEffect(() => {
     const {
       data: { subscription },
-    } = onAuthStateChange(async (_event, session) => {
-      setUser(session?.user ?? null);
+    } = onAuthStateChange(async (event, session) => {
+      if (!session) {
+        setUser(null);
+      } else if (VERIFY_EVENTS.has(event)) {
+        const { data, error } = await supabase.auth.getUser();
+        if (error instanceof AuthError && error.status === 401) {
+          setUser(null);
+        } else {
+          setUser(data.user ?? session.user);
+        }
+      } else {
+        setUser(session.user);
+      }
       setIsLoading(false);
     });
 
