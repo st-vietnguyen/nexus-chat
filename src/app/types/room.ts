@@ -1,4 +1,4 @@
-import type { RoomType } from '@app/types';
+import type { RoomType } from './database';
 
 export const ROOM_TYPE = {
   DIRECT: 'direct',

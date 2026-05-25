@@ -6,7 +6,7 @@ import {
   getJoinedRooms,
   getDirectRoomPeer,
 } from '@app/core/services/room.service';
-import { ROOM_TYPE } from '@app/shared/enum/room';
+import { ROOM_TYPE } from '@app/types';
 import PersonIcon from '@assets/icons/ic-person.svg?react';
 import CallIcon from '@assets/icons/ic-call.svg?react';
 import VideocamIcon from '@assets/icons/ic-videocam.svg?react';
