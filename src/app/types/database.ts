@@ -126,6 +126,10 @@ export interface Database {
         Args: { other_user_id: string };
         Returns: string;
       };
+      send_message: {
+        Args: { p_room_id: string; p_content: string };
+        Returns: Database['public']['Tables']['messages']['Row'];
+      };
     };
     Enums: Record<string, never>;
   };

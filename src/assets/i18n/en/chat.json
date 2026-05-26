@@ -36,7 +36,10 @@
     "retry": "Retry",
     "empty": "No messages yet. Say hi!",
     "loadOlder": "Load older messages",
-    "loadingMore": "Loading..."
+    "loadingMore": "Loading...",
+    "sending": "Sending...",
+    "failed": "Failed to send",
+    "failedTapRetry": "Failed to send. Tap to retry."
   },
   "nav": {
     "chat": "Chat",
