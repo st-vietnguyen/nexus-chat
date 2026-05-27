@@ -13,11 +13,11 @@ export const MessageListStatus = ({
   message,
   action,
 }: MessageListStatusProps) => {
-  const cls = `message-list-status${variant === 'error' ? ' message-list-status-error' : ''}`;
+  const classNames = `message-list-status${variant === 'error' ? ' message-list-status-error' : ''}`;
   const role = variant === 'error' ? 'alert' : undefined;
 
   return (
-    <div className={cls} role={role}>
+    <div className={classNames} role={role}>
       <p>{message}</p>
       {action}
     </div>

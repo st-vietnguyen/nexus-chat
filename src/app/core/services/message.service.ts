@@ -3,6 +3,20 @@ import type { Database } from '@app/types/database';
 
 export type Message = Database['public']['Tables']['messages']['Row'];
 
+export const MESSAGE_DELIVERY_STATUS = {
+  SENDING: 'sending',
+  SENT: 'sent',
+  FAILED: 'failed',
+} as const;
+
+export type MessageDeliveryStatus =
+  (typeof MESSAGE_DELIVERY_STATUS)[keyof typeof MESSAGE_DELIVERY_STATUS];
+
+export interface OptimisticMessage extends Message {
+  status?: MessageDeliveryStatus;
+  tempId?: string;
+}
+
 export const MESSAGE_PAGE_SIZE = 30;
 
 export const getMessagesByRoomId = async (
@@ -24,4 +38,28 @@ export const getMessagesByRoomId = async (
 
   if (error) throw error;
   return (data ?? []) as Message[];
+};
+
+export interface SendMessagePayload {
+  roomId: string;
+  senderId: string;
+  content: string;
+}
+
+export const sendMessage = async ({
+  roomId,
+  content,
+}: SendMessagePayload): Promise<Message> => {
+  // Route through SECURITY DEFINER RPC so RLS on messages/rooms is enforced
+  // server-side. Avoids client-side RLS denial when JWT claims and policy
+  // visibility get out of sync, and updates rooms.last_message_at atomically.
+  const { data, error } = await supabase.rpc('send_message', {
+    // eslint-disable-next-line camelcase -- matches Postgres function parameter
+    p_room_id: roomId,
+    // eslint-disable-next-line camelcase -- matches Postgres function parameter
+    p_content: content,
+  });
+
+  if (error) throw error;
+  return data as Message;
 };

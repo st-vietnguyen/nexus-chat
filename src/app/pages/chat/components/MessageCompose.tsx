@@ -24,10 +24,13 @@ export const MessageCompose = ({ onSend, disabled }: MessageComposeProps) => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-      submit();
-    }
+    if (e.key !== 'Enter') return;
+    // Ignore Enter while IME composition is in progress (Vietnamese Telex/VNI,
+    // Japanese, Chinese, Korean). Without this guard, the IME-confirm Enter
+    // submits in addition to the user's real submit, sending the message twice.
+    if (e.nativeEvent.isComposing || e.keyCode === 229) return;
+    e.preventDefault();
+    submit();
   };
 
   const canSend = value.trim().length > 0 && !disabled;
