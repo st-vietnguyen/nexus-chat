@@ -53,7 +53,7 @@ const Register = () => {
         return;
       }
       if (result.session) {
-        navigate('/');
+        navigate('/chat');
       } else {
         setStatus({ type: 'success', msg: t('register.confirmEmail') });
       }

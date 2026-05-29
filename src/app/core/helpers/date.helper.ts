@@ -37,6 +37,25 @@ export const formatRelative = (iso: string | null): string => {
   return formatDate(iso);
 };
 
+// i18n-aware relative formatter. Caller passes a translator bound to the
+// `chat` namespace; keys live under `time.*`.
+export const formatRelativeI18n = (
+  iso: string | null,
+  t: (key: string, opts?: Record<string, unknown>) => string,
+): string => {
+  if (!iso) return '';
+  const diff = Date.now() - new Date(iso).getTime();
+
+  if (diff < ONE_MINUTE) return t('time.justNow');
+  if (diff < ONE_HOUR)
+    return t('time.minutesAgo', { count: Math.floor(diff / ONE_MINUTE) });
+  if (diff < ONE_DAY)
+    return t('time.hoursAgo', { count: Math.floor(diff / ONE_HOUR) });
+  if (diff < ONE_WEEK)
+    return t('time.daysAgo', { count: Math.floor(diff / ONE_DAY) });
+  return formatDate(iso);
+};
+
 export const isSameDay = (isoA: string, isoB: string): boolean => {
   const a = new Date(isoA);
   const b = new Date(isoB);

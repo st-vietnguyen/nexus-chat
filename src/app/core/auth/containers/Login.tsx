@@ -40,7 +40,7 @@ const Login = () => {
         setApiError(error.message);
         return;
       }
-      navigate('/');
+      navigate('/chat');
     } catch {
       setApiError(t('logIn.networkError'));
     }

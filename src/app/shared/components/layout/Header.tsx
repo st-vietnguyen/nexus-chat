@@ -22,7 +22,7 @@ export const Header = () => {
     <header className="header">
       <div className="container">
         <nav className="navbar">
-          <NavLink to="/" className="navbar-brand">
+          <NavLink to="/chat" className="navbar-brand">
             <FullLogoIcon aria-label="Logo" />
           </NavLink>
           <div className="navbar-collapse">

@@ -25,7 +25,9 @@ export const Root = () => {
       <ErrorBoundary FallbackComponent={AppErrorBoundaryFallback}>
         <AppSuspense fallback={<></>}>
           <SWRConfig value={swrConfig}>
-            <Outlet />
+            <ModalProvider>
+              <Outlet />
+            </ModalProvider>
           </SWRConfig>
         </AppSuspense>
       </ErrorBoundary>
@@ -42,9 +44,7 @@ root.render(
   <Provider store={store}>
     <I18nextProvider i18n={i18n}>
       <AuthProvider>
-        <ModalProvider>
-          <RouterProvider router={router} />
-        </ModalProvider>
+        <RouterProvider router={router} />
       </AuthProvider>
     </I18nextProvider>
   </Provider>,
