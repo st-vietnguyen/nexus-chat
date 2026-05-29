@@ -221,23 +221,31 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   align-items: center;
   gap: 12px;
   padding: 12px;
-  border: none;
+  border: 1px solid transparent;
   background: transparent;
   border-radius: 1.5rem;
   cursor: pointer;
   text-align: left;
-  transition: background 0.2s ease;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease;
 
   &:hover {
     background: rgba(255, 255, 255, 0.4);
   }
 
   &-active {
-    background: rgba(255, 107, 157, 0.15);
+    background: rgba(255, 255, 255, 0.55);
+    border-color: rgba(255, 255, 255, 0.7);
 
     &:hover {
-      background: rgba(255, 107, 157, 0.2);
+      background: rgba(255, 255, 255, 0.65);
     }
+  }
+
+  &-avatar-wrap {
+    position: relative;
+    flex-shrink: 0;
   }
 
   &-avatar {
@@ -249,7 +257,6 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
     overflow: hidden;
 
     img {
@@ -258,9 +265,21 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
       object-fit: cover;
     }
 
+    svg,
     .material-symbols-outlined {
       color: map.get(vars.$color, text-muted);
     }
+  }
+
+  &-status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: map.get(vars.$color, success);
+    border: 2px solid rgba(255, 255, 255, 0.95);
   }
 
   &-body {
@@ -268,21 +287,66 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     min-width: 0;
   }
 
+  &-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+
   &-name {
     margin: 0;
     font-size: 16px;
-    font-weight: 600;
+    font-weight: 700;
     color: map.get(vars.$color, text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    min-width: 0;
   }
 
-  &-meta {
-    margin: 2px 0 0;
+  &-time {
+    flex-shrink: 0;
     font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    color: map.get(vars.$color, text-secondary);
+  }
+
+  &-active &-time {
+    color: map.get(vars.$color, primary);
+  }
+
+  &-preview {
+    margin: 0;
+    font-size: 14px;
     font-weight: 500;
     color: map.get(vars.$color, text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    min-width: 0;
+  }
+
+  &-unread {
+    flex-shrink: 0;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 999px;
+    background: linear-gradient(
+      135deg,
+      $gradient-pink 0%,
+      $gradient-orange 100%
+    );
+    color: map.get(vars.$color, white);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba($gradient-pink, 0.35);
   }
 }
 
@@ -467,22 +531,17 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 .chat-room-header {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 20px 24px;
+  gap: 16px;
+  padding: 16px 24px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   flex-shrink: 0;
 
-  &-avatar-wrap {
-    position: relative;
-    flex-shrink: 0;
-  }
-
   &-avatar {
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.6);
     border: 2px solid map.get(vars.$color, white);
@@ -490,6 +549,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     align-items: center;
     justify-content: center;
     overflow: hidden;
+    flex-shrink: 0;
 
     img {
       width: 100%;
@@ -502,17 +562,6 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     }
   }
 
-  &-status-dot {
-    position: absolute;
-    bottom: 1px;
-    right: 1px;
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-    background: map.get(vars.$color, success);
-    border: 2px solid rgba(255, 255, 255, 0.9);
-  }
-
   &-body {
     flex: 1;
     min-width: 0;
@@ -523,21 +572,40 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 
   &-name {
     margin: 0;
-    font-size: 16px;
+    font-size: 24px;
     font-weight: 600;
+    line-height: 1.2;
     color: map.get(vars.$color, text-primary);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    line-height: 1.2;
   }
 
   &-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     font-size: 12px;
     font-weight: 700;
-    color: #52a06e;
-    letter-spacing: 0.03em;
+    letter-spacing: 0.05em;
     line-height: 1;
+    color: map.get(vars.$color, secondary);
+  }
+
+  &-status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: map.get(vars.$color, secondary);
+    display: inline-block;
+  }
+
+  &-status-offline {
+    color: map.get(vars.$color, text-muted);
+
+    .chat-room-header-status-dot {
+      background: map.get(vars.$color, text-muted);
+    }
   }
 
   &-actions {
@@ -550,14 +618,14 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   &-action-btn {
     width: 40px;
     height: 40px;
-    border: none;
-    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.3);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: map.get(vars.$color, text-secondary);
+    color: map.get(vars.$color, primary);
     transition:
       background 0.2s ease,
       color 0.2s ease,
@@ -567,9 +635,12 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
       font-size: 22px;
     }
 
+    &:last-child {
+      color: map.get(vars.$color, text-secondary);
+    }
+
     &:hover {
       background: rgba(255, 255, 255, 0.5);
-      color: map.get(vars.$color, primary);
     }
 
     &:active {
@@ -1110,5 +1181,51 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 
   .message-bubble {
     max-width: 85%;
+  }
+}
+
+.typing-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 16px 8px;
+  color: var(--color-text-muted, rgba(0, 0, 0, 0.55));
+  font-size: 13px;
+  font-style: italic;
+}
+
+.typing-indicator-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.typing-indicator-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #ff7eb3, #ff9966);
+  opacity: 0.6;
+  animation: typing-indicator-bounce 1.2s ease-in-out infinite;
+}
+
+.typing-indicator-dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+
+.typing-indicator-dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes typing-indicator-bounce {
+  0%,
+  60%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  30% {
+    transform: translateY(-3px);
+    opacity: 1;
   }
 }

@@ -7,10 +7,15 @@ import SendIcon from '@assets/icons/ic-send.svg?react';
 
 interface MessageComposeProps {
   onSend?: (content: string) => void;
+  onTyping?: () => void;
   disabled?: boolean;
 }
 
-export const MessageCompose = ({ onSend, disabled }: MessageComposeProps) => {
+export const MessageCompose = ({
+  onSend,
+  onTyping,
+  disabled,
+}: MessageComposeProps) => {
   const { t } = useTranslation('chat');
   const [value, setValue] = useState('');
   const inputRef = useRef<HTMLInputElement>(null);
@@ -69,7 +74,10 @@ export const MessageCompose = ({ onSend, disabled }: MessageComposeProps) => {
             className="message-compose-input"
             placeholder={t('compose.placeholder')}
             value={value}
-            onChange={(e) => setValue(e.target.value)}
+            onChange={(e) => {
+              setValue(e.target.value);
+              if (e.target.value.length > 0) onTyping?.();
+            }}
             onKeyDown={handleKeyDown}
             disabled={disabled}
             aria-label={t('compose.placeholder')}

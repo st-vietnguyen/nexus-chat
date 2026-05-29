@@ -1,12 +1,9 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import useSWR from 'swr';
+import { useMatch, useNavigate } from 'react-router-dom';
 import { Spinner } from '@app/shared/components/common';
-import type { RootState } from '@app/store';
-import { useAuth } from '@app/shared/contexts/auth.context';
-import { getJoinedRooms } from '@app/core/services/room.service';
-import { setSelectedRoomId } from '../chat.slice';
+import { useJoinedRooms } from '@app/shared/hooks/data/useJoinedRooms';
+import { useRoomListRealtime } from '@app/shared/hooks/data/useRoomListRealtime';
 import { EmptyRoomList } from './EmptyRoomList';
 import { RoomItem } from './RoomItem';
 
@@ -16,22 +13,20 @@ interface RoomListProps {
 
 export const RoomList = ({ onFindFriends }: RoomListProps) => {
   const { t } = useTranslation('chat');
-  const dispatch = useDispatch();
-  const { user } = useAuth();
-  const selectedRoomId = useSelector(
-    (state: RootState) => state.chat.selectedRoomId,
-  );
+  const navigate = useNavigate();
+  // useParams in this component returns the parent route's params only — the
+  // `:roomId` lives on a descendant route rendered through <Outlet>, so it is
+  // not visible here. useMatch reads the URL directly against the full pattern
+  // so the sidebar sees the active room regardless of route depth.
+  const activeRoomMatch = useMatch('/chat/rooms/:roomId');
+  const activeRoomId = activeRoomMatch?.params.roomId;
 
-  const fetcher = useCallback(() => getJoinedRooms(user!.id), [user?.id]);
+  const { data: rooms, isLoading, error } = useJoinedRooms();
 
-  const {
-    data: rooms,
-    isLoading,
-    error,
-  } = useSWR(user ? ['rooms', user.id] : null, fetcher);
+  useRoomListRealtime({ activeRoomId });
   const handleSelect = useCallback(
-    (id: string) => dispatch(setSelectedRoomId(id)),
-    [dispatch],
+    (id: string) => navigate(`/chat/rooms/${id}`),
+    [navigate],
   );
 
   if (isLoading) {
@@ -51,17 +46,23 @@ export const RoomList = ({ onFindFriends }: RoomListProps) => {
     );
   }
 
-  if (!rooms?.length) {
+  // Hide draft rooms (created via Find Friends but no message sent yet),
+  // except keep the currently open one so the active conversation stays
+  // visible in the sidebar until the first message lands.
+  const visibleRooms =
+    rooms?.filter((r) => r.last_message_at || r.id === activeRoomId) ?? [];
+
+  if (!visibleRooms.length) {
     return <EmptyRoomList onFindFriends={onFindFriends} />;
   }
 
   return (
     <ul className="room-list">
-      {rooms.map((room) => (
+      {visibleRooms.map((room) => (
         <RoomItem
           key={room.id}
           room={room}
-          isActive={room.id === selectedRoomId}
+          isActive={room.id === activeRoomId}
           onSelect={handleSelect}
         />
       ))}

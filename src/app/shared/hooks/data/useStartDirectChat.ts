@@ -1,12 +1,11 @@
 import { useCallback, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { useSWRConfig } from 'swr';
 import { useAuth } from '@app/shared/contexts/auth.context';
 import { getOrCreateDirectRoom } from '@app/core/services/room.service';
-import { setSelectedRoomId } from '@app/pages/chat/chat.slice';
 
 export const useStartDirectChat = () => {
-  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { mutate } = useSWRConfig();
   const { user } = useAuth();
   const [isStarting, setIsStarting] = useState(false);
@@ -18,13 +17,13 @@ export const useStartDirectChat = () => {
       try {
         const roomId = await getOrCreateDirectRoom(otherUserId);
         await mutate(['rooms', user.id]);
-        dispatch(setSelectedRoomId(roomId));
+        navigate(`/chat/rooms/${roomId}`);
         return roomId;
       } finally {
         setIsStarting(false);
       }
     },
-    [dispatch, mutate, user],
+    [navigate, mutate, user],
   );
 
   return { startDirectChat, isStarting };

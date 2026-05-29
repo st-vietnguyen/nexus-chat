@@ -44,16 +44,19 @@ export interface Database {
           room_id: string;
           user_id: string;
           joined_at: string;
+          last_read_at: string;
         };
         Insert: {
           room_id: string;
           user_id: string;
           joined_at?: string;
+          last_read_at?: string;
         };
         Update: {
           room_id?: string;
           user_id?: string;
           joined_at?: string;
+          last_read_at?: string;
         };
         Relationships: [
           {
@@ -129,6 +132,10 @@ export interface Database {
       send_message: {
         Args: { p_room_id: string; p_content: string };
         Returns: Database['public']['Tables']['messages']['Row'];
+      };
+      mark_room_read: {
+        Args: { p_room_id: string };
+        Returns: string;
       };
     };
     Enums: Record<string, never>;

@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import useSWR from 'swr';
+import { Typography } from '@app/shared/components/partials';
 import { useAuth } from '@app/shared/contexts/auth.context';
-import {
-  getJoinedRooms,
-  getDirectRoomPeer,
-} from '@app/core/services/room.service';
+import { getDirectRoomPeer } from '@app/core/services/room.service';
+import { useJoinedRooms } from '@app/shared/hooks/data/useJoinedRooms';
+import { useRoomPresence } from '@app/shared/hooks/data/useRoomPresence';
 import { ROOM_TYPE } from '@app/types';
 import PersonIcon from '@assets/icons/ic-person.svg?react';
 import CallIcon from '@assets/icons/ic-call.svg?react';
@@ -20,14 +20,11 @@ export const ChatRoomHeader = ({ roomId }: ChatRoomHeaderProps) => {
   const { t } = useTranslation('chat');
   const { user } = useAuth();
 
-  const roomsFetcher = useCallback(() => getJoinedRooms(user!.id), [user?.id]);
-  const { data: rooms } = useSWR(
-    user ? ['rooms', user.id] : null,
-    roomsFetcher,
-  );
-
+  const { data: rooms } = useJoinedRooms();
   const room = rooms?.find((r) => r.id === roomId);
   const isDirect = room?.type === ROOM_TYPE.DIRECT;
+
+  const { onlineUserIds } = useRoomPresence(roomId);
 
   const peerFetcher = useCallback(
     ([, rId, uId]: [string, string, string]) => getDirectRoomPeer(rId, uId),
@@ -44,18 +41,30 @@ export const ChatRoomHeader = ({ roomId }: ChatRoomHeaderProps) => {
 
   const avatarUrl = isDirect ? peer?.avatar_url : room?.avatar_url;
 
+  // For direct rooms, presence resolves to the peer's tracked state on the
+  // shared room-presence channel. For group rooms we don't display per-member
+  // status in the header; the dot stays hidden until a roster view exists.
+  const isPeerOnline = isDirect && !!peer && onlineUserIds.includes(peer.id);
+  const statusLabel = isPeerOnline ? t('header.online') : t('header.offline');
+
   return (
     <header className="chat-room-header">
-      <div className="chat-room-header-avatar-wrap">
-        <div className="chat-room-header-avatar">
-          {avatarUrl ? <img src={avatarUrl} alt="" /> : <PersonIcon />}
-        </div>
-        <span className="chat-room-header-status-dot" aria-hidden="true" />
+      <div className="chat-room-header-avatar">
+        {avatarUrl ? <img src={avatarUrl} alt="" /> : <PersonIcon />}
       </div>
 
       <div className="chat-room-header-body">
-        <p className="chat-room-header-name">{label}</p>
-        <span className="chat-room-header-status">{t('header.online')}</span>
+        <Typography variant="h2" className="chat-room-header-name">
+          {label}
+        </Typography>
+        {isDirect && (
+          <span
+            className={`chat-room-header-status${isPeerOnline ? '' : ' chat-room-header-status-offline'}`}
+          >
+            <span className="chat-room-header-status-dot" aria-hidden="true" />
+            {statusLabel}
+          </span>
+        )}
       </div>
 
       <div className="chat-room-header-actions">
