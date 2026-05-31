@@ -32,7 +32,11 @@ export const SideNav = () => {
     <nav className="side-nav" aria-label="Primary">
       <div className="side-nav-brand">
         <div className="side-nav-avatar">
-          {avatarUrl ? <img src={avatarUrl} alt="" /> : <PersonIcon />}
+          {avatarUrl ? (
+            <img src={avatarUrl} alt="User Avatar" />
+          ) : (
+            <PersonIcon />
+          )}
         </div>
       </div>
 

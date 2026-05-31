@@ -9,6 +9,7 @@ import {
   type OptimisticMessage,
 } from '@app/core/services/message.service';
 import { getMessagesKey } from './useMessages';
+import { RECONCILE_WINDOW_MS, sortPageDesc } from './reconcileMessages';
 
 const makeTempId = () =>
   `temp-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
@@ -23,13 +24,10 @@ const buildTempMessage = (
   return {
     id: tempId,
     tempId,
-    // eslint-disable-next-line camelcase -- matches Postgres column name
-    room_id: roomId,
-    // eslint-disable-next-line camelcase -- matches Postgres column name
-    sender_id: senderId,
+    roomId,
+    senderId,
     content,
-    // eslint-disable-next-line camelcase -- matches Postgres column name
-    created_at: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
     status: MESSAGE_DELIVERY_STATUS.SENDING,
   };
 };
@@ -58,7 +56,6 @@ export const useSendMessage = (roomId: string | null | undefined) => {
     ): Promise<OptimisticMessage | null> => {
       if (!roomId || !user) return null;
       if (inFlightRef.current.has(tempId)) return null;
-
       inFlightRef.current.add(tempId);
       setInFlightCount((count) => count + 1);
       setError(null);
@@ -73,23 +70,22 @@ export const useSendMessage = (roomId: string | null | undefined) => {
         await mutate(
           key,
           (pages: OptimisticMessage[][] = [[]]) => {
-            // Replace temp in place to preserve insertion order across
-            // overlapping sends. Drop any dup with same real.id from other
-            // pages (e.g., a realtime echo already inserted).
-            let replaced = false;
-            const next = pages.map((page) =>
+            let replacedPageIdx = -1;
+            const next = pages.map((page, pageIdx) =>
               page.flatMap<OptimisticMessage>((msg) => {
                 if (msg.tempId === tempId) {
-                  replaced = true;
+                  replacedPageIdx = pageIdx;
                   return [sent];
                 }
                 if (msg.id === real.id) return [];
                 return [msg];
               }),
             );
-            if (!replaced) {
+            if (replacedPageIdx === -1) {
               const head = next[0] ?? [];
-              next[0] = [sent, ...head];
+              next[0] = sortPageDesc([sent, ...head]);
+            } else {
+              next[replacedPageIdx] = sortPageDesc(next[replacedPageIdx]);
             }
             return next.length ? next : [[sent]];
           },
@@ -111,7 +107,7 @@ export const useSendMessage = (roomId: string | null | undefined) => {
           { revalidate: false },
         );
 
-        throw caughtError;
+        return null;
       } finally {
         inFlightRef.current.delete(tempId);
         setInFlightCount((count) => Math.max(0, count - 1));
@@ -131,7 +127,11 @@ export const useSendMessage = (roomId: string | null | undefined) => {
       // Seed optimistic temp into page[0]. Works even when cache is empty
       // (pages defaults to [[]]) so the SENDING bubble shows immediately on
       // the very first send before any history fetch completes.
-      await mutate(
+      // Do NOT await: the synchronous updater writes cache before returning,
+      // and awaiting the resulting Promise can stall when no SWR hook is yet
+      // subscribed to this infinite key on first room visit — which prevents
+      // runSend (and thus the RPC) from ever firing.
+      mutate(
         key,
         (pages: OptimisticMessage[][] = [[]]) => {
           const next = pages.length ? [...pages] : [[]];
@@ -153,10 +153,31 @@ export const useSendMessage = (roomId: string | null | undefined) => {
 
       const key = unstable_serialize(getMessagesKey(roomId));
       const cached = cache.get(key)?.data as OptimisticMessage[][] | undefined;
-      const target = cached?.flat().find((msg) => msg.tempId === tempId);
+      const flat = cached?.flat() ?? [];
+      const target = flat.find((msg) => msg.tempId === tempId);
 
       if (!target || target.status !== MESSAGE_DELIVERY_STATUS.FAILED) {
         return null;
+      }
+
+      const trimmedContent = target.content.trim();
+      const targetTime = new Date(target.createdAt).getTime();
+      const duplicate = flat.find(
+        (msg) =>
+          !msg.tempId &&
+          msg.senderId === target.senderId &&
+          msg.content.trim() === trimmedContent &&
+          Math.abs(new Date(msg.createdAt).getTime() - targetTime) <=
+            RECONCILE_WINDOW_MS,
+      );
+      if (duplicate) {
+        await mutate(
+          key,
+          (pages: OptimisticMessage[][] = []) =>
+            pages.map((page) => page.filter((m) => m.tempId !== tempId)),
+          { revalidate: false },
+        );
+        return { ...duplicate, status: MESSAGE_DELIVERY_STATUS.SENT };
       }
 
       const content = target.content;

@@ -13,7 +13,7 @@ export const UserSearchItem = ({
   isDisabled,
   onSelect,
 }: UserSearchItemProps) => {
-  const label = profile.display_name ?? profile.email ?? 'Unknown user';
+  const label = profile.displayName ?? profile.email ?? 'Unknown user';
 
   return (
     <li>
@@ -24,8 +24,8 @@ export const UserSearchItem = ({
         onClick={() => onSelect(profile.id)}
       >
         <div className="modal-user-item-avatar">
-          {profile.avatar_url ? (
-            <img src={profile.avatar_url} alt="" />
+          {profile.avatarUrl ? (
+            <img src={profile.avatarUrl} alt="" />
           ) : (
             <PersonIcon />
           )}
@@ -34,7 +34,7 @@ export const UserSearchItem = ({
           <Typography variant="body-md" className="modal-user-item-name">
             {label}
           </Typography>
-          {profile.display_name && profile.email && (
+          {profile.displayName && profile.email && (
             <Typography variant="body-sm" className="modal-user-item-email">
               {profile.email}
             </Typography>

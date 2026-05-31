@@ -22,7 +22,7 @@ export const FindFriendsModal = () => {
   const displayedProfiles = useMemo(() => {
     if (!isSearching) return profiles.slice(0, SUGGESTION_LIMIT);
     const term = query.trim().toLowerCase();
-    return profiles.filter((p) => p.display_name?.toLowerCase().includes(term));
+    return profiles.filter((p) => p.displayName?.toLowerCase().includes(term));
   }, [profiles, query]);
 
   const handleSelect = useCallback(
@@ -38,6 +38,10 @@ export const FindFriendsModal = () => {
     [startDirectChat, closeModal],
   );
 
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setQuery(e.target.value);
+  };
+
   return (
     <>
       <div className="modal-search">
@@ -46,7 +50,7 @@ export const FindFriendsModal = () => {
           className="modal-search-input"
           placeholder={t('findFriends.searchPlaceholder')}
           value={query}
-          onChange={(e) => setQuery(e.target.value)}
+          onChange={handleSearchChange}
           autoFocus
         />
       </div>
