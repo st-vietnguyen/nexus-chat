@@ -37,7 +37,6 @@
     "error": "Failed to load messages.",
     "retry": "Retry",
     "empty": "No messages yet. Say hi!",
-    "loadOlder": "Load older messages",
     "loadingMore": "Loading...",
     "sending": "Sending...",
     "failedTapRetry": "Failed to send. Tap to retry."
