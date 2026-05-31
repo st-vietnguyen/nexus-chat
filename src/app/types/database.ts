@@ -101,24 +101,27 @@ export interface Database {
       profiles: {
         Row: {
           id: string;
-          display_name: string | null;
+          display_name: string;
           email: string | null;
           avatar_url: string | null;
           created_at: string;
+          updated_at: string;
         };
         Insert: {
           id: string;
-          display_name?: string | null;
+          display_name: string;
           email?: string | null;
           avatar_url?: string | null;
           created_at?: string;
+          updated_at?: string;
         };
         Update: {
           id?: string;
-          display_name?: string | null;
+          display_name?: string;
           email?: string | null;
           avatar_url?: string | null;
           created_at?: string;
+          updated_at?: string;
         };
         Relationships: [];
       };

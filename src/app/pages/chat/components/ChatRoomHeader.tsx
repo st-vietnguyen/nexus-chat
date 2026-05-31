@@ -1,16 +1,14 @@
-import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import useSWR from 'swr';
 import { Typography } from '@app/shared/components/partials';
-import { useAuth } from '@app/shared/contexts/auth.context';
-import { getDirectRoomPeer } from '@app/core/services/room.service';
+import { useDirectPeer } from '@app/shared/hooks/data/useDirectPeer';
 import { useJoinedRooms } from '@app/shared/hooks/data/useJoinedRooms';
 import { useRoomPresence } from '@app/shared/hooks/data/useRoomPresence';
 import { ROOM_TYPE } from '@app/types';
-import PersonIcon from '@assets/icons/ic-person.svg?react';
 import CallIcon from '@assets/icons/ic-call.svg?react';
 import VideocamIcon from '@assets/icons/ic-videocam.svg?react';
 import MoreVertIcon from '@assets/icons/ic-more-vert.svg?react';
+import { Avatar } from './Avatar';
+import { ChatRoomHeaderSkeleton } from './ChatRoomHeaderSkeleton';
 
 interface ChatRoomHeaderProps {
   roomId: string;
@@ -18,22 +16,24 @@ interface ChatRoomHeaderProps {
 
 export const ChatRoomHeader = ({ roomId }: ChatRoomHeaderProps) => {
   const { t } = useTranslation('chat');
-  const { user } = useAuth();
 
-  const { data: rooms } = useJoinedRooms();
+  const { data: rooms, isLoading: isRoomsLoading } = useJoinedRooms();
   const room = rooms?.find((r) => r.id === roomId);
   const isDirect = room?.type === ROOM_TYPE.DIRECT;
 
   const { onlineUserIds } = useRoomPresence(roomId);
 
-  const peerFetcher = useCallback(
-    ([, rId, uId]: [string, string, string]) => getDirectRoomPeer(rId, uId),
-    [],
+  const { data: peer, isLoading: isPeerLoading } = useDirectPeer(
+    roomId,
+    !!isDirect,
   );
-  const { data: peer } = useSWR(
-    isDirect && user ? ['direct-peer', roomId, user.id] : null,
-    peerFetcher,
-  );
+
+  const isHeaderPending =
+    isRoomsLoading || !room || (isDirect && isPeerLoading);
+
+  if (isHeaderPending) {
+    return <ChatRoomHeaderSkeleton />;
+  }
 
   const label = isDirect
     ? (peer?.displayName ?? peer?.email ?? t('room.untitled'))
@@ -50,7 +50,7 @@ export const ChatRoomHeader = ({ roomId }: ChatRoomHeaderProps) => {
   return (
     <header className="chat-room-header">
       <div className="chat-room-header-avatar">
-        {avatarUrl ? <img src={avatarUrl} alt="" /> : <PersonIcon />}
+        <Avatar url={avatarUrl} />
       </div>
 
       <div className="chat-room-header-body">

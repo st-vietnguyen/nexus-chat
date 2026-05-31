@@ -1,11 +1,11 @@
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMatch, useNavigate } from 'react-router-dom';
-import { Spinner } from '@app/shared/components/common';
 import { useJoinedRooms } from '@app/shared/hooks/data/useJoinedRooms';
 import { useRoomListRealtime } from '@app/shared/hooks/data/useRoomListRealtime';
 import { EmptyRoomList } from './EmptyRoomList';
 import { RoomItem } from './RoomItem';
+import { RoomItemSkeleton } from './RoomItemSkeleton';
 
 interface RoomListProps {
   onFindFriends: () => void;
@@ -31,10 +31,11 @@ export const RoomList = ({ onFindFriends }: RoomListProps) => {
 
   if (isLoading) {
     return (
-      <div className="room-list-status">
-        <Spinner className="spinner-md" />
-        <p>{t('list.loading')}</p>
-      </div>
+      <ul className="room-list" aria-busy="true" aria-label={t('list.loading')}>
+        {Array.from({ length: 5 }).map((_, idx) => (
+          <RoomItemSkeleton key={idx} />
+        ))}
+      </ul>
     );
   }
 

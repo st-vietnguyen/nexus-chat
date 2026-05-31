@@ -80,6 +80,7 @@ describe('normalizeProfile', () => {
       email: 'a@x',
       avatar_url: 'http://x/a.png',
       created_at: '2026-05-29T00:00:00Z',
+      updated_at: '2026-05-29T00:00:00Z',
     };
 
     expect(normalizeProfile(row)).toEqual({

@@ -1,14 +1,10 @@
-import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import useSWR from 'swr';
-import {
-  getDirectRoomPeer,
-  type RoomListItem,
-} from '@app/core/services/room.service';
-import { useAuth } from '@app/shared/contexts/auth.context';
+import { type RoomListItem } from '@app/core/services/room.service';
+import { useDirectPeer } from '@app/shared/hooks/data/useDirectPeer';
 import { ROOM_TYPE } from '@app/types';
 import { formatRelativeI18n } from '@core/helpers/date.helper';
-import PersonIcon from '@assets/icons/ic-person.svg?react';
+import { Avatar } from './Avatar';
+import { RoomItemSkeleton } from './RoomItemSkeleton';
 
 interface RoomItemProps {
   room: RoomListItem;
@@ -18,17 +14,16 @@ interface RoomItemProps {
 
 export const RoomItem = ({ room, isActive, onSelect }: RoomItemProps) => {
   const { t } = useTranslation('chat');
-  const { user } = useAuth();
   const isDirect = room.type === ROOM_TYPE.DIRECT;
 
-  const peerFetcher = useCallback(
-    ([, rId, uId]: [string, string, string]) => getDirectRoomPeer(rId, uId),
-    [],
+  const { data: peer, isLoading: isPeerLoading } = useDirectPeer(
+    room.id,
+    isDirect,
   );
-  const { data: peer } = useSWR(
-    isDirect && user ? ['direct-peer', room.id, user.id] : null,
-    peerFetcher,
-  );
+
+  if (isDirect && isPeerLoading) {
+    return <RoomItemSkeleton />;
+  }
 
   const label = isDirect
     ? (peer?.displayName ?? peer?.email ?? room.name ?? t('room.untitled'))
@@ -50,7 +45,7 @@ export const RoomItem = ({ room, isActive, onSelect }: RoomItemProps) => {
       >
         <div className="room-item-avatar-wrap">
           <div className="room-item-avatar">
-            {avatarUrl ? <img src={avatarUrl} alt="" /> : <PersonIcon />}
+            <Avatar url={avatarUrl} />
           </div>
           <span className="room-item-status-dot" aria-hidden="true" />
         </div>
