@@ -9,6 +9,10 @@ import {
   type Message,
   type OptimisticMessage,
 } from '@app/core/services/message.service';
+import {
+  normalizeMessage,
+  type MessageRow,
+} from '@app/core/mappers/chat.mapper';
 import { REALTIME_EVENT, DB_TABLE } from '@app/types';
 import { getMessagesKey } from './useMessages';
 import { reconcileIncomingMessage } from './reconcileMessages';
@@ -22,8 +26,6 @@ export const useRoomMessagesRealtime = (
   { onIncoming }: UseRoomMessagesRealtimeOptions = {},
 ) => {
   const { mutate } = useSWRConfig();
-  // Keep a ref so the channel subscription doesn't rebind on every parent
-  // render that passes a new inline callback.
   const onIncomingRef = useRef(onIncoming);
   onIncomingRef.current = onIncoming;
 
@@ -41,9 +43,10 @@ export const useRoomMessagesRealtime = (
           table: DB_TABLE.MESSAGES,
           filter: `room_id=eq.${roomId}`,
         },
-        (payload: RealtimePostgresInsertPayload<Message>) => {
+        (payload: RealtimePostgresInsertPayload<MessageRow>) => {
+          const message = normalizeMessage(payload.new);
           const incoming: OptimisticMessage = {
-            ...payload.new,
+            ...message,
             status: MESSAGE_DELIVERY_STATUS.SENT,
           };
 
@@ -54,7 +57,7 @@ export const useRoomMessagesRealtime = (
             { revalidate: false },
           );
 
-          onIncomingRef.current?.(payload.new);
+          onIncomingRef.current?.(message);
         },
       )
       .subscribe();

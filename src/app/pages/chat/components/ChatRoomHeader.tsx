@@ -36,10 +36,10 @@ export const ChatRoomHeader = ({ roomId }: ChatRoomHeaderProps) => {
   );
 
   const label = isDirect
-    ? (peer?.display_name ?? peer?.email ?? t('room.untitled'))
+    ? (peer?.displayName ?? peer?.email ?? t('room.untitled'))
     : (room?.name ?? t('room.untitled'));
 
-  const avatarUrl = isDirect ? peer?.avatar_url : room?.avatar_url;
+  const avatarUrl = isDirect ? peer?.avatarUrl : room?.avatarUrl;
 
   // For direct rooms, presence resolves to the peer's tracked state on the
   // shared room-presence channel. For group rooms we don't display per-member

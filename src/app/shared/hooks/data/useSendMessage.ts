@@ -24,13 +24,10 @@ const buildTempMessage = (
   return {
     id: tempId,
     tempId,
-    // eslint-disable-next-line camelcase -- matches Postgres column name
-    room_id: roomId,
-    // eslint-disable-next-line camelcase -- matches Postgres column name
-    sender_id: senderId,
+    roomId,
+    senderId,
     content,
-    // eslint-disable-next-line camelcase -- matches Postgres column name
-    created_at: new Date().toISOString(),
+    createdAt: new Date().toISOString(),
     status: MESSAGE_DELIVERY_STATUS.SENDING,
   };
 };
@@ -110,9 +107,6 @@ export const useSendMessage = (roomId: string | null | undefined) => {
           { revalidate: false },
         );
 
-        // Failure is surfaced via the message's FAILED status and the hook's
-        // `error` state. Returning null lets callers `void send(...)` without
-        // needing a noop `.catch`.
         return null;
       } finally {
         inFlightRef.current.delete(tempId);
@@ -137,7 +131,7 @@ export const useSendMessage = (roomId: string | null | undefined) => {
       // and awaiting the resulting Promise can stall when no SWR hook is yet
       // subscribed to this infinite key on first room visit — which prevents
       // runSend (and thus the RPC) from ever firing.
-      void mutate(
+      mutate(
         key,
         (pages: OptimisticMessage[][] = [[]]) => {
           const next = pages.length ? [...pages] : [[]];
@@ -166,18 +160,14 @@ export const useSendMessage = (roomId: string | null | undefined) => {
         return null;
       }
 
-      // If a real message with the same sender + trimmed content already exists
-      // in cache within the reconcile window, the original RPC committed
-      // server-side despite the client-side failure. Drop the FAILED temp
-      // instead of resending to avoid persisting a duplicate row.
       const trimmedContent = target.content.trim();
-      const targetTime = new Date(target.created_at).getTime();
+      const targetTime = new Date(target.createdAt).getTime();
       const duplicate = flat.find(
         (msg) =>
           !msg.tempId &&
-          msg.sender_id === target.sender_id &&
+          msg.senderId === target.senderId &&
           msg.content.trim() === trimmedContent &&
-          Math.abs(new Date(msg.created_at).getTime() - targetTime) <=
+          Math.abs(new Date(msg.createdAt).getTime() - targetTime) <=
             RECONCILE_WINDOW_MS,
       );
       if (duplicate) {

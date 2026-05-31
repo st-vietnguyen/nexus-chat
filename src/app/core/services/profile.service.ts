@@ -1,7 +1,11 @@
 import { supabase } from '@app/libs/supabase/client';
-import type { Database } from '@app/types/database';
+import {
+  normalizeProfiles,
+  type ProfileRow,
+} from '@app/core/mappers/chat.mapper';
+import type { Profile } from '@app/types/chat';
 
-export type Profile = Database['public']['Tables']['profiles']['Row'];
+export type { Profile } from '@app/types/chat';
 
 export const getProfiles = async (
   excludeUserId: string,
@@ -14,5 +18,5 @@ export const getProfiles = async (
     .limit(200);
 
   if (error) throw error;
-  return data ?? [];
+  return normalizeProfiles((data ?? []) as ProfileRow[]);
 };

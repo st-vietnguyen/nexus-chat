@@ -1,18 +1,13 @@
 import { supabase } from '@app/libs/supabase/client';
-import type { Database } from '@app/types/database';
+import {
+  normalizeProfile,
+  normalizeRoomListItem,
+  type ProfileRow,
+  type RoomRow,
+} from '@app/core/mappers/chat.mapper';
+import type { Profile, RoomListItem } from '@app/types/chat';
 
-export type Room = Database['public']['Tables']['rooms']['Row'];
-export type Profile = Database['public']['Tables']['profiles']['Row'];
-
-// Client-side augmentation. `last_message_preview` is not persisted on `rooms`;
-// it is populated from realtime INSERTs into `messages` to show in the list.
-// `last_read_at` mirrors the current user's row in `room_members` so unread
-// counts can be recomputed locally on realtime INSERTs without a refetch.
-export type RoomListItem = Room & {
-  last_message_preview?: string | null;
-  last_read_at: string;
-  unread_count: number;
-};
+export type { Room, RoomListItem, Profile } from '@app/types/chat';
 
 export const getDirectRoomPeer = async (
   roomId: string,
@@ -35,7 +30,7 @@ export const getDirectRoomPeer = async (
     .maybeSingle();
 
   if (profileErr) throw profileErr;
-  return profile;
+  return profile ? normalizeProfile(profile as ProfileRow) : null;
 };
 
 export const getJoinedRooms = async (
@@ -49,7 +44,7 @@ export const getJoinedRooms = async (
 
   if (error) throw error;
 
-  type Joined = Room & {
+  type Joined = RoomRow & {
     room_members: { user_id: string; last_read_at: string }[];
   };
   const rooms = (data ?? []) as Joined[];
@@ -102,18 +97,14 @@ export const getJoinedRooms = async (
   return rooms.map((r, idx) => {
     const previewResult = previews[idx];
     const unreadResult = unreadCounts[idx];
-    const { room_members: members, ...room } = r;
-    return {
-      ...room,
-      // eslint-disable-next-line camelcase -- client-side preview field
-      last_message_preview:
+    const { room_members: members, ...row } = r;
+    return normalizeRoomListItem({
+      row: row as RoomRow,
+      lastReadAt: members[0]?.last_read_at ?? new Date(0).toISOString(),
+      unreadCount: unreadResult.status === 'fulfilled' ? unreadResult.value : 0,
+      lastMessagePreview:
         previewResult.status === 'fulfilled' ? previewResult.value : null,
-      // eslint-disable-next-line camelcase -- mirrors db column
-      last_read_at: members[0]?.last_read_at ?? new Date(0).toISOString(),
-      // eslint-disable-next-line camelcase -- client-side unread field
-      unread_count:
-        unreadResult.status === 'fulfilled' ? unreadResult.value : 0,
-    };
+    });
   });
 };
 

@@ -1,21 +1,16 @@
 import { supabase } from '@app/libs/supabase/client';
-import type { Database } from '@app/types/database';
+import {
+  normalizeMessage,
+  normalizeMessages,
+  type MessageRow,
+} from '@app/core/mappers/chat.mapper';
+import type { Message } from '@app/types/chat';
 
-export type Message = Database['public']['Tables']['messages']['Row'];
-
-export const MESSAGE_DELIVERY_STATUS = {
-  SENDING: 'sending',
-  SENT: 'sent',
-  FAILED: 'failed',
-} as const;
-
-export type MessageDeliveryStatus =
-  (typeof MESSAGE_DELIVERY_STATUS)[keyof typeof MESSAGE_DELIVERY_STATUS];
-
-export interface OptimisticMessage extends Message {
-  status?: MessageDeliveryStatus;
-  tempId?: string;
-}
+export type { Message, OptimisticMessage } from '@app/types/chat';
+export {
+  MESSAGE_DELIVERY_STATUS,
+  type MessageDeliveryStatus,
+} from '@app/types/chat';
 
 export const MESSAGE_PAGE_SIZE = 30;
 
@@ -37,7 +32,7 @@ export const getMessagesByRoomId = async (
   const { data, error } = await query;
 
   if (error) throw error;
-  return (data ?? []) as Message[];
+  return normalizeMessages((data ?? []) as MessageRow[]);
 };
 
 export interface SendMessagePayload {
@@ -61,5 +56,5 @@ export const sendMessage = async ({
   });
 
   if (error) throw error;
-  return data as Message;
+  return normalizeMessage(data as MessageRow);
 };

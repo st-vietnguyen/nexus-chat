@@ -31,12 +31,12 @@ export const RoomItem = ({ room, isActive, onSelect }: RoomItemProps) => {
   );
 
   const label = isDirect
-    ? (peer?.display_name ?? peer?.email ?? room.name ?? t('room.untitled'))
+    ? (peer?.displayName ?? peer?.email ?? room.name ?? t('room.untitled'))
     : (room.name ?? t('room.untitled'));
-  const avatarUrl = isDirect ? peer?.avatar_url : room.avatar_url;
-  const time = formatRelativeI18n(room.last_message_at, t);
-  const preview = room.last_message_preview ?? null;
-  const unread = Math.max(0, room.unread_count ?? 0);
+  const avatarUrl = isDirect ? peer?.avatarUrl : room.avatarUrl;
+  const time = formatRelativeI18n(room.lastMessageAt, t);
+  const preview = room.lastMessagePreview ?? null;
+  const unread = Math.max(0, room.unreadCount ?? 0);
   const showBadge = unread > 0 && !isActive;
   const displayCount = unread > 99 ? '99+' : String(unread);
 

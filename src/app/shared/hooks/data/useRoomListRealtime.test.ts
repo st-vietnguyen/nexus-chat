@@ -1,4 +1,3 @@
-/* eslint-disable camelcase -- test fixtures mirror Postgres column names */
 import { describe, expect, it } from 'vitest';
 import type { Message } from '@app/core/services/message.service';
 import type { RoomListItem } from '@app/core/services/room.service';
@@ -13,34 +12,34 @@ const room = (overrides: Partial<RoomListItem>): RoomListItem => ({
   id: ROOM_A,
   type: 'direct',
   name: null,
-  avatar_url: null,
-  created_at: '2026-05-29T00:00:00Z',
-  last_message_at: '2026-05-29T10:00:00Z',
-  last_message_preview: 'previous',
-  last_read_at: '2026-05-29T10:00:00Z',
-  unread_count: 0,
+  avatarUrl: null,
+  createdAt: '2026-05-29T00:00:00Z',
+  lastMessageAt: '2026-05-29T10:00:00Z',
+  lastMessagePreview: 'previous',
+  lastReadAt: '2026-05-29T10:00:00Z',
+  unreadCount: 0,
   ...overrides,
 });
 
 const msg = (overrides: Partial<Message>): Message => ({
   id: 'm-1',
-  room_id: ROOM_A,
-  sender_id: PEER,
+  roomId: ROOM_A,
+  senderId: PEER,
   content: 'hi',
-  created_at: '2026-05-29T11:00:00Z',
+  createdAt: '2026-05-29T11:00:00Z',
   ...overrides,
 });
 
 describe('applyMessageToRoomList', () => {
   it('bumps unread count when peer messages an inactive room', () => {
-    const rooms = [room({ id: ROOM_A, unread_count: 0 })];
+    const rooms = [room({ id: ROOM_A, unreadCount: 0 })];
     const next = applyMessageToRoomList(rooms, msg({}), {
       activeRoomId: null,
       currentUserId: ME,
     });
 
-    expect(next[0].unread_count).toBe(1);
-    expect(next[0].last_message_preview).toBe('hi');
+    expect(next[0].unreadCount).toBe(1);
+    expect(next[0].lastMessagePreview).toBe('hi');
   });
 
   it('does not bump unread for active room', () => {
@@ -50,22 +49,22 @@ describe('applyMessageToRoomList', () => {
       currentUserId: ME,
     });
 
-    expect(next[0].unread_count).toBe(0);
+    expect(next[0].unreadCount).toBe(0);
   });
 
   it('does not bump unread when sender is self', () => {
     const rooms = [room({ id: ROOM_A })];
-    const next = applyMessageToRoomList(rooms, msg({ sender_id: ME }), {
+    const next = applyMessageToRoomList(rooms, msg({ senderId: ME }), {
       activeRoomId: null,
       currentUserId: ME,
     });
 
-    expect(next[0].unread_count).toBe(0);
+    expect(next[0].unreadCount).toBe(0);
   });
 
   it('hoists the updated room to the top of the list', () => {
     const rooms = [
-      room({ id: ROOM_B, last_message_at: '2026-05-29T10:30:00Z' }),
+      room({ id: ROOM_B, lastMessageAt: '2026-05-29T10:30:00Z' }),
       room({ id: ROOM_A }),
     ];
     const next = applyMessageToRoomList(rooms, msg({}), {
@@ -80,35 +79,35 @@ describe('applyMessageToRoomList', () => {
     const rooms = [
       room({
         id: ROOM_A,
-        last_message_at: '2026-05-29T12:00:00Z',
-        last_message_preview: 'newer',
-        unread_count: 1,
+        lastMessageAt: '2026-05-29T12:00:00Z',
+        lastMessagePreview: 'newer',
+        unreadCount: 1,
       }),
     ];
     const next = applyMessageToRoomList(
       rooms,
-      msg({ created_at: '2026-05-29T11:00:00Z', content: 'older' }),
+      msg({ createdAt: '2026-05-29T11:00:00Z', content: 'older' }),
       { activeRoomId: null, currentUserId: ME },
     );
 
-    expect(next[0].last_message_preview).toBe('newer');
-    expect(next[0].last_message_at).toBe('2026-05-29T12:00:00Z');
-    expect(next[0].unread_count).toBe(2);
+    expect(next[0].lastMessagePreview).toBe('newer');
+    expect(next[0].lastMessageAt).toBe('2026-05-29T12:00:00Z');
+    expect(next[0].unreadCount).toBe(2);
   });
 
   it('returns input unchanged for stale inserts from self', () => {
     const rooms = [
       room({
         id: ROOM_A,
-        last_message_at: '2026-05-29T12:00:00Z',
-        unread_count: 0,
+        lastMessageAt: '2026-05-29T12:00:00Z',
+        unreadCount: 0,
       }),
     ];
     const next = applyMessageToRoomList(
       rooms,
       msg({
-        sender_id: ME,
-        created_at: '2026-05-29T11:00:00Z',
+        senderId: ME,
+        createdAt: '2026-05-29T11:00:00Z',
       }),
       { activeRoomId: null, currentUserId: ME },
     );
@@ -118,7 +117,7 @@ describe('applyMessageToRoomList', () => {
 
   it('returns input unchanged when room not in cache', () => {
     const rooms = [room({ id: ROOM_A })];
-    const next = applyMessageToRoomList(rooms, msg({ room_id: 'unknown' }), {
+    const next = applyMessageToRoomList(rooms, msg({ roomId: 'unknown' }), {
       activeRoomId: null,
       currentUserId: ME,
     });

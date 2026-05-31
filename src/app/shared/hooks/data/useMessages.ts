@@ -24,7 +24,7 @@ export const getMessagesKey =
     if (pageIndex === 0) return ['messages', roomId, undefined];
 
     const serverRows = previousPageData?.filter((m) => !m.tempId);
-    const cursor = serverRows?.[serverRows.length - 1]?.created_at;
+    const cursor = serverRows?.[serverRows.length - 1]?.createdAt;
     return ['messages', roomId, cursor];
   };
 

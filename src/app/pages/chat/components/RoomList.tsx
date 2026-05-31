@@ -50,7 +50,7 @@ export const RoomList = ({ onFindFriends }: RoomListProps) => {
   // except keep the currently open one so the active conversation stays
   // visible in the sidebar until the first message lands.
   const visibleRooms =
-    rooms?.filter((r) => r.last_message_at || r.id === activeRoomId) ?? [];
+    rooms?.filter((r) => r.lastMessageAt || r.id === activeRoomId) ?? [];
 
   if (!visibleRooms.length) {
     return <EmptyRoomList onFindFriends={onFindFriends} />;

@@ -68,7 +68,7 @@ export const MessageList = ({ roomId, onRetry }: MessageListProps) => {
     const lastId = messages[messages.length - 1]?.id;
     const firstId = messages[0]?.id;
     const newLast = messages[messages.length - 1];
-    const isOwnNewLast = !!newLast && newLast.sender_id === user?.id;
+    const isOwnNewLast = !!newLast && newLast.senderId === user?.id;
     const prev = prevSigRef.current;
     const roomChanged = prev.roomId !== roomId;
 
@@ -157,7 +157,7 @@ export const MessageList = ({ roomId, onRetry }: MessageListProps) => {
         <MessageItem
           key={message.id}
           message={message}
-          isOwn={message.sender_id === user?.id}
+          isOwn={message.senderId === user?.id}
           onRetry={onRetry}
         />
       ))}

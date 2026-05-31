@@ -45,7 +45,7 @@ export const MessageItem = ({ message, isOwn, onRetry }: MessageItemProps) => {
           <div className={bubbleClass}>
             <p className="message-bubble-text">{message.content}</p>
             <span className="message-bubble-time">
-              {formatTime(message.created_at)}
+              {formatTime(message.createdAt)}
             </span>
           </div>
         </div>

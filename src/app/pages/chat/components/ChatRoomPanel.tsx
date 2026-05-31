@@ -23,7 +23,7 @@ export const ChatRoomPanel = ({ roomId }: ChatRoomPanelProps) => {
   const handleIncoming = useCallback(
     (message: Message) => {
       // Own messages already keep unread at 0 in the list reducer.
-      if (message.sender_id === user?.id) return;
+      if (message.senderId === user?.id) return;
       markRead();
     },
     [markRead, user?.id],

@@ -1,4 +1,3 @@
-/* eslint-disable camelcase -- test fixtures mirror Postgres column names */
 import { describe, expect, it } from 'vitest';
 import {
   MESSAGE_DELIVERY_STATUS,
@@ -8,10 +7,10 @@ import { reconcileIncomingMessage, sortPageDesc } from './reconcileMessages';
 
 const baseMsg = (overrides: Partial<OptimisticMessage>): OptimisticMessage => ({
   id: 'real-1',
-  room_id: 'room-1',
-  sender_id: 'user-1',
+  roomId: 'room-1',
+  senderId: 'user-1',
   content: 'hello',
-  created_at: '2026-05-29T12:00:00.000Z',
+  createdAt: '2026-05-29T12:00:00.000Z',
   status: MESSAGE_DELIVERY_STATUS.SENT,
   ...overrides,
 });
@@ -35,14 +34,14 @@ describe('reconcileIncomingMessage', () => {
     });
     const otherSenderMsg = baseMsg({
       id: 'msg-other',
-      sender_id: 'user-2',
+      senderId: 'user-2',
       content: 'noise',
     });
     const pages = [[otherSenderMsg, temp]];
 
     const incoming = baseMsg({
       id: 'msg-real',
-      created_at: '2026-05-29T12:00:01.000Z',
+      createdAt: '2026-05-29T12:00:01.000Z',
     });
     const [page] = reconcileIncomingMessage(pages, incoming);
 
@@ -50,9 +49,8 @@ describe('reconcileIncomingMessage', () => {
     expect(page.find((m) => m.id === 'temp-abc')).toBeUndefined();
     const real = page.find((m) => m.id === 'msg-real');
     expect(real?.status).toBe(MESSAGE_DELIVERY_STATUS.SENT);
-    // Page is re-sorted DESC.
-    expect(new Date(page[0].created_at).getTime()).toBeGreaterThanOrEqual(
-      new Date(page[1].created_at).getTime(),
+    expect(new Date(page[0].createdAt).getTime()).toBeGreaterThanOrEqual(
+      new Date(page[1].createdAt).getTime(),
     );
   });
 
@@ -74,11 +72,11 @@ describe('reconcileIncomingMessage', () => {
 
   it('prepends to newest page when no temp matches', () => {
     const pages = [
-      [baseMsg({ id: 'old-1', created_at: '2026-05-29T11:00:00.000Z' })],
+      [baseMsg({ id: 'old-1', createdAt: '2026-05-29T11:00:00.000Z' })],
     ];
     const incoming = baseMsg({
       id: 'msg-real',
-      created_at: '2026-05-29T12:00:00.000Z',
+      createdAt: '2026-05-29T12:00:00.000Z',
     });
 
     const [page] = reconcileIncomingMessage(pages, incoming);
@@ -95,11 +93,11 @@ describe('reconcileIncomingMessage', () => {
 });
 
 describe('sortPageDesc', () => {
-  it('orders newest first by created_at', () => {
+  it('orders newest first by createdAt', () => {
     const page = [
-      baseMsg({ id: '1', created_at: '2026-05-29T10:00:00Z' }),
-      baseMsg({ id: '2', created_at: '2026-05-29T12:00:00Z' }),
-      baseMsg({ id: '3', created_at: '2026-05-29T11:00:00Z' }),
+      baseMsg({ id: '1', createdAt: '2026-05-29T10:00:00Z' }),
+      baseMsg({ id: '2', createdAt: '2026-05-29T12:00:00Z' }),
+      baseMsg({ id: '3', createdAt: '2026-05-29T11:00:00Z' }),
     ];
     expect(sortPageDesc(page).map((m) => m.id)).toEqual(['2', '3', '1']);
   });
