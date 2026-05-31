@@ -149,3 +149,84 @@ $shadow-color: rgba($gradient-pink, 0.18);
     text-decoration: underline;
   }
 }
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.avatar-uploader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+
+  &-preview {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    border: 2px dashed rgba($gradient-pink, 0.5);
+    background: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    overflow: hidden;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+  }
+
+  &-initials {
+    font-size: 28px;
+    font-weight: 700;
+    color: map.get(vars.$color, primary-dark);
+  }
+
+  &-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  &-label {
+    font-size: map.get(vars.$font-size, sm);
+    color: map.get(vars.$color, text-secondary);
+  }
+
+  &-buttons {
+    display: flex;
+    gap: 12px;
+  }
+
+  &-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    font: inherit;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
