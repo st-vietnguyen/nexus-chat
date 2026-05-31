@@ -9,5 +9,10 @@
   },
   "modal": {
     "close": "閉じる"
+  },
+  "errors": {
+    "boundaryTitle": "問題が発生しました",
+    "retry": "再試行",
+    "loadArticles": "記事の読み込みに失敗しました"
   }
 }

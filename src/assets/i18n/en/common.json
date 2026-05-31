@@ -9,5 +9,10 @@
   },
   "modal": {
     "close": "Close"
+  },
+  "errors": {
+    "boundaryTitle": "Oops, something went wrong",
+    "retry": "Try again",
+    "loadArticles": "Error loading articles"
   }
 }

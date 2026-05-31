@@ -50,13 +50,6 @@ export const getJoinedRooms = async (
   const rooms = (data ?? []) as Joined[];
   if (rooms.length === 0) return [];
 
-  // Backfill last_message_preview with one limit(1) query per room in parallel.
-  // Earlier impl pulled every message across every joined room in one query and
-  // grouped client-side, which scaled O(total messages) — easily tens of
-  // thousands of rows and hit the PostgREST 1000-row cap, silently dropping
-  // previews for older-active rooms.
-  // Use allSettled so a single failed preview fetch degrades to a null preview
-  // for that one room instead of failing the entire rooms list.
   const previews = await Promise.allSettled(
     rooms.map(async (r) => {
       if (!r.last_message_at) return null;
