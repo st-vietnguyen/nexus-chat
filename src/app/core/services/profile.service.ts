@@ -6,7 +6,7 @@ import {
   type ProfileRow,
 } from '@app/core/mappers/chat.mapper';
 import { sanitizeFilename } from '@core/helpers/file.helper';
-import { STORAGE_BUCKETS } from '@app/types';
+import { STORAGE_BUCKETS } from '@app/constants/supabase';
 import type { Profile } from '@app/types/chat';
 
 export type { Profile } from '@app/types/chat';

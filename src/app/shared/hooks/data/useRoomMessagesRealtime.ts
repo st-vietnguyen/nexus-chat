@@ -13,7 +13,8 @@ import {
   normalizeMessage,
   type MessageRow,
 } from '@app/core/mappers/chat.mapper';
-import { REALTIME_EVENT, DB_TABLE } from '@app/types';
+import { REALTIME_EVENT } from '@app/types';
+import { TABLES } from '@app/constants/supabase';
 import { getMessagesKey } from './useMessages';
 import { reconcileIncomingMessage } from './reconcileMessages';
 
@@ -40,7 +41,7 @@ export const useRoomMessagesRealtime = (
         {
           event: REALTIME_EVENT.INSERT,
           schema: 'public',
-          table: DB_TABLE.MESSAGES,
+          table: TABLES.MESSAGES,
           filter: `room_id=eq.${roomId}`,
         },
         (payload: RealtimePostgresInsertPayload<MessageRow>) => {

@@ -9,7 +9,8 @@ import {
   normalizeMessage,
   type MessageRow,
 } from '@app/core/mappers/chat.mapper';
-import { REALTIME_EVENT, DB_TABLE } from '@app/types';
+import { REALTIME_EVENT } from '@app/types';
+import { TABLES } from '@app/constants/supabase';
 
 interface ApplyMessageOptions {
   activeRoomId?: string | null;
@@ -89,7 +90,7 @@ export const useRoomListRealtime = ({
         {
           event: REALTIME_EVENT.INSERT,
           schema: 'public',
-          table: DB_TABLE.MESSAGES,
+          table: TABLES.MESSAGES,
         },
         (payload: RealtimePostgresInsertPayload<MessageRow>) => {
           const message = normalizeMessage(payload.new);
@@ -129,7 +130,7 @@ export const useRoomListRealtime = ({
         {
           event: REALTIME_EVENT.INSERT,
           schema: 'public',
-          table: DB_TABLE.ROOM_MEMBERS,
+          table: TABLES.ROOM_MEMBERS,
           filter: `user_id=eq.${user.id}`,
         },
         () => {
