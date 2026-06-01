@@ -51,7 +51,8 @@
     "chat": "Chat",
     "friends": "Friends",
     "calls": "Calls",
-    "settings": "Settings"
+    "settings": "Settings",
+    "logout": "Log Out"
   },
   "header": {
     "online": "Online",
@@ -70,5 +71,15 @@
     "attach": "Attach file",
     "image": "Add image",
     "emoji": "Add emoji"
+  },
+  "editProfile": {
+    "title": "Edit Profile",
+    "changeAvatar": "Change avatar",
+    "displayName": "Display name",
+    "displayNamePlaceholder": "Enter your name",
+    "fileTooLarge": "Image must be under 2 MB.",
+    "saveError": "Failed to save. Please try again.",
+    "cancel": "Cancel",
+    "save": "Save"
   }
 }

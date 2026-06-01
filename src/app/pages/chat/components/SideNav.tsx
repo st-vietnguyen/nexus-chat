@@ -1,43 +1,68 @@
+import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@app/shared/contexts/auth.context';
+import { useModal } from '@app/shared/contexts/modal.context';
 import PersonIcon from '@assets/icons/ic-person.svg?react';
 import ChatIcon from '@assets/icons/ic-chat.svg?react';
 import GroupIcon from '@assets/icons/ic-group.svg?react';
-import CallIcon from '@assets/icons/ic-call.svg?react';
-import SettingsIcon from '@assets/icons/ic-settings.svg?react';
+import LogOutIcon from '@assets/icons/ic-logout.svg?react';
+import { FindFriendsModal } from './FindFriendsModal';
+import { EditProfileModal } from './EditProfileModal';
 
-type NavKey = 'chat' | 'friends' | 'calls' | 'settings';
+type NavKey = 'chat' | 'friends' | 'logout';
 
 const NAV_ICONS: Record<NavKey, React.FC<React.SVGProps<SVGSVGElement>>> = {
   chat: ChatIcon,
   friends: GroupIcon,
-  calls: CallIcon,
-  settings: SettingsIcon,
+  logout: LogOutIcon,
 };
-
-const navItems: { key: NavKey }[] = [
-  { key: 'chat' },
-  { key: 'friends' },
-  { key: 'calls' },
-  { key: 'settings' },
-];
 
 export const SideNav = () => {
   const { t } = useTranslation('chat');
-  const { user } = useAuth();
+  const { user, clearUserSession: handleLogout } = useAuth();
+  const { openModal } = useModal();
   const avatarUrl = user?.user_metadata?.avatar_url as string | undefined;
   const activeKey: NavKey = 'chat';
+
+  const handleFindFriends = useCallback(
+    () =>
+      openModal({
+        title: t('findFriends.title'),
+        content: <FindFriendsModal />,
+      }),
+    [openModal, t],
+  );
+
+  const handleEditProfile = useCallback(
+    () =>
+      openModal({
+        title: t('editProfile.title'),
+        content: <EditProfileModal />,
+      }),
+    [openModal, t],
+  );
+
+  const navItems: { key: NavKey; onClick?: () => void }[] = [
+    { key: 'chat' },
+    { key: 'friends', onClick: handleFindFriends },
+    { key: 'logout', onClick: handleLogout },
+  ];
 
   return (
     <nav className="side-nav" aria-label="Primary">
       <div className="side-nav-brand">
-        <div className="side-nav-avatar">
+        <button
+          type="button"
+          className="side-nav-avatar"
+          onClick={handleEditProfile}
+          aria-label={t('editProfile.title')}
+        >
           {avatarUrl ? (
             <img src={avatarUrl} alt="User Avatar" />
           ) : (
             <PersonIcon />
           )}
-        </div>
+        </button>
       </div>
 
       <ul className="side-nav-list">
@@ -51,6 +76,7 @@ export const SideNav = () => {
                 className={`side-nav-item ${isActive ? 'side-nav-item-active' : ''}`}
                 aria-label={t(`nav.${item.key}`)}
                 aria-current={isActive ? 'page' : undefined}
+                onClick={item.onClick}
               >
                 <Icon />
               </button>
