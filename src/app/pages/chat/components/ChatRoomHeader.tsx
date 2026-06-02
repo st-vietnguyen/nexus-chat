@@ -2,7 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Typography } from '@app/shared/components/partials';
 import { useDirectPeer } from '@app/shared/hooks/data/useDirectPeer';
 import { useJoinedRooms } from '@app/shared/hooks/data/useJoinedRooms';
-import { useRoomPresence } from '@app/shared/hooks/data/useRoomPresence';
+import { usePresence } from '@app/shared/contexts/presence.context';
 import { ROOM_TYPE } from '@app/types';
 import CallIcon from '@assets/icons/ic-call.svg?react';
 import VideocamIcon from '@assets/icons/ic-videocam.svg?react';
@@ -21,7 +21,7 @@ export const ChatRoomHeader = ({ roomId }: ChatRoomHeaderProps) => {
   const room = rooms?.find((r) => r.id === roomId);
   const isDirect = room?.type === ROOM_TYPE.DIRECT;
 
-  const { onlineUserIds } = useRoomPresence(roomId);
+  const { isUserOnline } = usePresence();
 
   const { data: peer, isLoading: isPeerLoading } = useDirectPeer(
     roomId,
@@ -41,10 +41,7 @@ export const ChatRoomHeader = ({ roomId }: ChatRoomHeaderProps) => {
 
   const avatarUrl = isDirect ? peer?.avatarUrl : room?.avatarUrl;
 
-  // For direct rooms, presence resolves to the peer's tracked state on the
-  // shared room-presence channel. For group rooms we don't display per-member
-  // status in the header; the dot stays hidden until a roster view exists.
-  const isPeerOnline = isDirect && !!peer && onlineUserIds.includes(peer.id);
+  const isPeerOnline = isDirect && !!peer && isUserOnline(peer.id);
   const statusLabel = isPeerOnline ? t('header.online') : t('header.offline');
 
   return (

@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { type RoomListItem } from '@app/core/services/room.service';
+import { usePresence } from '@app/shared/contexts/presence.context';
 import { useDirectPeer } from '@app/shared/hooks/data/useDirectPeer';
 import { ROOM_TYPE } from '@app/types';
 import { formatRelativeI18n } from '@core/helpers/date.helper';
@@ -14,6 +15,7 @@ interface RoomItemProps {
 
 export const RoomItem = ({ room, isActive, onSelect }: RoomItemProps) => {
   const { t } = useTranslation('chat');
+  const { isUserOnline } = usePresence();
   const isDirect = room.type === ROOM_TYPE.DIRECT;
 
   const { data: peer, isLoading: isPeerLoading } = useDirectPeer(
@@ -29,6 +31,7 @@ export const RoomItem = ({ room, isActive, onSelect }: RoomItemProps) => {
     ? (peer?.displayName ?? peer?.email ?? room.name ?? t('room.untitled'))
     : (room.name ?? t('room.untitled'));
   const avatarUrl = isDirect ? peer?.avatarUrl : room.avatarUrl;
+  const isPeerOnline = isDirect && !!peer && isUserOnline(peer.id);
   const time = formatRelativeI18n(room.lastMessageAt, t);
   const preview = room.lastMessagePreview ?? null;
   const unread = Math.max(0, room.unreadCount ?? 0);
@@ -47,7 +50,9 @@ export const RoomItem = ({ room, isActive, onSelect }: RoomItemProps) => {
           <div className="room-item-avatar">
             <Avatar url={avatarUrl} />
           </div>
-          <span className="room-item-status-dot" aria-hidden="true" />
+          {isPeerOnline && (
+            <span className="room-item-status-dot" aria-hidden="true" />
+          )}
         </div>
         <div className="room-item-body">
           <div className="room-item-row">

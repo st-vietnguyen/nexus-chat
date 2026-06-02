@@ -14,6 +14,7 @@ import AppSuspense from './AppSuspense';
 
 import { AuthProvider } from './shared/contexts/auth.context';
 import { ModalProvider } from './shared/contexts/modal.context';
+import { PresenceProvider } from './shared/contexts/presence.context';
 import { renderChildren } from './core/modules/custom-router-dom/RouterOutlet';
 import AppErrorBoundaryFallback from './AppErrorBoundaryFallback';
 import { swrConfig } from '@config/swr';
@@ -25,9 +26,11 @@ export const Root = () => {
       <ErrorBoundary FallbackComponent={AppErrorBoundaryFallback}>
         <AppSuspense fallback={<></>}>
           <SWRConfig value={swrConfig}>
-            <ModalProvider>
-              <Outlet />
-            </ModalProvider>
+            <PresenceProvider>
+              <ModalProvider>
+                <Outlet />
+              </ModalProvider>
+            </PresenceProvider>
           </SWRConfig>
         </AppSuspense>
       </ErrorBoundary>

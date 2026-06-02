@@ -44,7 +44,6 @@ const mapByTempId = (
 export const useSendMessage = (roomId: string | null | undefined) => {
   const { mutate, cache } = useSWRConfig();
   const { user } = useAuth();
-  const [inFlightCount, setInFlightCount] = useState(0);
   const [error, setError] = useState<Error | null>(null);
   const inFlightRef = useRef<Set<string>>(new Set());
 
@@ -57,7 +56,6 @@ export const useSendMessage = (roomId: string | null | undefined) => {
       if (!roomId || !user) return null;
       if (inFlightRef.current.has(tempId)) return null;
       inFlightRef.current.add(tempId);
-      setInFlightCount((count) => count + 1);
       setError(null);
 
       try {
@@ -110,7 +108,6 @@ export const useSendMessage = (roomId: string | null | undefined) => {
         return null;
       } finally {
         inFlightRef.current.delete(tempId);
-        setInFlightCount((count) => Math.max(0, count - 1));
       }
     },
     [mutate, roomId, user],
@@ -197,5 +194,5 @@ export const useSendMessage = (roomId: string | null | undefined) => {
     [cache, mutate, roomId, runSend],
   );
 
-  return { send, retry, isSending: inFlightCount > 0, error };
+  return { send, retry, error };
 };
