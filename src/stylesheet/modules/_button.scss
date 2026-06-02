@@ -5,9 +5,17 @@
 @use "../base/variables";
 
 $button-colors: (
-  primary: map.get(variables.$color, primary),
   danger: map.get(variables.$color, danger),
 );
+
+$btn-primary-gradient: linear-gradient(
+  135deg,
+  map.get(variables.$color, primary),
+  map.get(variables.$color, secondary)
+);
+$btn-primary-disabled-bg: rgba(map.get(variables.$color, primary), 0.4);
+$btn-surface-bg: rgba(255, 255, 255, 0.5);
+$btn-surface-hover: rgba(255, 255, 255, 0.7);
 
 $button-sizes: (
   "sm": (
@@ -47,6 +55,21 @@ $button-sizes: (
     list.nth(map.get($button-sizes, "md"), 2);
   font-size: list.nth(map.get($button-sizes, "md"), 3);
 
+  &-primary {
+    background: $btn-primary-gradient;
+    color: map.get(variables.$color, white);
+    transition: opacity 0.3s;
+
+    &:hover:not(:disabled) {
+      opacity: 0.8;
+    }
+
+    &:disabled {
+      background: $btn-primary-disabled-bg;
+      cursor: not-allowed;
+    }
+  }
+
   @each $name, $color in $button-colors {
     &-#{$name} {
       background-color: $color;
@@ -77,5 +100,20 @@ $button-sizes: (
 
   &.btn-block {
     width: 100%;
+  }
+
+  &-secondary {
+    background: $btn-surface-bg;
+    color: map.get(variables.$color, text-primary);
+    transition: background 0.2s ease;
+
+    &:hover:not(:disabled) {
+      background: $btn-surface-hover;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
 }

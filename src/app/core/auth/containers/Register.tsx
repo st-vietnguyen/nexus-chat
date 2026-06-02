@@ -320,8 +320,9 @@ const Register = () => {
             className="btn-primary btn-block"
             isLoading={submitting}
             isDisabled={!isValid || submitting}
-            title={submitting ? t('register.submitting') : t('register.btn')}
-          />
+          >
+            {submitting ? t('register.submitting') : t('register.btn')}
+          </Button>
         </div>
       </form>
 

@@ -23,9 +23,10 @@ export const EmptyRoomList = ({ onFindFriends }: EmptyRoomListProps) => {
       <Button
         type="button"
         className="btn-primary btn-block"
-        title={t('emptyRooms.cta')}
         onClick={onFindFriends}
-      />
+      >
+        {t('emptyRooms.cta')}
+      </Button>
     </div>
   );
 };

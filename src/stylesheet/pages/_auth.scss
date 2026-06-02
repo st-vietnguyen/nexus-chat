@@ -83,27 +83,15 @@ $shadow-color: rgba($gradient-pink, 0.18);
 
   .btn {
     border-radius: map.get(vars.$border-radius, rounded);
-    background: linear-gradient(135deg, $gradient-pink, $gradient-orange);
-    color: map.get(vars.$color, white);
-    font-family: inherit;
     font-weight: 700;
     letter-spacing: 0.02em;
+    height: 48px;
     transition:
       opacity 0.2s,
       transform 0.1s;
-    height: 48px;
-
-    &:hover:not(:disabled) {
-      opacity: 0.88;
-    }
 
     &:active:not(:disabled) {
       transform: scale(0.98);
-    }
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
     }
   }
 }

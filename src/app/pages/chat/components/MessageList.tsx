@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@app/shared/contexts/auth.context';
+import { Button } from '@app/shared/components/partials';
 import { useMessages } from '@app/shared/hooks/data/useMessages';
 import { useMessageListScroll } from '../hooks/useMessageListScroll';
 import { MessageItem } from './MessageItem';
@@ -44,9 +45,9 @@ export const MessageList = ({ roomId, onRetry }: MessageListProps) => {
         variant="error"
         message={t('messages.error')}
         action={
-          <button type="button" className="btn" onClick={retry}>
+          <Button type="button" className="btn-primary btn-sm" onClick={retry}>
             {t('messages.retry')}
-          </button>
+          </Button>
         }
       />
     );

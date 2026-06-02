@@ -127,20 +127,21 @@ export const EditProfileModal = () => {
 
       <div className="edit-profile-actions">
         <Button
-          title={t('editProfile.cancel')}
           type="button"
-          className="edit-profile-btn-cancel"
+          className="btn-secondary"
           onClick={closeModal}
           isDisabled={isSaving}
-        />
+        >
+          {t('editProfile.cancel')}
+        </Button>
         <Button
-          title={t('editProfile.save')}
           type="button"
-          className="btn-primary"
           onClick={handleSave}
           isDisabled={isSaving}
           isLoading={isSaving}
-        />
+        >
+          {t('editProfile.save')}
+        </Button>
       </div>
     </div>
   );

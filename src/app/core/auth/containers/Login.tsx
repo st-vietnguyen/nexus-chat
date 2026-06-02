@@ -97,8 +97,9 @@ const Login = () => {
             className="btn-primary btn-block"
             isLoading={isSubmitting}
             isDisabled={!isValid || isSubmitting}
-            title={t('logIn.btn')}
-          />
+          >
+            {t('logIn.btn')}
+          </Button>
         </div>
       </form>
 

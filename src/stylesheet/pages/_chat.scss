@@ -1365,14 +1365,9 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     justify-content: flex-end;
     gap: 12px;
     padding-top: 4px;
-  }
 
-  &-btn-cancel {
-    background: rgba(255, 255, 255, 0.5);
-    color: map.get(vars.$color, text-primary);
-
-    &:hover:not(:disabled) {
-      background: rgba(255, 255, 255, 0.7);
+    .btn {
+      border-radius: map.get(vars.$border-radius, xl);
     }
   }
 }
