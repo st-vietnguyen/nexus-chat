@@ -16,7 +16,7 @@ import {
 import { REALTIME_EVENT } from '@app/types';
 import { TABLES } from '@app/constants/supabase';
 import { getMessagesKey } from './useMessages';
-import { reconcileIncomingMessage } from './reconcileMessages';
+import { reconcileIncomingMessage } from '@shared/utils/message';
 
 interface UseRoomMessagesRealtimeOptions {
   onIncoming?: (message: Message) => void;

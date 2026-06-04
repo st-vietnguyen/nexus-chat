@@ -3,7 +3,7 @@ import {
   MESSAGE_DELIVERY_STATUS,
   type OptimisticMessage,
 } from '@app/core/services/message.service';
-import { reconcileIncomingMessage, sortPageDesc } from './reconcileMessages';
+import { reconcileIncomingMessage, sortPageDesc } from './message';
 
 const baseMsg = (overrides: Partial<OptimisticMessage>): OptimisticMessage => ({
   id: 'real-1',

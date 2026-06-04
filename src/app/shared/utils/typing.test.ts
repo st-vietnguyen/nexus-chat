@@ -5,7 +5,7 @@ import {
   acceptTypingEvent,
   removeTypingUser,
   shouldThrottleSend,
-} from './typingState';
+} from './typing';
 
 afterEach(() => {
   vi.useRealTimers();

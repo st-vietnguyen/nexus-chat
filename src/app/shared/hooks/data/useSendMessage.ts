@@ -9,7 +9,7 @@ import {
   type OptimisticMessage,
 } from '@app/core/services/message.service';
 import { getMessagesKey } from './useMessages';
-import { RECONCILE_WINDOW_MS, sortPageDesc } from './reconcileMessages';
+import { RECONCILE_WINDOW_MS, sortPageDesc } from '@shared/utils/message';
 
 const makeTempId = () =>
   `temp-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;

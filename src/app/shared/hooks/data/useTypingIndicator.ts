@@ -8,7 +8,7 @@ import {
   acceptTypingEvent,
   removeTypingUser,
   shouldThrottleSend,
-} from './typingState';
+} from '@shared/utils/typing';
 
 interface TypingPayload {
   userId: string;
