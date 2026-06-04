@@ -661,7 +661,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 
   &-form {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     gap: 8px;
   }
 
@@ -707,12 +707,17 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     padding: 10px 16px;
     background: rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 9999px;
+    border-radius: 22px;
     font-family: inherit;
     font-size: 14px;
     font-weight: 500;
+    line-height: 1.4;
     color: map.get(vars.$color, text-primary);
     transition: border-color 0.2s ease;
+    resize: none;
+    overflow-y: auto;
+    max-height: 140px;
+    display: block;
 
     &::placeholder {
       color: map.get(vars.$color, text-muted);

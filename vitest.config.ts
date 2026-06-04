@@ -1,7 +1,9 @@
 import { defineConfig } from 'vitest/config';
+import svgr from 'vite-plugin-svgr';
 import Path from 'path';
 
 export default defineConfig({
+  plugins: [svgr()],
   resolve: {
     alias: {
       '@app': Path.resolve(__dirname, './src/app'),
