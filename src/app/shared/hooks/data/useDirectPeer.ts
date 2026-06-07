@@ -3,7 +3,10 @@ import useSWR from 'swr';
 import { getDirectRoomPeer } from '@app/core/services/room.service';
 import { useAuth } from '@app/shared/contexts/auth.context';
 
-export const useDirectPeer = (roomId: string, enabled: boolean) => {
+export const useDirectPeer = (
+  roomId: string | null | undefined,
+  enabled: boolean,
+) => {
   const { user } = useAuth();
 
   const fetcher = useCallback(
@@ -12,7 +15,7 @@ export const useDirectPeer = (roomId: string, enabled: boolean) => {
   );
 
   return useSWR(
-    enabled && user ? ['direct-peer', roomId, user.id] : null,
+    enabled && user && roomId ? ['direct-peer', roomId, user.id] : null,
     fetcher,
   );
 };

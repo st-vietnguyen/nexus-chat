@@ -4,6 +4,7 @@ import {
   normalizeMessages,
   type MessageRow,
 } from '@app/core/mappers/chat.mapper';
+import { mapSupabaseError } from '@core/errors/AppError';
 import type { Message } from '@app/types/chat';
 
 export type { Message, OptimisticMessage } from '@app/types/chat';
@@ -31,7 +32,7 @@ export const getMessagesByRoomId = async (
 
   const { data, error } = await query;
 
-  if (error) throw error;
+  if (error) throw mapSupabaseError(error, 'query');
   return normalizeMessages((data ?? []) as MessageRow[]);
 };
 
@@ -55,6 +56,6 @@ export const sendMessage = async ({
     p_content: content,
   });
 
-  if (error) throw error;
+  if (error) throw mapSupabaseError(error, 'rpc');
   return normalizeMessage(data as MessageRow);
 };

@@ -6,6 +6,7 @@ import {
   type ProfileRow,
 } from '@app/core/mappers/chat.mapper';
 import { sanitizeFilename } from '@core/helpers/file.helper';
+import { mapSupabaseError } from '@core/errors/AppError';
 import { STORAGE_BUCKETS } from '@app/constants/supabase';
 import type { Profile } from '@app/types/chat';
 
@@ -21,7 +22,7 @@ export const getProfiles = async (
     .order('created_at', { ascending: false })
     .limit(200);
 
-  if (error) throw error;
+  if (error) throw mapSupabaseError(error, 'query');
   return normalizeProfiles((data ?? []) as ProfileRow[]);
 };
 
@@ -44,7 +45,7 @@ export const uploadAvatar = async (
       contentType: file.type,
     });
 
-  if (error) throw error;
+  if (error) throw mapSupabaseError(error, 'storage');
 
   const { data } = supabase.storage
     .from(STORAGE_BUCKETS.AVATARS)
@@ -75,6 +76,6 @@ export const updateProfile = async (
     .select('id, display_name, email, avatar_url, created_at, updated_at')
     .single();
 
-  if (error) throw error;
+  if (error) throw mapSupabaseError(error, 'query');
   return normalizeProfile(data as ProfileRow);
 };

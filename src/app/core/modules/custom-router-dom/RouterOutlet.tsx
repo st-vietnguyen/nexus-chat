@@ -1,6 +1,6 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { PrivateRoute } from './PrivateRoute';
+import { PrivateRoute } from '@core/modules/custom-router-dom/PrivateRoute';
 
 export const renderChildren = (routes) => {
   return routes.map((route) => {
@@ -17,7 +17,7 @@ export const renderChildren = (routes) => {
       ) : (
         <route.element />
       ),
-      children: route.children ? renderChildren(route.children) : [],
+      ...(route.children ? { children: renderChildren(route.children) } : {}),
     };
   });
 };

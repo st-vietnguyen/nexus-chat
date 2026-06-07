@@ -4,9 +4,8 @@ import { Button, Typography } from '@app/shared/components/partials';
 import { useAuth } from '@app/shared/contexts/auth.context';
 import { useModal } from '@app/shared/contexts/modal.context';
 import { updateProfile, uploadAvatar } from '@core/services/profile.service';
+import { MAX_AVATAR_BYTES, isAcceptedAvatar } from '@core/helpers/file.helper';
 import PersonIcon from '@assets/icons/ic-person.svg?react';
-
-const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2 MB
 
 export const EditProfileModal = () => {
   const { t } = useTranslation('chat');
@@ -34,7 +33,11 @@ export const EditProfileModal = () => {
       const file = e.target.files?.[0];
       if (!file) return;
 
-      if (file.size > MAX_FILE_SIZE) {
+      if (!isAcceptedAvatar(file)) {
+        setError(t('editProfile.invalidFileType'));
+        return;
+      }
+      if (file.size > MAX_AVATAR_BYTES) {
         setError(t('editProfile.fileTooLarge'));
         return;
       }
@@ -95,7 +98,7 @@ export const EditProfileModal = () => {
         <input
           ref={fileRef}
           type="file"
-          accept="image/*"
+          accept="image/png,image/jpeg,image/webp,image/gif"
           className="visually-hidden"
           onChange={handleAvatarChange}
         />

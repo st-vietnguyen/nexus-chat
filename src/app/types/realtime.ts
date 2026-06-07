@@ -14,6 +14,7 @@ export type DbTable = (typeof TABLES)[keyof typeof TABLES];
 export const REALTIME_SUBSCRIBE_STATES = {
   SUBSCRIBED: 'SUBSCRIBED',
   TIMED_OUT: 'TIMED_OUT',
+  CHANNEL_ERROR: 'CHANNEL_ERROR',
   ERROR: 'ERROR',
 } as const;
 

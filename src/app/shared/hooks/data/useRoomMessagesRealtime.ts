@@ -13,7 +13,7 @@ import {
   normalizeMessage,
   type MessageRow,
 } from '@app/core/mappers/chat.mapper';
-import { REALTIME_EVENT } from '@app/types';
+import { REALTIME_EVENT, REALTIME_SUBSCRIBE_STATES } from '@app/types';
 import { TABLES } from '@app/constants/supabase';
 import { getMessagesKey } from './useMessages';
 import { reconcileIncomingMessage } from '@shared/utils/message';
@@ -61,7 +61,15 @@ export const useRoomMessagesRealtime = (
           onIncomingRef.current?.(message);
         },
       )
-      .subscribe();
+      .subscribe((status) => {
+        // Subscription dropped — page may have missed inserts. Re-fetch first page.
+        if (
+          status === REALTIME_SUBSCRIBE_STATES.CHANNEL_ERROR ||
+          status === REALTIME_SUBSCRIBE_STATES.TIMED_OUT
+        ) {
+          mutate(key);
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);

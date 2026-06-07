@@ -78,6 +78,7 @@
     "displayName": "Display name",
     "displayNamePlaceholder": "Enter your name",
     "fileTooLarge": "Image must be under 2 MB.",
+    "invalidFileType": "Use PNG, JPEG, WebP, or GIF.",
     "saveError": "Failed to save. Please try again.",
     "cancel": "Cancel",
     "save": "Save"

@@ -19,11 +19,13 @@
     "rootDir": "./src",
     "outDir": "build",
     "paths": {
-      "@app/*": ["src/app/*"],
-      "@core/*": ["src/app/core/*"],
-      "@shared/*": ["src/app/shared/*"],
-      "@config/*": ["src/config/*"],
-      "@libs/*": ["src/app/libs/*"]
+      "@app/*": ["src/app/*", "./src/app/*"],
+      "@core/*": ["src/app/core/*", "./src/app/core/*"],
+      "@shared/*": ["src/app/shared/*", "./src/app/shared/*"],
+      "@config/*": ["src/config/*", "./src/config/*"],
+      "@libs/*": ["src/app/libs/*", "./src/app/libs/*"],
+      "@assets/*": ["src/assets/*", "./src/assets/*"],
+      "@stylesheet/*": ["src/stylesheet/*", "./src/stylesheet/*"]
     },
     "lib": ["es6", "es7", "dom"],
     "types": ["vite-plugin-svgr/client", "node"]

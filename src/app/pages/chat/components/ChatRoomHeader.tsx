@@ -1,9 +1,9 @@
 import { useTranslation } from 'react-i18next';
 import { Typography } from '@app/shared/components/partials';
 import { useDirectPeer } from '@app/shared/hooks/data/useDirectPeer';
-import { useJoinedRooms } from '@app/shared/hooks/data/useJoinedRooms';
 import { usePresence } from '@app/shared/contexts/presence.context';
 import { ROOM_TYPE } from '@app/types';
+import type { RoomListItem } from '@app/core/services/room.service';
 import CallIcon from '@assets/icons/ic-call.svg?react';
 import VideocamIcon from '@assets/icons/ic-videocam.svg?react';
 import MoreVertIcon from '@assets/icons/ic-more-vert.svg?react';
@@ -11,36 +11,27 @@ import { Avatar } from './Avatar';
 import { ChatRoomHeaderSkeleton } from './ChatRoomHeaderSkeleton';
 
 interface ChatRoomHeaderProps {
-  roomId: string;
+  room: RoomListItem | null | undefined;
 }
 
-export const ChatRoomHeader = ({ roomId }: ChatRoomHeaderProps) => {
+export const ChatRoomHeader = ({ room }: ChatRoomHeaderProps) => {
   const { t } = useTranslation('chat');
-
-  const { data: rooms, isLoading: isRoomsLoading } = useJoinedRooms();
-  const room = rooms?.find((r) => r.id === roomId);
   const isDirect = room?.type === ROOM_TYPE.DIRECT;
-
   const { isUserOnline } = usePresence();
-
   const { data: peer, isLoading: isPeerLoading } = useDirectPeer(
-    roomId,
+    room?.id ?? null,
     !!isDirect,
   );
 
-  const isHeaderPending =
-    isRoomsLoading || !room || (isDirect && isPeerLoading);
-
-  if (isHeaderPending) {
+  if (!room || (isDirect && isPeerLoading)) {
     return <ChatRoomHeaderSkeleton />;
   }
 
   const label = isDirect
     ? (peer?.displayName ?? peer?.email ?? t('room.untitled'))
-    : (room?.name ?? t('room.untitled'));
+    : (room.name ?? t('room.untitled'));
 
-  const avatarUrl = isDirect ? peer?.avatarUrl : room?.avatarUrl;
-
+  const avatarUrl = isDirect ? peer?.avatarUrl : room.avatarUrl;
   const isPeerOnline = isDirect && !!peer && isUserOnline(peer.id);
   const statusLabel = isPeerOnline ? t('header.online') : t('header.offline');
 

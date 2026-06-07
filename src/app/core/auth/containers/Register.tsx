@@ -15,8 +15,8 @@ import {
 } from '@app/core/services/profile.service';
 import { Button, Input, Typography } from '@app/shared/components/partials';
 import { initialsOf } from '@core/helpers/string.helper';
+import { MAX_AVATAR_BYTES, isAcceptedAvatar } from '@core/helpers/file.helper';
 
-const MAX_AVATAR_BYTES = 2 * 1024 * 1024;
 const DISPLAY_NAME_MAX = 50;
 
 const createSchema = (t: TFunction) =>
@@ -83,7 +83,7 @@ const Register = () => {
     event.target.value = '';
     if (!file) return;
 
-    if (!file.type.startsWith('image/')) {
+    if (!isAcceptedAvatar(file)) {
       setAvatarError(t('register.avatar.invalidType'));
       setAvatarFile(null);
       return;
@@ -255,7 +255,7 @@ const Register = () => {
           <input
             ref={fileInputRef}
             type="file"
-            accept="image/*"
+            accept="image/png,image/jpeg,image/webp,image/gif"
             className="visually-hidden"
             onChange={handleAvatarChange}
             data-testid="avatar-input"

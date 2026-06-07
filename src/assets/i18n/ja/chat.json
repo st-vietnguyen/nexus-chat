@@ -78,6 +78,7 @@
     "displayName": "表示名",
     "displayNamePlaceholder": "名前を入力",
     "fileTooLarge": "画像は2 MB以下にしてください。",
+    "invalidFileType": "PNG、JPEG、WebP、またはGIFを使用してください。",
     "saveError": "保存に失敗しました。もう一度お試しください。",
     "cancel": "キャンセル",
     "save": "保存"

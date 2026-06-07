@@ -5,6 +5,7 @@ import {
   type ProfileRow,
   type RoomRow,
 } from '@app/core/mappers/chat.mapper';
+import { mapSupabaseError } from '@core/errors/AppError';
 import type { Profile, RoomListItem } from '@app/types/chat';
 
 export type { Room, RoomListItem, Profile } from '@app/types/chat';
@@ -20,7 +21,7 @@ export const getDirectRoomPeer = async (
     .neq('user_id', currentUserId)
     .maybeSingle();
 
-  if (memberErr) throw memberErr;
+  if (memberErr) throw mapSupabaseError(memberErr, 'query');
   if (!member) return null;
 
   const { data: profile, error: profileErr } = await supabase
@@ -29,7 +30,7 @@ export const getDirectRoomPeer = async (
     .eq('id', member.user_id)
     .maybeSingle();
 
-  if (profileErr) throw profileErr;
+  if (profileErr) throw mapSupabaseError(profileErr, 'query');
   return profile ? normalizeProfile(profile as ProfileRow) : null;
 };
 
@@ -42,7 +43,7 @@ export const getJoinedRooms = async (
     .eq('room_members.user_id', userId)
     .order('last_message_at', { ascending: false, nullsFirst: false });
 
-  if (error) throw error;
+  if (error) throw mapSupabaseError(error, 'query');
 
   type Joined = RoomRow & {
     room_members: { user_id: string; last_read_at: string }[];
@@ -60,7 +61,7 @@ export const getJoinedRooms = async (
         .order('created_at', { ascending: false })
         .limit(1)
         .maybeSingle();
-      if (msgErr) throw msgErr;
+      if (msgErr) throw mapSupabaseError(msgErr, 'query');
       return latest?.content ?? null;
     }),
   );
@@ -82,7 +83,7 @@ export const getJoinedRooms = async (
         .eq('room_id', r.id)
         .neq('sender_id', userId)
         .gt('created_at', lastRead);
-      if (cntErr) throw cntErr;
+      if (cntErr) throw mapSupabaseError(cntErr, 'query');
       return count ?? 0;
     }),
   );
@@ -106,7 +107,7 @@ export const markRoomAsRead = async (roomId: string): Promise<string> => {
     // eslint-disable-next-line camelcase -- matches Postgres function parameter
     p_room_id: roomId,
   });
-  if (error) throw error;
+  if (error) throw mapSupabaseError(error, 'rpc');
   return data as string;
 };
 
@@ -117,6 +118,6 @@ export const getOrCreateDirectRoom = async (
     // eslint-disable-next-line camelcase -- matches Postgres function parameter
     other_user_id: otherUserId,
   });
-  if (error) throw error;
+  if (error) throw mapSupabaseError(error, 'rpc');
   return data as string;
 };

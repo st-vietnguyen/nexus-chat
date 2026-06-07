@@ -9,7 +9,7 @@ import {
   normalizeMessage,
   type MessageRow,
 } from '@app/core/mappers/chat.mapper';
-import { REALTIME_EVENT } from '@app/types';
+import { REALTIME_EVENT, REALTIME_SUBSCRIBE_STATES } from '@app/types';
 import { TABLES } from '@app/constants/supabase';
 
 interface ApplyMessageOptions {
@@ -112,7 +112,15 @@ export const useRoomListRealtime = ({
           if (needsRevalidate) mutate(key);
         },
       )
-      .subscribe();
+      .subscribe((status) => {
+        // Subscription dropped — cache may be stale. Re-fetch as safety net.
+        if (
+          status === REALTIME_SUBSCRIBE_STATES.CHANNEL_ERROR ||
+          status === REALTIME_SUBSCRIBE_STATES.TIMED_OUT
+        ) {
+          mutate(key);
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);
@@ -137,7 +145,14 @@ export const useRoomListRealtime = ({
           mutate(key);
         },
       )
-      .subscribe();
+      .subscribe((status) => {
+        if (
+          status === REALTIME_SUBSCRIBE_STATES.CHANNEL_ERROR ||
+          status === REALTIME_SUBSCRIBE_STATES.TIMED_OUT
+        ) {
+          mutate(key);
+        }
+      });
 
     return () => {
       supabase.removeChannel(channel);

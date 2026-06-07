@@ -64,7 +64,7 @@ describe('MessageCompose', () => {
   });
 
   it('blocks duplicate sends while isSending (slow onSend)', async () => {
-    let resolveSend: (() => void) | null = null;
+    let resolveSend: (() => void) | undefined;
     const onSend = vi.fn(
       () =>
         new Promise<void>((resolve) => {
@@ -82,7 +82,7 @@ describe('MessageCompose', () => {
 
     expect(onSend).toHaveBeenCalledTimes(1);
 
-    resolveSend?.();
+    (resolveSend as (() => void) | undefined)?.();
     await waitFor(() => expect(ta.value).toBe(''));
   });
 
