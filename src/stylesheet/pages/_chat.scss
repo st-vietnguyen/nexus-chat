@@ -687,10 +687,6 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
       background 0.2s ease,
       color 0.2s ease;
 
-    svg path {
-      fill: currentColor;
-    }
-
     &:hover {
       background: rgba(255, 255, 255, 0.5);
       color: map.get(vars.$color, primary-dark);
@@ -741,14 +737,11 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     flex-shrink: 0;
     cursor: pointer;
     background: rgba(255, 255, 255, 0.3);
+    color: map.get(vars.$color, text-muted);
     transition:
       background 0.2s ease,
       transform 0.1s ease,
       box-shadow 0.2s ease;
-
-    svg path {
-      fill: map.get(vars.$color, text-muted);
-    }
 
     &:disabled {
       cursor: not-allowed;
@@ -757,10 +750,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     &-active {
       background: linear-gradient(135deg, $gradient-pink, $gradient-orange);
       box-shadow: 0 4px 12px rgba($gradient-pink, 0.35);
-
-      svg path {
-        fill: map.get(vars.$color, white);
-      }
+      color: map.get(vars.$color, white);
 
       &:hover {
         transform: scale(1.05);
@@ -823,12 +813,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
       transition: background 0.15s ease;
 
       svg {
-        width: 12px;
-        height: 12px;
-
-        path {
-          fill: #fff;
-        }
+        font-size: 12px;
       }
 
       &:hover {
