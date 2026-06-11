@@ -5,28 +5,7 @@ import {
   getMessagesByRoomId,
   type OptimisticMessage,
 } from '@app/core/services/message.service';
-
-export type MessagesKey =
-  | readonly ['messages', string, string | undefined]
-  | null;
-
-// Keyset pagination by `created_at` of oldest server row in previous page.
-// Optimistic temps are excluded so a temp at the tail can't poison the cursor.
-export const getMessagesKey =
-  (roomId: string | null | undefined) =>
-  (
-    pageIndex: number,
-    previousPageData: OptimisticMessage[] | null,
-  ): MessagesKey => {
-    if (!roomId) return null;
-    if (previousPageData && previousPageData.length === 0) return null;
-
-    if (pageIndex === 0) return ['messages', roomId, undefined];
-
-    const serverRows = previousPageData?.filter((m) => !m.tempId);
-    const cursor = serverRows?.[serverRows.length - 1]?.createdAt;
-    return ['messages', roomId, cursor];
-  };
+import { getMessagesKey, type MessagesKey } from '@shared/utils/message';
 
 export const useMessages = (roomId: string | null | undefined) => {
   const { data, error, isLoading, isValidating, mutate, size, setSize } =

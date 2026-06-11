@@ -15,8 +15,10 @@ import {
 } from '@app/core/mappers/chat.mapper';
 import { REALTIME_EVENT, REALTIME_SUBSCRIBE_STATES } from '@app/types';
 import { TABLES } from '@app/constants/supabase';
-import { getMessagesKey } from './useMessages';
-import { reconcileIncomingMessage } from '@shared/utils/message';
+import {
+  getMessagesKey,
+  reconcileIncomingMessage,
+} from '@shared/utils/message';
 
 interface UseRoomMessagesRealtimeOptions {
   onIncoming?: (message: Message) => void;

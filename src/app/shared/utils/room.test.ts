@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { Message } from '@app/core/services/message.service';
 import type { RoomListItem } from '@app/core/services/room.service';
-import { applyMessageToRoomList } from './useRoomListRealtime';
+import { applyMessageToRoomList } from './room';
 
 const ROOM_A = 'room-a';
 const ROOM_B = 'room-b';
