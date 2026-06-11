@@ -7,4 +7,5 @@ export const TABLES = {
 
 export const STORAGE_BUCKETS = {
   AVATARS: 'avatars',
+  CHAT_IMAGES: 'chat-images',
 } as const;

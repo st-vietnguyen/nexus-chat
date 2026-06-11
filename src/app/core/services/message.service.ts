@@ -11,6 +11,8 @@ export type { Message, OptimisticMessage } from '@app/types/chat';
 export {
   MESSAGE_DELIVERY_STATUS,
   type MessageDeliveryStatus,
+  MESSAGE_TYPE,
+  type MessageType,
 } from '@app/types/chat';
 
 export const MESSAGE_PAGE_SIZE = 30;
@@ -49,12 +51,40 @@ export const sendMessage = async ({
   // Route through SECURITY DEFINER RPC so RLS on messages/rooms is enforced
   // server-side. Avoids client-side RLS denial when JWT claims and policy
   // visibility get out of sync, and updates rooms.last_message_at atomically.
+  /* eslint-disable camelcase -- Postgres function parameter names */
   const { data, error } = await supabase.rpc('send_message', {
-    // eslint-disable-next-line camelcase -- matches Postgres function parameter
     p_room_id: roomId,
-    // eslint-disable-next-line camelcase -- matches Postgres function parameter
     p_content: content,
   });
+
+  if (error) throw mapSupabaseError(error, 'rpc');
+  return normalizeMessage(data as MessageRow);
+};
+
+export interface SendImageMessagePayload {
+  roomId: string;
+  storagePath: string;
+  fileName?: string | null;
+  fileSize?: number | null;
+  mimeType?: string | null;
+}
+
+export const sendImageMessage = async ({
+  roomId,
+  storagePath,
+  fileName,
+  fileSize,
+  mimeType,
+}: SendImageMessagePayload): Promise<Message> => {
+  /* eslint-disable camelcase -- Postgres function parameter names */
+  const { data, error } = await supabase.rpc('send_image_message', {
+    p_room_id: roomId,
+    p_storage_path: storagePath,
+    p_file_name: fileName ?? null,
+    p_file_size: fileSize ?? null,
+    p_mime_type: mimeType ?? null,
+  });
+  /* eslint-enable camelcase */
 
   if (error) throw mapSupabaseError(error, 'rpc');
   return normalizeMessage(data as MessageRow);

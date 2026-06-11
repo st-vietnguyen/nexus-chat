@@ -5,9 +5,16 @@ import { unstable_serialize } from 'swr/infinite';
 import { useAuth } from '@app/shared/contexts/auth.context';
 import {
   sendMessage,
+  sendImageMessage,
   MESSAGE_DELIVERY_STATUS,
+  MESSAGE_TYPE,
   type OptimisticMessage,
 } from '@app/core/services/message.service';
+import {
+  uploadChatImage,
+  validateChatImage,
+  ImageValidationError,
+} from '@app/core/services/image.service';
 import { getMessagesKey } from './useMessages';
 import { RECONCILE_WINDOW_MS, sortPageDesc } from '@shared/utils/message';
 
@@ -17,18 +24,19 @@ const makeTempId = () =>
 const buildTempMessage = (
   roomId: string,
   senderId: string,
-  content: string,
+  overrides: Partial<OptimisticMessage> = {},
 ): OptimisticMessage => {
   const tempId = makeTempId();
-
   return {
     id: tempId,
     tempId,
     roomId,
     senderId,
-    content,
+    content: '',
     createdAt: new Date().toISOString(),
     status: MESSAGE_DELIVERY_STATUS.SENDING,
+    type: MESSAGE_TYPE.TEXT,
+    ...overrides,
   };
 };
 
@@ -41,17 +49,52 @@ const mapByTempId = (
     page.map((msg) => (msg.tempId === tempId ? patch(msg) : msg)),
   );
 
+const replaceTempWithSent = (
+  pages: OptimisticMessage[][],
+  tempId: string,
+  sent: OptimisticMessage,
+): OptimisticMessage[][] => {
+  let replacedPageIdx = -1;
+  const next = pages.map((page, pageIdx) =>
+    page.flatMap<OptimisticMessage>((msg) => {
+      if (msg.tempId === tempId) {
+        replacedPageIdx = pageIdx;
+        return [sent];
+      }
+      if (msg.id === sent.id) return [];
+      return [msg];
+    }),
+  );
+  if (replacedPageIdx === -1) {
+    const head = next[0] ?? [];
+    next[0] = sortPageDesc([sent, ...head]);
+  } else {
+    next[replacedPageIdx] = sortPageDesc(next[replacedPageIdx]);
+  }
+  return next.length ? next : [[sent]];
+};
+
+const prependTemp = (
+  pages: OptimisticMessage[][] | undefined,
+  temp: OptimisticMessage,
+): OptimisticMessage[][] => {
+  const base = pages?.length ? [...pages] : [[]];
+  base[0] = [temp, ...(base[0] ?? [])];
+  return base;
+};
+
 export const useSendMessage = (roomId: string | null | undefined) => {
   const { mutate, cache } = useSWRConfig();
   const { user } = useAuth();
   const [error, setError] = useState<Error | null>(null);
   const inFlightRef = useRef<Set<string>>(new Set());
+  const pendingImageFiles = useRef<Map<string, File>>(new Map());
 
-  const runSend = useCallback(
+  const runOptimisticSend = useCallback(
     async (
       key: string,
       tempId: string,
-      content: string,
+      perform: () => Promise<OptimisticMessage>,
     ): Promise<OptimisticMessage | null> => {
       if (!roomId || !user) return null;
       if (inFlightRef.current.has(tempId)) return null;
@@ -59,42 +102,17 @@ export const useSendMessage = (roomId: string | null | undefined) => {
       setError(null);
 
       try {
-        const real = await sendMessage({ roomId, senderId: user.id, content });
-        const sent: OptimisticMessage = {
-          ...real,
-          status: MESSAGE_DELIVERY_STATUS.SENT,
-        };
-
+        const sent = await perform();
         await mutate(
           key,
-          (pages: OptimisticMessage[][] = [[]]) => {
-            let replacedPageIdx = -1;
-            const next = pages.map((page, pageIdx) =>
-              page.flatMap<OptimisticMessage>((msg) => {
-                if (msg.tempId === tempId) {
-                  replacedPageIdx = pageIdx;
-                  return [sent];
-                }
-                if (msg.id === real.id) return [];
-                return [msg];
-              }),
-            );
-            if (replacedPageIdx === -1) {
-              const head = next[0] ?? [];
-              next[0] = sortPageDesc([sent, ...head]);
-            } else {
-              next[replacedPageIdx] = sortPageDesc(next[replacedPageIdx]);
-            }
-            return next.length ? next : [[sent]];
-          },
+          (pages: OptimisticMessage[][] = [[]]) =>
+            replaceTempWithSent(pages, tempId, sent),
           { revalidate: false },
         );
-
         return sent;
       } catch (err) {
         const caughtError = err instanceof Error ? err : new Error(String(err));
         setError(caughtError);
-
         await mutate(
           key,
           (pages: OptimisticMessage[][] = []) =>
@@ -104,11 +122,58 @@ export const useSendMessage = (roomId: string | null | undefined) => {
             })),
           { revalidate: false },
         );
-
         return null;
       } finally {
         inFlightRef.current.delete(tempId);
       }
+    },
+    [mutate, roomId, user],
+  );
+
+  const performTextSend = useCallback(
+    async (content: string): Promise<OptimisticMessage> => {
+      if (!roomId || !user) throw new Error('missing room or user');
+      const real = await sendMessage({ roomId, senderId: user.id, content });
+      return { ...real, status: MESSAGE_DELIVERY_STATUS.SENT };
+    },
+    [roomId, user],
+  );
+
+  const performImageSend = useCallback(
+    async (
+      key: string,
+      tempId: string,
+      file: File,
+      localImageUrl: string,
+    ): Promise<OptimisticMessage> => {
+      if (!roomId || !user) throw new Error('missing room or user');
+
+      const storagePath = await uploadChatImage(roomId, user.id, file);
+
+      // Patch temp with storagePath so realtime reconciliation can match it
+      await mutate(
+        key,
+        (pages: OptimisticMessage[][] = []) =>
+          mapByTempId(pages, tempId, (msg) => ({ ...msg, storagePath })),
+        { revalidate: false },
+      );
+
+      const real = await sendImageMessage({
+        roomId,
+        storagePath,
+        fileName: file.name,
+        fileSize: file.size,
+        mimeType: file.type,
+      });
+
+      pendingImageFiles.current.delete(tempId);
+      URL.revokeObjectURL(localImageUrl);
+
+      return {
+        ...real,
+        status: MESSAGE_DELIVERY_STATUS.SENT,
+        localImageUrl,
+      };
     },
     [mutate, roomId, user],
   );
@@ -119,28 +184,68 @@ export const useSendMessage = (roomId: string | null | undefined) => {
       if (!trimmed || !roomId || !user) return null;
 
       const key = unstable_serialize(getMessagesKey(roomId));
-      const temp = buildTempMessage(roomId, user.id, trimmed);
+      const temp = buildTempMessage(roomId, user.id, {
+        content: trimmed,
+        type: MESSAGE_TYPE.TEXT,
+      });
 
-      // Seed optimistic temp into page[0]. Works even when cache is empty
-      // (pages defaults to [[]]) so the SENDING bubble shows immediately on
-      // the very first send before any history fetch completes.
-      // Do NOT await: the synchronous updater writes cache before returning,
-      // and awaiting the resulting Promise can stall when no SWR hook is yet
-      // subscribed to this infinite key on first room visit — which prevents
-      // runSend (and thus the RPC) from ever firing.
+      // Sync mutate (no await): writes cache before runOptimisticSend so the
+      // SENDING bubble shows immediately even when no SWR subscriber exists
+      // for this key yet. Awaiting can stall on first room visit.
       mutate(
         key,
-        (pages: OptimisticMessage[][] = [[]]) => {
-          const next = pages.length ? [...pages] : [[]];
-          next[0] = [temp, ...(next[0] ?? [])];
-          return next;
+        (pages: OptimisticMessage[][] = [[]]) => prependTemp(pages, temp),
+        {
+          revalidate: false,
         },
-        { revalidate: false },
       );
 
-      return runSend(key, temp.tempId as string, trimmed);
+      return runOptimisticSend(key, temp.tempId as string, () =>
+        performTextSend(trimmed),
+      );
     },
-    [mutate, roomId, user, runSend],
+    [mutate, roomId, user, runOptimisticSend, performTextSend],
+  );
+
+  const sendImage = useCallback(
+    async (file: File): Promise<OptimisticMessage | null> => {
+      if (!roomId || !user) return null;
+
+      try {
+        validateChatImage(file);
+      } catch (err) {
+        if (err instanceof ImageValidationError) {
+          setError(err);
+          return null;
+        }
+        throw err;
+      }
+
+      const localImageUrl = URL.createObjectURL(file);
+      const key = unstable_serialize(getMessagesKey(roomId));
+      const temp = buildTempMessage(roomId, user.id, {
+        type: MESSAGE_TYPE.IMAGE,
+        localImageUrl,
+        fileName: file.name,
+        fileSize: file.size,
+        mimeType: file.type,
+      });
+
+      pendingImageFiles.current.set(temp.tempId as string, file);
+
+      mutate(
+        key,
+        (pages: OptimisticMessage[][] = [[]]) => prependTemp(pages, temp),
+        {
+          revalidate: false,
+        },
+      );
+
+      return runOptimisticSend(key, temp.tempId as string, () =>
+        performImageSend(key, temp.tempId as string, file, localImageUrl),
+      );
+    },
+    [mutate, roomId, user, runOptimisticSend, performImageSend],
   );
 
   const retry = useCallback(
@@ -155,6 +260,30 @@ export const useSendMessage = (roomId: string | null | undefined) => {
 
       if (!target || target.status !== MESSAGE_DELIVERY_STATUS.FAILED) {
         return null;
+      }
+
+      if (target.type === MESSAGE_TYPE.IMAGE) {
+        const file = pendingImageFiles.current.get(tempId);
+        if (!file) return null;
+
+        // Revoke any prior URL before allocating a new one to avoid leak
+        if (target.localImageUrl) URL.revokeObjectURL(target.localImageUrl);
+        const localImageUrl = URL.createObjectURL(file);
+
+        await mutate(
+          key,
+          (pages: OptimisticMessage[][] = []) =>
+            mapByTempId(pages, tempId, (msg) => ({
+              ...msg,
+              status: MESSAGE_DELIVERY_STATUS.SENDING,
+              localImageUrl,
+            })),
+          { revalidate: false },
+        );
+
+        return runOptimisticSend(key, tempId, () =>
+          performImageSend(key, tempId, file, localImageUrl),
+        );
       }
 
       const trimmedContent = target.content.trim();
@@ -189,10 +318,17 @@ export const useSendMessage = (roomId: string | null | undefined) => {
         { revalidate: false },
       );
 
-      return runSend(key, tempId, content);
+      return runOptimisticSend(key, tempId, () => performTextSend(content));
     },
-    [cache, mutate, roomId, runSend],
+    [
+      cache,
+      mutate,
+      roomId,
+      runOptimisticSend,
+      performTextSend,
+      performImageSend,
+    ],
   );
 
-  return { send, retry, error };
+  return { send, sendImage, retry, error };
 };

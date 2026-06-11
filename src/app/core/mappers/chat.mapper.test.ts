@@ -12,23 +12,60 @@ import {
   type RoomRow,
 } from './chat.mapper';
 
-describe('normalizeMessage', () => {
-  it('converts snake_case columns to camelCase fields', () => {
-    const row: MessageRow = {
-      id: 'm-1',
-      room_id: 'r-1',
-      sender_id: 'u-1',
-      content: 'hi',
-      created_at: '2026-05-29T12:00:00Z',
-    };
+const baseMessageRow = (): MessageRow => ({
+  id: 'm-1',
+  room_id: 'r-1',
+  sender_id: 'u-1',
+  content: 'hi',
+  created_at: '2026-05-29T12:00:00Z',
+  type: 'text',
+  storage_path: null,
+  file_name: null,
+  file_size: null,
+  mime_type: null,
+});
 
-    expect(normalizeMessage(row)).toEqual({
+describe('normalizeMessage', () => {
+  it('converts snake_case columns to camelCase fields for text message', () => {
+    expect(normalizeMessage(baseMessageRow())).toEqual({
       id: 'm-1',
       roomId: 'r-1',
       senderId: 'u-1',
       content: 'hi',
       createdAt: '2026-05-29T12:00:00Z',
+      type: 'text',
+      storagePath: null,
+      fileName: null,
+      fileSize: null,
+      mimeType: null,
     });
+  });
+
+  it('defaults content to empty string when null (image message)', () => {
+    const row: MessageRow = {
+      ...baseMessageRow(),
+      content: null,
+      type: 'image',
+      storage_path: 'rooms/r-1/u-1/123-img.jpg',
+      file_name: 'img.jpg',
+      file_size: 10240,
+      mime_type: 'image/jpeg',
+    };
+
+    const result = normalizeMessage(row);
+
+    expect(result.content).toBe('');
+    expect(result.type).toBe('image');
+    expect(result.storagePath).toBe('rooms/r-1/u-1/123-img.jpg');
+    expect(result.fileName).toBe('img.jpg');
+    expect(result.fileSize).toBe(10240);
+    expect(result.mimeType).toBe('image/jpeg');
+  });
+
+  it('defaults type to "text" when row.type is missing', () => {
+    // Simulates rows inserted before the migration
+    const row = { ...baseMessageRow(), type: undefined as unknown as 'text' };
+    expect(normalizeMessage(row).type).toBe('text');
   });
 });
 

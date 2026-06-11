@@ -72,22 +72,37 @@ export interface Database {
           id: string;
           room_id: string;
           sender_id: string;
-          content: string;
+          content: string | null;
           created_at: string;
+          type: 'text' | 'image';
+          storage_path: string | null;
+          file_name: string | null;
+          file_size: number | null;
+          mime_type: string | null;
         };
         Insert: {
           id?: string;
           room_id: string;
           sender_id: string;
-          content: string;
+          content?: string | null;
           created_at?: string;
+          type?: 'text' | 'image';
+          storage_path?: string | null;
+          file_name?: string | null;
+          file_size?: number | null;
+          mime_type?: string | null;
         };
         Update: {
           id?: string;
           room_id?: string;
           sender_id?: string;
-          content?: string;
+          content?: string | null;
           created_at?: string;
+          type?: 'text' | 'image';
+          storage_path?: string | null;
+          file_name?: string | null;
+          file_size?: number | null;
+          mime_type?: string | null;
         };
         Relationships: [
           {
@@ -134,6 +149,16 @@ export interface Database {
       };
       send_message: {
         Args: { p_room_id: string; p_content: string };
+        Returns: Database['public']['Tables']['messages']['Row'];
+      };
+      send_image_message: {
+        Args: {
+          p_room_id: string;
+          p_storage_path: string;
+          p_file_name?: string | null;
+          p_file_size?: number | null;
+          p_mime_type?: string | null;
+        };
         Returns: Database['public']['Tables']['messages']['Row'];
       };
       mark_room_read: {

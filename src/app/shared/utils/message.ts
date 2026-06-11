@@ -1,5 +1,6 @@
 import {
   MESSAGE_DELIVERY_STATUS,
+  MESSAGE_TYPE,
   type OptimisticMessage,
 } from '@app/core/services/message.service';
 
@@ -14,7 +15,17 @@ const isMatchingTemp = (
   if (!temp.tempId) return false;
   if (temp.status !== MESSAGE_DELIVERY_STATUS.SENDING) return false;
   if (temp.senderId !== incoming.senderId) return false;
-  if (temp.content.trim() !== incoming.content.trim()) return false;
+
+  if (
+    temp.type === MESSAGE_TYPE.IMAGE &&
+    incoming.type === MESSAGE_TYPE.IMAGE
+  ) {
+    if (!temp.storagePath || temp.storagePath !== incoming.storagePath)
+      return false;
+  } else {
+    if (temp.content.trim() !== incoming.content.trim()) return false;
+  }
+
   const tempTime = new Date(temp.createdAt).getTime();
   const incomingTime = new Date(incoming.createdAt).getTime();
   return Math.abs(incomingTime - tempTime) <= RECONCILE_WINDOW_MS;

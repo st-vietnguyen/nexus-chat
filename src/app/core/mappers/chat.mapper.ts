@@ -1,10 +1,12 @@
 import type { Database } from '@app/types/database';
-import type {
-  Message,
-  Profile,
-  Room,
-  RoomMember,
-  RoomListItem,
+import {
+  MESSAGE_TYPE,
+  type Message,
+  type MessageType,
+  type Profile,
+  type Room,
+  type RoomMember,
+  type RoomListItem,
 } from '@app/types/chat';
 
 export type MessageRow = Database['public']['Tables']['messages']['Row'];
@@ -16,8 +18,13 @@ export const normalizeMessage = (row: MessageRow): Message => ({
   id: row.id,
   roomId: row.room_id,
   senderId: row.sender_id,
-  content: row.content,
+  content: row.content ?? '',
   createdAt: row.created_at,
+  type: (row.type ?? MESSAGE_TYPE.TEXT) as MessageType,
+  storagePath: row.storage_path ?? null,
+  fileName: row.file_name ?? null,
+  fileSize: row.file_size ?? null,
+  mimeType: row.mime_type ?? null,
 });
 
 export const normalizeMessages = (rows: MessageRow[]): Message[] =>

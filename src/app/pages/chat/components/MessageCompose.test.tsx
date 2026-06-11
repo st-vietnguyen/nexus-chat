@@ -120,3 +120,140 @@ describe('MessageCompose', () => {
     expect(onSend).toHaveBeenCalledWith('hello');
   });
 });
+
+// ---------------------------------------------------------------------------
+// Image send tests
+// ---------------------------------------------------------------------------
+
+const makeImageFile = (name = 'photo.jpg', type = 'image/jpeg') =>
+  new File([new Uint8Array(1024)], name, { type });
+
+const getFileInput = () =>
+  document.querySelector('input[type="file"]') as HTMLInputElement;
+
+describe('MessageCompose — image upload', () => {
+  it('shows image preview after file selection', async () => {
+    render(<MessageCompose onSend={vi.fn()} onSendImage={vi.fn()} />);
+
+    const file = makeImageFile();
+    Object.defineProperty(getFileInput(), 'files', {
+      value: [file],
+      writable: false,
+    });
+    fireEvent.change(getFileInput());
+
+    await waitFor(() =>
+      expect(screen.getByAltText('photo.jpg')).toBeInTheDocument(),
+    );
+  });
+
+  it('shows previews for multiple selected files', async () => {
+    render(<MessageCompose onSend={vi.fn()} onSendImage={vi.fn()} />);
+
+    const file1 = makeImageFile('a.jpg');
+    const file2 = makeImageFile('b.png', 'image/png');
+    Object.defineProperty(getFileInput(), 'files', {
+      value: [file1, file2],
+      writable: false,
+    });
+    fireEvent.change(getFileInput());
+
+    await waitFor(() => {
+      expect(screen.getByAltText('a.jpg')).toBeInTheDocument();
+      expect(screen.getByAltText('b.png')).toBeInTheDocument();
+    });
+  });
+
+  it('removes individual image preview when its remove button is clicked', async () => {
+    render(<MessageCompose onSend={vi.fn()} onSendImage={vi.fn()} />);
+
+    const file1 = makeImageFile('a.jpg');
+    const file2 = makeImageFile('b.png', 'image/png');
+    Object.defineProperty(getFileInput(), 'files', {
+      value: [file1, file2],
+      writable: false,
+    });
+    fireEvent.change(getFileInput());
+
+    await waitFor(() =>
+      expect(screen.getByAltText('a.jpg')).toBeInTheDocument(),
+    );
+
+    // Click the first remove button (removes a.jpg)
+    const removeButtons = screen.getAllByLabelText('compose.removeImage');
+    fireEvent.click(removeButtons[0]);
+
+    await waitFor(() =>
+      expect(screen.queryByAltText('a.jpg')).not.toBeInTheDocument(),
+    );
+    expect(screen.getByAltText('b.png')).toBeInTheDocument();
+  });
+
+  it('calls onSendImage once per image when multiple images selected', async () => {
+    const onSend = vi.fn();
+    const onSendImage = vi.fn();
+    render(<MessageCompose onSend={onSend} onSendImage={onSendImage} />);
+
+    const file1 = makeImageFile('a.jpg');
+    const file2 = makeImageFile('b.png', 'image/png');
+    Object.defineProperty(getFileInput(), 'files', {
+      value: [file1, file2],
+      writable: false,
+    });
+    fireEvent.change(getFileInput());
+
+    await waitFor(() =>
+      expect(screen.getByAltText('a.jpg')).toBeInTheDocument(),
+    );
+
+    fireEvent.click(screen.getByLabelText('compose.send'));
+
+    await waitFor(() => expect(onSendImage).toHaveBeenCalledTimes(2));
+    expect(onSendImage).toHaveBeenCalledWith(file1);
+    expect(onSendImage).toHaveBeenCalledWith(file2);
+    expect(onSend).not.toHaveBeenCalled();
+  });
+
+  it('calls onSendImage (not onSend) when single image selected and send clicked', async () => {
+    const onSend = vi.fn();
+    const onSendImage = vi.fn();
+    render(<MessageCompose onSend={onSend} onSendImage={onSendImage} />);
+
+    const file = makeImageFile();
+    Object.defineProperty(getFileInput(), 'files', {
+      value: [file],
+      writable: false,
+    });
+    fireEvent.change(getFileInput());
+
+    await waitFor(() =>
+      expect(screen.getByAltText('photo.jpg')).toBeInTheDocument(),
+    );
+
+    fireEvent.click(screen.getByLabelText('compose.send'));
+
+    await waitFor(() => expect(onSendImage).toHaveBeenCalledWith(file));
+    expect(onSend).not.toHaveBeenCalled();
+  });
+
+  it('does not send when no image and no text', () => {
+    const onSend = vi.fn();
+    const onSendImage = vi.fn();
+    render(<MessageCompose onSend={onSend} onSendImage={onSendImage} />);
+
+    fireEvent.click(screen.getByLabelText('compose.send'));
+
+    expect(onSend).not.toHaveBeenCalled();
+    expect(onSendImage).not.toHaveBeenCalled();
+  });
+
+  it('text send still works when no image is selected', () => {
+    const onSend = vi.fn();
+    render(<MessageCompose onSend={onSend} onSendImage={vi.fn()} />);
+
+    typeIn(getTextarea(), 'hello image test');
+    fireEvent.keyDown(getTextarea(), { key: 'Enter' });
+
+    expect(onSend).toHaveBeenCalledWith('hello image test');
+  });
+});

@@ -17,7 +17,7 @@ interface ChatRoomPanelProps {
 
 export const ChatRoomPanel = ({ roomId }: ChatRoomPanelProps) => {
   const { user } = useAuth();
-  const { send, retry } = useSendMessage(roomId);
+  const { send, sendImage, retry } = useSendMessage(roomId);
   const { data: rooms } = useJoinedRooms();
   const room = useMemo(
     () => rooms?.find((r) => r.id === roomId),
@@ -41,7 +41,11 @@ export const ChatRoomPanel = ({ roomId }: ChatRoomPanelProps) => {
         <MessageList roomId={roomId} onRetry={retry} />
         <TypingIndicator count={typingUserIds.length} />
       </div>
-      <MessageCompose onSend={send} onTyping={notifyTyping} />
+      <MessageCompose
+        onSend={send}
+        onSendImage={sendImage}
+        onTyping={notifyTyping}
+      />
     </section>
   );
 };

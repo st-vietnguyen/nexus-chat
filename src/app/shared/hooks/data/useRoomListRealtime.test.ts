@@ -27,6 +27,7 @@ const msg = (overrides: Partial<Message>): Message => ({
   senderId: PEER,
   content: 'hi',
   createdAt: '2026-05-29T11:00:00Z',
+  type: 'text',
   ...overrides,
 });
 

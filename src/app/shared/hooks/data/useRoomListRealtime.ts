@@ -3,7 +3,7 @@ import { useSWRConfig } from 'swr';
 import type { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
 import { supabase } from '@app/libs/supabase/client';
 import { useAuth } from '@app/shared/contexts/auth.context';
-import type { Message } from '@app/core/services/message.service';
+import { MESSAGE_TYPE, type Message } from '@app/core/services/message.service';
 import type { RoomListItem } from '@app/core/services/room.service';
 import {
   normalizeMessage,
@@ -11,6 +11,7 @@ import {
 } from '@app/core/mappers/chat.mapper';
 import { REALTIME_EVENT, REALTIME_SUBSCRIBE_STATES } from '@app/types';
 import { TABLES } from '@app/constants/supabase';
+import i18n from '@app/core/services/i18n.service';
 
 interface ApplyMessageOptions {
   activeRoomId?: string | null;
@@ -52,7 +53,10 @@ export const applyMessageToRoomList = (
   const updated: RoomListItem = {
     ...existing,
     lastMessageAt: message.createdAt,
-    lastMessagePreview: message.content,
+    lastMessagePreview:
+      message.type === MESSAGE_TYPE.IMAGE
+        ? i18n.t('chat:messages.imagePreview')
+        : message.content,
     unreadCount: Math.max(0, nextUnread),
   };
 
