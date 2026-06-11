@@ -9,17 +9,30 @@ export const MESSAGE_DELIVERY_STATUS = {
 export type MessageDeliveryStatus =
   (typeof MESSAGE_DELIVERY_STATUS)[keyof typeof MESSAGE_DELIVERY_STATUS];
 
+export const MESSAGE_TYPE = {
+  TEXT: 'text',
+  IMAGE: 'image',
+} as const;
+
+export type MessageType = (typeof MESSAGE_TYPE)[keyof typeof MESSAGE_TYPE];
+
 export interface Message {
   id: string;
   roomId: string;
   senderId: string;
   content: string;
   createdAt: string;
+  type: MessageType;
+  storagePath?: string | null;
+  fileName?: string | null;
+  fileSize?: number | null;
+  mimeType?: string | null;
 }
 
 export interface OptimisticMessage extends Message {
   status?: MessageDeliveryStatus;
   tempId?: string;
+  localImageUrl?: string;
 }
 
 export interface Room {

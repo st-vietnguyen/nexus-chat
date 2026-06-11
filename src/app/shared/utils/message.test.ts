@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
   MESSAGE_DELIVERY_STATUS,
+  MESSAGE_TYPE,
   type OptimisticMessage,
 } from '@app/core/services/message.service';
 import { reconcileIncomingMessage, sortPageDesc } from './message';
@@ -12,6 +13,7 @@ const baseMsg = (overrides: Partial<OptimisticMessage>): OptimisticMessage => ({
   content: 'hello',
   createdAt: '2026-05-29T12:00:00.000Z',
   status: MESSAGE_DELIVERY_STATUS.SENT,
+  type: MESSAGE_TYPE.TEXT,
   ...overrides,
 });
 
@@ -89,6 +91,56 @@ describe('reconcileIncomingMessage', () => {
     const incoming = baseMsg({ id: 'msg-real' });
     const [page] = reconcileIncomingMessage([], incoming);
     expect(page).toEqual([incoming]);
+  });
+
+  it('matches SENDING image temp by storagePath, not content', () => {
+    const storagePath = 'rooms/r/u/123-img.jpg';
+    const temp: OptimisticMessage = baseMsg({
+      id: 'temp-img',
+      tempId: 'temp-img',
+      content: '',
+      type: MESSAGE_TYPE.IMAGE,
+      storagePath,
+      status: MESSAGE_DELIVERY_STATUS.SENDING,
+    });
+    const pages = [[temp]];
+
+    const incoming: OptimisticMessage = baseMsg({
+      id: 'server-img',
+      content: '',
+      type: MESSAGE_TYPE.IMAGE,
+      storagePath,
+      createdAt: '2026-05-29T12:00:01.000Z',
+    });
+
+    const [page] = reconcileIncomingMessage(pages, incoming);
+
+    expect(page).toHaveLength(1);
+    expect(page[0].id).toBe('server-img');
+  });
+
+  it('does not match image temp when storagePaths differ', () => {
+    const temp: OptimisticMessage = baseMsg({
+      id: 'temp-img',
+      tempId: 'temp-img',
+      content: '',
+      type: MESSAGE_TYPE.IMAGE,
+      storagePath: 'rooms/r/u/123-a.jpg',
+      status: MESSAGE_DELIVERY_STATUS.SENDING,
+    });
+    const pages = [[temp]];
+
+    const incoming: OptimisticMessage = baseMsg({
+      id: 'server-img',
+      content: '',
+      type: MESSAGE_TYPE.IMAGE,
+      storagePath: 'rooms/r/u/456-b.jpg',
+    });
+
+    const [page] = reconcileIncomingMessage(pages, incoming);
+
+    // Both should be present — no match → prepend
+    expect(page).toHaveLength(2);
   });
 });
 

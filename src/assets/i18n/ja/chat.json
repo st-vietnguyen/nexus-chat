@@ -39,7 +39,9 @@
     "empty": "まだメッセージはありません。挨拶しましょう！",
     "loadingMore": "読み込み中...",
     "sending": "送信中...",
-    "failedTapRetry": "送信に失敗しました。タップして再試行。"
+    "failedTapRetry": "送信に失敗しました。タップして再試行。",
+    "imageAlt": "画像",
+    "imagePreview": "画像"
   },
   "time": {
     "justNow": "たった今",
@@ -70,7 +72,9 @@
     "send": "送信",
     "attach": "ファイルを添付",
     "image": "画像を追加",
-    "emoji": "絵文字を追加"
+    "emoji": "絵文字を追加",
+    "removeImage": "画像を削除",
+    "imageTooLarge": "（5 MBを超えています）"
   },
   "editProfile": {
     "title": "プロフィール編集",

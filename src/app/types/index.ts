@@ -11,6 +11,8 @@ export {
 export {
   MESSAGE_DELIVERY_STATUS,
   type MessageDeliveryStatus,
+  MESSAGE_TYPE,
+  type MessageType,
   type Message,
   type OptimisticMessage,
   type Room,

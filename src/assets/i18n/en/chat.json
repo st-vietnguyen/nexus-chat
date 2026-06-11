@@ -39,7 +39,9 @@
     "empty": "No messages yet. Say hi!",
     "loadingMore": "Loading...",
     "sending": "Sending...",
-    "failedTapRetry": "Failed to send. Tap to retry."
+    "failedTapRetry": "Failed to send. Tap to retry.",
+    "imageAlt": "Image",
+    "imagePreview": "Image"
   },
   "time": {
     "justNow": "just now",
@@ -70,7 +72,9 @@
     "send": "Send",
     "attach": "Attach file",
     "image": "Add image",
-    "emoji": "Add emoji"
+    "emoji": "Add emoji",
+    "removeImage": "Remove image",
+    "imageTooLarge": "(exceeds 5 MB)"
   },
   "editProfile": {
     "title": "Edit Profile",
