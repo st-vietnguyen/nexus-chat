@@ -8,14 +8,9 @@ $button-colors: (
   danger: map.get(variables.$color, danger),
 );
 
-$btn-primary-gradient: linear-gradient(
-  135deg,
-  map.get(variables.$color, primary),
-  map.get(variables.$color, secondary)
-);
 $btn-primary-disabled-bg: rgba(map.get(variables.$color, primary), 0.4);
-$btn-surface-bg: rgba(255, 255, 255, 0.5);
-$btn-surface-hover: rgba(255, 255, 255, 0.7);
+$btn-surface-bg: map.get(variables.$glass, surface);
+$btn-surface-hover: map.get(variables.$glass, surface-strong);
 
 $button-sizes: (
   "sm": (
@@ -43,20 +38,18 @@ $button-sizes: (
 .btn {
   @include mixins.pxRem(border-radius, map.get(variables.$border-radius, md));
   @include mixins.pxRem(height, 46);
+  @include mixins.flex-center;
   border: none;
   outline: none;
   cursor: pointer;
   user-select: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   // default size
   padding: list.nth(map.get($button-sizes, "md"), 1)
     list.nth(map.get($button-sizes, "md"), 2);
   font-size: list.nth(map.get($button-sizes, "md"), 3);
 
   &-primary {
-    background: $btn-primary-gradient;
+    @include mixins.gradient-primary;
     color: map.get(variables.$color, white);
     transition: opacity 0.3s;
 

@@ -14,10 +14,8 @@
       height,
       map.get(variables.$layout, header-basic-height)
     );
+    @include mixins.flex-center;
     width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     position: static;
     .logo {
       @include mixins.pxRem(height, 70);

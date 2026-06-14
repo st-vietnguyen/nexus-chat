@@ -4,9 +4,6 @@ import { useDirectPeer } from '@app/shared/hooks/data/useDirectPeer';
 import { usePresence } from '@app/shared/contexts/presence.context';
 import { ROOM_TYPE } from '@app/types';
 import type { RoomListItem } from '@app/core/services/room.service';
-import CallIcon from '@assets/icons/ic-call.svg?react';
-import VideocamIcon from '@assets/icons/ic-videocam.svg?react';
-import MoreVertIcon from '@assets/icons/ic-more-vert.svg?react';
 import { Avatar } from './Avatar';
 import { ChatRoomHeaderSkeleton } from './ChatRoomHeaderSkeleton';
 
@@ -55,7 +52,7 @@ export const ChatRoomHeader = ({ room }: ChatRoomHeaderProps) => {
         )}
       </div>
 
-      <div className="chat-room-header-actions">
+      {/* <div className="chat-room-header-actions">
         <button
           type="button"
           className="chat-room-header-action-btn"
@@ -77,7 +74,7 @@ export const ChatRoomHeader = ({ room }: ChatRoomHeaderProps) => {
         >
           <MoreVertIcon />
         </button>
-      </div>
+      </div> */}
     </header>
   );
 };

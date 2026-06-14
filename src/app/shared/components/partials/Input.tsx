@@ -82,7 +82,11 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
             </label>
           )}
         </div>
-        {isShowError() && <span className="msg-error">{errorMsg}</span>}
+        {isShowError() && (
+          <span className="alert alert-error alert-inline" role="alert">
+            {errorMsg}
+          </span>
+        )}
       </div>
     );
   },

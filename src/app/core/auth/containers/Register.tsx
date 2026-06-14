@@ -261,7 +261,7 @@ const Register = () => {
             data-testid="avatar-input"
           />
           {avatarError && (
-            <span className="msg-error" role="alert">
+            <span className="alert alert-error alert-inline" role="alert">
               {avatarError}
             </span>
           )}
@@ -307,7 +307,7 @@ const Register = () => {
 
         {status && (
           <div
-            className={`auth-alert auth-alert-${status.type}`}
+            className={`alert alert-${status.type}`}
             role={status.type === 'error' ? 'alert' : 'status'}
           >
             {status.msg}

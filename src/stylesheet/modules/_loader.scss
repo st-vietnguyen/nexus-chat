@@ -4,7 +4,7 @@
 .loader {
   width: 8px;
   height: 40px;
-  border-radius: 4px;
+  border-radius: map.get(variables.$border-radius, sm);
   display: block;
   margin: 20px auto;
   position: relative;
@@ -18,7 +18,7 @@
     content: "";
     width: 8px;
     height: 40px;
-    border-radius: 4px;
+    border-radius: map.get(variables.$border-radius, sm);
     background: currentColor;
     position: absolute;
     top: 50%;

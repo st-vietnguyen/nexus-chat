@@ -1,11 +1,9 @@
 @use "sass:map";
 @use "../base/variables" as vars;
+@use "../base/mixins" as mixins;
 
 $gradient-pink: map.get(vars.$color, primary);
 $gradient-orange: map.get(vars.$color, secondary);
-$glass-bg: rgba(map.get(vars.$color, surface), 0.4);
-$glass-border: rgba(255, 255, 255, 0.3);
-$glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 
 .chat-page {
   position: fixed;
@@ -32,6 +30,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 }
 
 .side-nav {
+  @include mixins.glass-surface;
   position: fixed;
   top: 8px;
   bottom: 8px;
@@ -42,13 +41,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   align-items: center;
   justify-content: space-between;
   padding: 32px 0;
-  background: $glass-bg;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid $glass-border;
-  border-radius: 2rem;
-  box-shadow: $glass-shadow;
-  z-index: 50;
+  z-index: map.get(vars.$z-index, side-nav);
 
   &-brand {
     display: flex;
@@ -58,28 +51,17 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid map.get(vars.$color, primary);
+    @include mixins.avatar-circle(
+      $size: 48px,
+      $bg: rgba(255, 255, 255, 0.6),
+      $border: 2px solid map.get(vars.$color, primary)
+    );
     padding: 2px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgba(255, 255, 255, 0.6);
     cursor: pointer;
     transition: opacity 0.2s ease;
 
     &:hover {
       opacity: 0.8;
-    }
-
-    img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-      object-fit: cover;
     }
 
     .material-symbols-outlined {
@@ -99,22 +81,21 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-item {
+    @include mixins.flex-center;
     width: 100%;
     height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border: none;
     background: transparent;
     color: map.get(vars.$color, text-secondary);
-    border-radius: 9999px;
+    border-radius: map.get(vars.$border-radius, rounded);
+    font-size: 18px;
     cursor: pointer;
     transition:
       background 0.2s ease,
       transform 0.1s ease;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.4);
+      background: map.get(vars.$glass, surface-soft);
     }
 
     &:active {
@@ -122,12 +103,12 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     }
 
     &-active {
-      background: linear-gradient(135deg, $gradient-pink, $gradient-orange);
+      @include mixins.gradient-primary;
       color: map.get(vars.$color, white);
       box-shadow: 0 4px 12px rgba($gradient-pink, 0.3);
 
       &:hover {
-        background: linear-gradient(135deg, $gradient-pink, $gradient-orange);
+        @include mixins.gradient-primary;
       }
     }
   }
@@ -146,21 +127,16 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 }
 
 .room-sidebar {
+  @include mixins.glass-surface;
   width: 320px;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  background: $glass-bg;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid $glass-border;
-  border-radius: 2rem;
-  box-shadow: $glass-shadow;
   overflow: hidden;
 
   &-header {
     padding: 24px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid map.get(vars.$glass, border-soft);
 
     .typo-h1 {
       font-size: 32px;
@@ -184,25 +160,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     }
 
     &-input {
-      width: 100%;
-      padding: 12px 16px 12px 48px;
-      background: rgba(255, 255, 255, 0.5);
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      border-radius: 9999px;
-      font-family: inherit;
-      font-size: 16px;
-      font-weight: 500;
-      color: map.get(vars.$color, text-primary);
-      transition: border-color 0.2s ease;
-
-      &::placeholder {
-        color: map.get(vars.$color, text-secondary);
-      }
-
-      &:focus {
-        outline: none;
-        border-color: map.get(vars.$color, primary);
-      }
+      @include mixins.pill-input($padding: 12px 16px 12px 48px);
     }
   }
 
@@ -237,12 +195,12 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     border-color 0.2s ease;
 
   &:hover {
-    background: rgba(255, 255, 255, 0.4);
+    background: map.get(vars.$glass, surface-soft);
   }
 
   &-active {
     background: rgba(255, 255, 255, 0.55);
-    border-color: rgba(255, 255, 255, 0.7);
+    border-color: map.get(vars.$glass, surface-strong);
 
     &:hover {
       background: rgba(255, 255, 255, 0.65);
@@ -255,21 +213,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.6);
-    border: 2px solid map.get(vars.$color, white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    @include mixins.avatar-circle($size: 48px, $bg: rgba(255, 255, 255, 0.6));
 
     svg,
     .material-symbols-outlined {
@@ -278,14 +222,10 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-status-dot {
+    @include mixins.status-dot;
     position: absolute;
     bottom: 0;
     right: 0;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: map.get(vars.$color, success);
-    border: 2px solid rgba(255, 255, 255, 0.95);
   }
 
   &-body {
@@ -302,13 +242,11 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-name {
+    @include mixins.ellipsis-1;
     margin: 0;
     font-size: 16px;
     font-weight: 700;
     color: map.get(vars.$color, text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     min-width: 0;
   }
 
@@ -325,28 +263,22 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-preview {
+    @include mixins.ellipsis-1;
     margin: 0;
     font-size: 14px;
     font-weight: 500;
     color: map.get(vars.$color, text-secondary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     flex: 1;
     min-width: 0;
   }
 
   &-unread {
+    @include mixins.gradient-primary;
     flex-shrink: 0;
     min-width: 20px;
     height: 20px;
     padding: 0 6px;
-    border-radius: 999px;
-    background: linear-gradient(
-      135deg,
-      $gradient-pink 0%,
-      $gradient-orange 100%
-    );
+    border-radius: map.get(vars.$border-radius, rounded);
     color: map.get(vars.$color, white);
     font-size: 11px;
     font-weight: 700;
@@ -357,24 +289,19 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 }
 
 .room-list-empty {
+  @include mixins.flex-center-col;
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   padding: 32px;
   text-align: center;
   gap: 8px;
 
   &-icon {
+    @include mixins.flex-center;
     width: 96px;
     height: 96px;
     margin-bottom: 24px;
-    border-radius: 50%;
+    border-radius: map.get(vars.$border-radius, rounded);
     background: rgba(255, 217, 225, 0.5);
-    display: flex;
-    align-items: center;
-    justify-content: center;
 
     .material-symbols-outlined {
       font-size: 40px;
@@ -388,15 +315,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 }
 
 .room-list-status {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 32px;
-  color: map.get(vars.$color, text-secondary);
-  font-size: 14px;
-  font-weight: 500;
+  @include mixins.status-panel;
 
   &-error {
     color: map.get(vars.$color, danger-text);
@@ -404,17 +323,9 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 }
 
 .chat-panel {
+  @include mixins.glass-surface;
+  @include mixins.flex-center-col;
   flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  background: $glass-bg;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid $glass-border;
-  border-radius: 2rem;
-  box-shadow: $glass-shadow;
   position: relative;
   overflow: hidden;
 
@@ -439,7 +350,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 
   &-bubble {
     position: absolute;
-    border-radius: 50%;
+    border-radius: map.get(vars.$border-radius, rounded);
     filter: blur(48px);
     pointer-events: none;
 
@@ -473,20 +384,18 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-card {
+    @include mixins.flex-center;
     width: 192px;
     height: 192px;
     margin-bottom: 32px;
-    border-radius: 2rem;
+    border-radius: map.get(vars.$border-radius, xxl);
     background: linear-gradient(
       135deg,
       rgba(255, 255, 255, 0.6),
       rgba(255, 255, 255, 0.2)
     );
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    border: 1px solid map.get(vars.$glass, border-strong);
+    box-shadow: map.get(vars.$shadow, card);
     position: relative;
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
@@ -503,12 +412,10 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     }
 
     &-dot {
+      @include mixins.flex-center;
       position: absolute;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-radius: map.get(vars.$border-radius, rounded);
+      box-shadow: map.get(vars.$shadow, dot);
 
       &-pink {
         top: -16px;
@@ -539,29 +446,14 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   align-items: center;
   gap: 16px;
   padding: 16px 24px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid map.get(vars.$glass, border-soft);
+  background: map.get(vars.$glass, surface-trace);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   flex-shrink: 0;
 
   &-avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.6);
-    border: 2px solid map.get(vars.$color, white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    flex-shrink: 0;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    @include mixins.avatar-circle($size: 40px, $bg: rgba(255, 255, 255, 0.6));
 
     svg {
       color: map.get(vars.$color, text-muted);
@@ -577,14 +469,12 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-name {
+    @include mixins.ellipsis-1;
     margin: 0;
     font-size: 24px;
     font-weight: 600;
     line-height: 1.2;
     color: map.get(vars.$color, text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   &-status {
@@ -599,10 +489,11 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-status-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: map.get(vars.$color, secondary);
+    @include mixins.status-dot(
+      $size: 8px,
+      $color: map.get(vars.$color, secondary),
+      $ring: null
+    );
     display: inline-block;
   }
 
@@ -622,35 +513,12 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-action-btn {
-    width: 40px;
-    height: 40px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: map.get(vars.$color, primary);
-    transition:
-      background 0.2s ease,
-      color 0.2s ease,
-      transform 0.1s ease;
-
-    .material-symbols-outlined {
-      font-size: 22px;
-    }
+    @include mixins.action-btn-circle;
+    border: 1px solid map.get(vars.$glass, border-soft);
+    font-size: 16px;
 
     &:last-child {
       color: map.get(vars.$color, text-secondary);
-    }
-
-    &:hover {
-      background: rgba(255, 255, 255, 0.5);
-    }
-
-    &:active {
-      transform: scale(0.94);
     }
   }
 }
@@ -673,22 +541,10 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-action-btn {
-    width: 36px;
-    height: 36px;
-    border: none;
-    background: transparent;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: map.get(vars.$color, primary);
-    transition:
-      background 0.2s ease,
-      color 0.2s ease;
+    @include mixins.action-btn-circle($size: 36px, $bg: transparent);
+    font-size: 16px;
 
     &:hover {
-      background: rgba(255, 255, 255, 0.5);
       color: map.get(vars.$color, primary-dark);
     }
   }
@@ -701,8 +557,8 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   &-input {
     width: 100%;
     padding: 10px 16px;
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    background: map.get(vars.$glass, surface);
+    border: 1px solid map.get(vars.$glass, surface-soft);
     border-radius: 22px;
     font-family: inherit;
     font-size: 14px;
@@ -727,29 +583,19 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-send {
-    width: 44px;
-    height: 44px;
-    border: none;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include mixins.action-btn-circle(
+      $size: 44px,
+      $color: map.get(vars.$color, text-muted)
+    );
     flex-shrink: 0;
-    cursor: pointer;
-    background: rgba(255, 255, 255, 0.3);
-    color: map.get(vars.$color, text-muted);
-    transition:
-      background 0.2s ease,
-      transform 0.1s ease,
-      box-shadow 0.2s ease;
 
     &:disabled {
       cursor: not-allowed;
     }
 
     &-active {
-      background: linear-gradient(135deg, $gradient-pink, $gradient-orange);
-      box-shadow: 0 4px 12px rgba($gradient-pink, 0.35);
+      @include mixins.gradient-primary;
+      box-shadow: map.get(vars.$shadow, cta);
       color: map.get(vars.$color, white);
 
       &:hover {
@@ -789,25 +635,23 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     &-img {
       width: 80px;
       height: 80px;
-      border-radius: 0.75rem;
+      border-radius: map.get(vars.$border-radius, lg);
       object-fit: cover;
       border: 2px solid rgba(255, 255, 255, 0.6);
       display: block;
     }
 
     &-remove {
+      @include mixins.flex-center;
       position: absolute;
       top: -6px;
       right: -6px;
       width: 20px;
       height: 20px;
-      border-radius: 50%;
+      border-radius: map.get(vars.$border-radius, rounded);
       border: none;
       background: rgba(0, 0, 0, 0.55);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      color: map.get(vars.$color, white);
       cursor: pointer;
       padding: 0;
       transition: background 0.15s ease;
@@ -846,17 +690,8 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 }
 
 .message-list-status {
+  @include mixins.status-panel;
   margin: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  padding: 32px;
-  color: map.get(vars.$color, text-secondary);
-  font-size: 14px;
-  font-weight: 500;
-  text-align: center;
 
   p {
     margin: 0;
@@ -930,7 +765,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     &:focus-visible {
       outline: 2px solid currentColor;
       outline-offset: 2px;
-      border-radius: 4px;
+      border-radius: map.get(vars.$border-radius, sm);
     }
   }
 
@@ -949,7 +784,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   display: flex;
   flex-direction: column;
   gap: 4px;
-  box-shadow: 0 4px 12px rgba($gradient-pink, 0.08);
+  box-shadow: map.get(vars.$shadow, bubble);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 
@@ -970,16 +805,16 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-own {
-    background: linear-gradient(135deg, $gradient-pink, $gradient-orange);
+    @include mixins.gradient-primary;
     color: map.get(vars.$color, white);
-    border-bottom-right-radius: 0.5rem;
+    border-bottom-right-radius: map.get(vars.$border-radius, md);
   }
 
   &-other {
-    background: rgba(255, 255, 255, 0.7);
+    background: map.get(vars.$glass, surface-strong);
     color: map.get(vars.$color, text-primary);
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-bottom-left-radius: 0.5rem;
+    border: 1px solid map.get(vars.$glass, border-strong);
+    border-bottom-left-radius: map.get(vars.$border-radius, md);
   }
 
   &-pending {
@@ -1009,8 +844,8 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     width: 200px;
     height: 140px;
     border-radius: 1.25rem;
-    background: rgba(255, 255, 255, 0.4);
-    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: map.get(vars.$glass, surface-soft);
+    border: 1px solid map.get(vars.$glass, border);
   }
 
   &-time {
@@ -1024,7 +859,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   &-own {
     .message-image-bubble-img,
     .message-image-bubble-placeholder {
-      border-bottom-right-radius: 0.5rem;
+      border-bottom-right-radius: map.get(vars.$border-radius, md);
     }
 
     .message-image-bubble-time {
@@ -1035,7 +870,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   &-other {
     .message-image-bubble-img,
     .message-image-bubble-placeholder {
-      border-bottom-left-radius: 0.5rem;
+      border-bottom-left-radius: map.get(vars.$border-radius, md);
     }
   }
 
@@ -1057,32 +892,25 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 }
 
 .message-skeleton {
+  @include mixins.shimmer(
+    $from: map.get(vars.$glass, surface-soft),
+    $to: map.get(vars.$glass, surface-strong)
+  );
   height: 40px;
   border-radius: 1.25rem;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(255, 255, 255, 0.7) 50%,
-    rgba(255, 255, 255, 0.4) 100%
-  );
-  background-size: 200% 100%;
-  animation: message-skeleton-shimmer 1.4s ease-in-out infinite;
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid map.get(vars.$glass, border-strong);
 
   &-own {
-    background: linear-gradient(
-      90deg,
-      rgba($gradient-pink, 0.3) 0%,
-      rgba($gradient-orange, 0.5) 50%,
-      rgba($gradient-pink, 0.3) 100%
+    @include mixins.shimmer(
+      $from: rgba($gradient-pink, 0.3),
+      $to: rgba($gradient-orange, 0.5)
     );
-    background-size: 200% 100%;
     border: none;
-    border-bottom-right-radius: 0.5rem;
+    border-bottom-right-radius: map.get(vars.$border-radius, md);
   }
 
   &-other {
-    border-bottom-left-radius: 0.5rem;
+    border-bottom-left-radius: map.get(vars.$border-radius, md);
   }
 
   &-w1 {
@@ -1098,32 +926,16 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 }
 
-@keyframes message-skeleton-shimmer {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
 .skeleton-line {
+  @include mixins.shimmer;
   display: inline-block;
   height: 12px;
   width: 50%;
   border-radius: 6px;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.08) 0%,
-    rgba(0, 0, 0, 0.16) 50%,
-    rgba(0, 0, 0, 0.08) 100%
-  );
-  background-size: 200% 100%;
-  animation: message-skeleton-shimmer 1.4s ease-in-out infinite;
 
   &-lg {
     height: 18px;
-    border-radius: 8px;
+    border-radius: map.get(vars.$border-radius, md);
   }
 
   &-w1 {
@@ -1143,18 +955,11 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 }
 
 .avatar-skeleton {
+  @include mixins.shimmer;
   display: block;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
-  background: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0.08) 0%,
-    rgba(0, 0, 0, 0.16) 50%,
-    rgba(0, 0, 0, 0.08) 100%
-  );
-  background-size: 200% 100%;
-  animation: message-skeleton-shimmer 1.4s ease-in-out infinite;
+  border-radius: map.get(vars.$border-radius, rounded);
 }
 
 .modal-section-label {
@@ -1165,39 +970,12 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   padding: 16px 24px;
 
   &-input {
-    width: 100%;
-    padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 9999px;
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 500;
-    color: map.get(vars.$color, text-primary);
-    transition: border-color 0.2s ease;
-
-    &::placeholder {
-      color: map.get(vars.$color, text-secondary);
-    }
-
-    &:focus {
-      outline: none;
-      border-color: map.get(vars.$color, primary);
-    }
+    @include mixins.pill-input;
   }
 }
 
 .modal-status {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 32px;
-  color: map.get(vars.$color, text-secondary);
-  font-size: 14px;
-  font-weight: 500;
-  text-align: center;
+  @include mixins.status-panel($gap: 8px);
 
   p {
     margin: 0;
@@ -1231,7 +1009,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   transition: background 0.2s ease;
 
   &:hover:not(:disabled) {
-    background: rgba(255, 255, 255, 0.5);
+    background: map.get(vars.$glass, surface);
   }
 
   &:disabled {
@@ -1240,22 +1018,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-avatar {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.6);
-    border: 2px solid map.get(vars.$color, white);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    overflow: hidden;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+    @include mixins.avatar-circle($size: 48px, $bg: rgba(255, 255, 255, 0.6));
   }
 
   &-body {
@@ -1264,23 +1027,19 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-name {
+    @include mixins.ellipsis-1;
     margin: 0;
     font-size: 16px;
     font-weight: 600;
     color: map.get(vars.$color, text-primary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 
   &-email {
+    @include mixins.ellipsis-1;
     margin: 2px 0 0;
     font-size: 12px;
     font-weight: 500;
     color: map.get(vars.$color, text-secondary);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
   }
 }
 
@@ -1294,7 +1053,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     width: auto;
     height: 64px;
     padding: 8px 16px;
-    border-radius: 9999px;
+    border-radius: map.get(vars.$border-radius, rounded);
 
     &-brand {
       display: none;
@@ -1362,7 +1121,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
 .typing-indicator-dot {
   width: 5px;
   height: 5px;
-  border-radius: 50%;
+  border-radius: map.get(vars.$border-radius, rounded);
   background: linear-gradient(135deg, #ff7eb3, #ff9966);
   opacity: 0.6;
   animation: typing-indicator-bounce 1.2s ease-in-out infinite;
@@ -1401,24 +1160,14 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-avatar {
+    @include mixins.avatar-circle(
+      $size: 96px,
+      $bg: rgba(255, 255, 255, 0.6),
+      $border: 3px solid $gradient-pink
+    );
     position: relative;
-    width: 96px;
-    height: 96px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid $gradient-pink;
     padding: 0;
-    background: rgba(255, 255, 255, 0.6);
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
 
     svg {
       width: 40px;
@@ -1427,12 +1176,10 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
     }
 
     &-overlay {
+      @include mixins.flex-center;
       position: absolute;
       inset: 0;
       background: rgba(0, 0, 0, 0.45);
-      display: flex;
-      align-items: center;
-      justify-content: center;
       text-align: center;
       padding: 8px;
       opacity: 0;
@@ -1456,25 +1203,7 @@ $glass-shadow: 0 8px 32px rgba($gradient-pink, 0.15);
   }
 
   &-input {
-    width: 100%;
-    padding: 12px 16px;
-    background: rgba(255, 255, 255, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    border-radius: 9999px;
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 500;
-    color: map.get(vars.$color, text-primary);
-    transition: border-color 0.2s ease;
-
-    &::placeholder {
-      color: map.get(vars.$color, text-secondary);
-    }
-
-    &:focus {
-      outline: none;
-      border-color: map.get(vars.$color, primary);
-    }
+    @include mixins.pill-input;
   }
 
   &-error {

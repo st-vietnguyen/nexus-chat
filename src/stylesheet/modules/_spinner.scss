@@ -16,13 +16,11 @@
 }
 
 .spinner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include mixins.flex-center;
   .bounce {
     @include mixins.animation(bounce-delay 1.4s infinite ease-in-out both);
     @include mixins.pxRem(margin-left, 5);
-    border-radius: 50%;
+    border-radius: map.get(vars.$border-radius, rounded);
     background: rgba(map.get(vars.$color, white), 0.8);
     &:first-child {
       @include mixins.animation-delay(-0.32s);

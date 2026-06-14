@@ -138,28 +138,4 @@ input:-webkit-autofill:active {
       color 0.2s ease;
     pointer-events: none;
   }
-
-  .msg-error {
-    @include mixins.pxRem(padding, 3 16);
-    @include mixins.pxRem(font-size, 12);
-    @include mixins.pxRem(margin-top, 6);
-    @include mixins.pxRem(border-radius, 5);
-    color: map.get(vars.$color, danger-text);
-    position: relative;
-    display: block;
-    background-color: map.get(vars.$color, danger-bg);
-
-    &::after {
-      content: "";
-      position: absolute;
-      display: block;
-      bottom: 100%;
-      width: 0;
-      height: 0;
-      border-left: 8px solid transparent;
-      border-right: 8px solid transparent;
-      border-bottom: 6px solid
-        rgba($color: map.get(vars.$color, danger), $alpha: 0.15);
-    }
-  }
 }

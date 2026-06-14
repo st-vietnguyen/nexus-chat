@@ -3,9 +3,7 @@
 @use "../base/mixins";
 
 .footer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include mixins.flex-center;
   height: map.get(variables.$layout, footer-height);
   font-weight: 600;
   &.basic-footer {
@@ -14,15 +12,11 @@
       height,
       map.get(variables.$layout, footer-basic-height)
     );
+    @include mixins.flex-center;
     width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     border-top: 1px solid map.get(variables.$color, border-strong);
     .menu-list {
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      @include mixins.flex-center;
     }
     .menu-item {
       @include mixins.pxRem(margin, 0 12);

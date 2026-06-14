@@ -1,0 +1,46 @@
+@use "sass:map";
+@use "../base/variables" as vars;
+
+.alert {
+  display: block;
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: map.get(vars.$border-radius, lg);
+  font-size: map.get(vars.$font-size, sm);
+  font-weight: 500;
+
+  &-error {
+    background: rgba(map.get(vars.$color, danger), 0.15);
+    border: 1px solid rgba(map.get(vars.$color, danger), 0.4);
+    color: map.get(vars.$color, danger-text);
+  }
+
+  &-success {
+    background: rgba(map.get(vars.$color, success), 0.15);
+    border: 1px solid rgba(map.get(vars.$color, success), 0.4);
+    color: map.get(vars.$color, success);
+  }
+
+  &-inline {
+    position: relative;
+    padding: 3px 16px;
+    margin: 6px 0 0;
+    border: none;
+    border-radius: map.get(vars.$border-radius, sm);
+    font-size: map.get(vars.$font-size, xs);
+    background: map.get(vars.$color, danger-bg);
+    color: map.get(vars.$color, danger-text);
+
+    &::after {
+      content: "";
+      position: absolute;
+      display: block;
+      bottom: 100%;
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 6px solid map.get(vars.$color, danger-bg);
+    }
+  }
+}

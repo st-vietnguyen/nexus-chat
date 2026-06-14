@@ -86,7 +86,7 @@ const Login = () => {
         />
 
         {apiError && (
-          <div className="auth-alert auth-alert-error" role="alert">
+          <div className="alert alert-error" role="alert">
             {apiError}
           </div>
         )}
