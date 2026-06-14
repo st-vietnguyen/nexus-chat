@@ -22,7 +22,8 @@ export const EmptyRoomList = ({ onFindFriends }: EmptyRoomListProps) => {
       </Typography>
       <Button
         type="button"
-        className="btn-primary btn-block"
+        variant="primary"
+        className="btn-block"
         onClick={onFindFriends}
       >
         {t('emptyRooms.cta')}

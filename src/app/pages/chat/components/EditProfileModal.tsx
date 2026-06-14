@@ -131,7 +131,7 @@ export const EditProfileModal = () => {
       <div className="edit-profile-actions">
         <Button
           type="button"
-          className="btn-secondary"
+          variant="secondary"
           onClick={closeModal}
           isDisabled={isSaving}
         >

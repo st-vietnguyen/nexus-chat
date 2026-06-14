@@ -45,7 +45,12 @@ export const MessageList = ({ roomId, onRetry }: MessageListProps) => {
         variant="error"
         message={t('messages.error')}
         action={
-          <Button type="button" className="btn-primary btn-sm" onClick={retry}>
+          <Button
+            type="button"
+            variant="primary"
+            className="btn-sm"
+            onClick={retry}
+          >
             {t('messages.retry')}
           </Button>
         }

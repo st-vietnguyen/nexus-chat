@@ -94,7 +94,8 @@ const Login = () => {
         <div className="form-group">
           <Button
             type="submit"
-            className="btn-primary btn-block"
+            variant="primary"
+            className="btn-block"
             isLoading={isSubmitting}
             isDisabled={!isValid || isSubmitting}
           >

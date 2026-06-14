@@ -317,7 +317,8 @@ const Register = () => {
         <div className="form-group">
           <Button
             type="submit"
-            className="btn-primary btn-block"
+            variant="primary"
+            className="btn-block"
             isLoading={submitting}
             isDisabled={!isValid || submitting}
           >
