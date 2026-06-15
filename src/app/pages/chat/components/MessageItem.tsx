@@ -5,7 +5,11 @@ import {
   MESSAGE_TYPE,
   type OptimisticMessage,
 } from '@app/core/services/message.service';
-import { getChatImagePublicUrl } from '@app/core/services/image.service';
+import { resolveMessageImageSrc } from '@app/core/services/image.service';
+import {
+  useImagePreview,
+  type PreviewImage,
+} from '@app/shared/contexts/image-preview.context';
 import { formatTime } from '@core/helpers/date.helper';
 import AlertErrorIcon from '@assets/icons/ic-alert-error.svg?react';
 
@@ -13,6 +17,7 @@ interface MessageItemProps {
   message: OptimisticMessage;
   isOwn: boolean;
   onRetry?: (tempId: string) => void;
+  galleryImages?: PreviewImage[];
 }
 
 const ImageBubble = ({
@@ -20,18 +25,16 @@ const ImageBubble = ({
   isOwn,
   isPending,
   altFallback,
+  galleryImages,
 }: {
   message: OptimisticMessage;
   isOwn: boolean;
   isPending: boolean;
   altFallback: string;
+  galleryImages?: PreviewImage[];
 }) => {
-  const src = useMemo(
-    () =>
-      message.localImageUrl ??
-      (message.storagePath ? getChatImagePublicUrl(message.storagePath) : null),
-    [message.localImageUrl, message.storagePath],
-  );
+  const { openPreview } = useImagePreview();
+  const src = useMemo(() => resolveMessageImageSrc(message), [message]);
 
   const bubbleClass = [
     'message-image-bubble',
@@ -41,15 +44,35 @@ const ImageBubble = ({
     .filter(Boolean)
     .join(' ');
 
+  const handleOpen = () => {
+    if (!src || isPending) return;
+    openPreview(
+      {
+        id: message.id,
+        url: src,
+        alt: message.fileName ?? altFallback,
+      },
+      galleryImages?.length ? { images: galleryImages } : undefined,
+    );
+  };
+
   return (
     <div className={bubbleClass}>
       {src ? (
-        <img
-          src={src}
-          alt={message.fileName ?? altFallback}
-          className="message-image-bubble-img"
-          loading="lazy"
-        />
+        <button
+          type="button"
+          className="message-image-bubble-trigger"
+          onClick={handleOpen}
+          aria-label={message.fileName ?? altFallback}
+          disabled={isPending}
+        >
+          <img
+            src={src}
+            alt={message.fileName ?? altFallback}
+            className="message-image-bubble-img"
+            loading="lazy"
+          />
+        </button>
       ) : (
         <div className="message-image-bubble-placeholder" />
       )}
@@ -60,7 +83,12 @@ const ImageBubble = ({
   );
 };
 
-export const MessageItem = ({ message, isOwn, onRetry }: MessageItemProps) => {
+export const MessageItem = ({
+  message,
+  isOwn,
+  onRetry,
+  galleryImages,
+}: MessageItemProps) => {
   const { t } = useTranslation('chat');
   const isPending = message.status === MESSAGE_DELIVERY_STATUS.SENDING;
   const isFailed = message.status === MESSAGE_DELIVERY_STATUS.FAILED;
@@ -97,6 +125,7 @@ export const MessageItem = ({ message, isOwn, onRetry }: MessageItemProps) => {
               isOwn={isOwn}
               isPending={isPending}
               altFallback={t('messages.imageAlt')}
+              galleryImages={galleryImages}
             />
           ) : (
             <div className={bubbleClass}>

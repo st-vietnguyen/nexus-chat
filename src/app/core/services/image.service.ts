@@ -6,6 +6,7 @@ import {
   MAX_CHAT_IMAGE_BYTES,
 } from '@core/helpers/file.helper';
 import { mapSupabaseError } from '@core/errors/AppError';
+import type { OptimisticMessage } from '@app/types/chat';
 
 export class ImageValidationError extends Error {
   constructor(message: string) {
@@ -51,4 +52,12 @@ export const getChatImagePublicUrl = (storagePath: string): string => {
     .from(STORAGE_BUCKETS.CHAT_IMAGES)
     .getPublicUrl(storagePath);
   return data.publicUrl;
+};
+
+export const resolveMessageImageSrc = (
+  message: OptimisticMessage,
+): string | null => {
+  if (message.localImageUrl) return message.localImageUrl;
+  if (message.storagePath) return getChatImagePublicUrl(message.storagePath);
+  return null;
 };

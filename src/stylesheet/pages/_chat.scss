@@ -832,6 +832,30 @@ $gradient-orange: map.get(vars.$color, secondary);
   gap: 4px;
   max-width: min(320px, 70vw);
 
+  &-trigger {
+    padding: 0;
+    border: none;
+    background: transparent;
+    border-radius: map.get(vars.$border-radius, md);
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    transition: transform 0.15s ease;
+
+    &:hover:not(:disabled) {
+      transform: scale(1.01);
+    }
+
+    &:focus-visible {
+      outline: 2px solid map.get(vars.$color, primary);
+      outline-offset: 2px;
+    }
+
+    &:disabled {
+      cursor: default;
+    }
+  }
+
   &-img {
     width: 100%;
     border-radius: map.get(vars.$border-radius, md);

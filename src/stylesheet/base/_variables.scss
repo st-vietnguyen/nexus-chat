@@ -78,10 +78,10 @@ $glass: (
   surface-strong: rgba(255, 255, 255, 0.7),
   surface: rgba(255, 255, 255, 0.5),
   surface-soft: rgba(255, 255, 255, 0.4),
-  surface-faint: rgba(255, 255, 255, 0.3),
+  surface-faint: rgba(255, 255, 255, 0.25),
+  border: rgba(255, 255, 255, 0.35),
+  border-soft: rgba(255, 255, 255, 0.3),
   surface-trace: rgba(255, 255, 255, 0.1),
-  border: rgba(255, 255, 255, 0.3),
-  border-soft: rgba(255, 255, 255, 0.2),
 );
 
 $shadow: (
