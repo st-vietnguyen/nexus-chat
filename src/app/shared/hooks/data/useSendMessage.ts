@@ -113,7 +113,6 @@ export const useSendMessage = (roomId: string | null | undefined) => {
       return {
         ...real,
         status: MESSAGE_DELIVERY_STATUS.SENT,
-        localImageUrl,
       };
     },
     [mutate, roomId, user],

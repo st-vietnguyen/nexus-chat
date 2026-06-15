@@ -394,7 +394,7 @@ $gradient-orange: map.get(vars.$color, secondary);
       rgba(255, 255, 255, 0.6),
       rgba(255, 255, 255, 0.2)
     );
-    border: 1px solid map.get(vars.$glass, border-strong);
+    border: 1px solid map.get(vars.$glass, surface);
     box-shadow: map.get(vars.$shadow, card);
     position: relative;
     backdrop-filter: blur(12px);
@@ -813,7 +813,7 @@ $gradient-orange: map.get(vars.$color, secondary);
   &-other {
     background: map.get(vars.$glass, surface-strong);
     color: map.get(vars.$color, text-primary);
-    border: 1px solid map.get(vars.$glass, border-strong);
+    border: 1px solid map.get(vars.$glass, surface);
     border-bottom-left-radius: map.get(vars.$border-radius, md);
   }
 
@@ -834,7 +834,7 @@ $gradient-orange: map.get(vars.$color, secondary);
 
   &-img {
     width: 100%;
-    border-radius: 1.25rem;
+    border-radius: map.get(vars.$border-radius, md);
     object-fit: cover;
     display: block;
     box-shadow: 0 4px 12px rgba($gradient-pink, 0.12);
@@ -843,7 +843,7 @@ $gradient-orange: map.get(vars.$color, secondary);
   &-placeholder {
     width: 200px;
     height: 140px;
-    border-radius: 1.25rem;
+    border-radius: map.get(vars.$border-radius, md);
     background: map.get(vars.$glass, surface-soft);
     border: 1px solid map.get(vars.$glass, border);
   }
@@ -857,20 +857,8 @@ $gradient-orange: map.get(vars.$color, secondary);
   }
 
   &-own {
-    .message-image-bubble-img,
-    .message-image-bubble-placeholder {
-      border-bottom-right-radius: map.get(vars.$border-radius, md);
-    }
-
     .message-image-bubble-time {
       color: map.get(vars.$color, text-primary);
-    }
-  }
-
-  &-other {
-    .message-image-bubble-img,
-    .message-image-bubble-placeholder {
-      border-bottom-left-radius: map.get(vars.$border-radius, md);
     }
   }
 
@@ -898,7 +886,7 @@ $gradient-orange: map.get(vars.$color, secondary);
   );
   height: 40px;
   border-radius: 1.25rem;
-  border: 1px solid map.get(vars.$glass, border-strong);
+  border: 1px solid map.get(vars.$glass, surface);
 
   &-own {
     @include mixins.shimmer(
