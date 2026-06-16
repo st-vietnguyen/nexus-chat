@@ -79,6 +79,20 @@ export const ImagePreviewModal = ({
     dialogRef.current?.focus();
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen || images.length < 2) return;
+    const total = images.length;
+    const nextIdx = (currentIndex + 1) % total;
+    const prevIdx = (currentIndex - 1 + total) % total;
+    // Preload next and previous images for smoother navigation
+    [nextIdx, prevIdx].forEach((i) => {
+      const url = images[i]?.url;
+      if (!url) return;
+      const img = new Image();
+      img.src = url;
+    });
+  }, [isOpen, images, currentIndex]);
+
   const image = images[currentIndex] ?? null;
   if (!isOpen || !image) return null;
 
