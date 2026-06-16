@@ -3,6 +3,10 @@
     "title": "メッセージ",
     "searchPlaceholder": "友達を検索..."
   },
+  "emptySearch": {
+    "title": "会話が見つかりませんでした",
+    "subtitle": "別のキーワードで検索してみてください"
+  },
   "emptyRooms": {
     "heading": "ここは静かです",
     "subtitle": "友達を見つけてチャットを始めましょう。",
