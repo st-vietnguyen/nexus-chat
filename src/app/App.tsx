@@ -13,6 +13,7 @@ import AppSuspense from './AppSuspense';
 
 import { AuthProvider } from './shared/contexts/auth.context';
 import { ModalProvider } from './shared/contexts/modal.context';
+import { ImagePreviewProvider } from './shared/contexts/image-preview.context';
 import { PresenceProvider } from './shared/contexts/presence.context';
 import { renderChildren } from './core/modules/custom-router-dom/RouterOutlet';
 import AppErrorBoundaryFallback from './AppErrorBoundaryFallback';
@@ -26,7 +27,9 @@ export const Root = () => {
           <SWRConfig value={swrConfig}>
             <PresenceProvider>
               <ModalProvider>
-                <Outlet />
+                <ImagePreviewProvider>
+                  <Outlet />
+                </ImagePreviewProvider>
               </ModalProvider>
             </PresenceProvider>
           </SWRConfig>

@@ -10,6 +10,13 @@
   "modal": {
     "close": "閉じる"
   },
+  "imagePreview": {
+    "title": "画像プレビュー",
+    "close": "プレビューを閉じる",
+    "previous": "前の画像",
+    "next": "次の画像",
+    "counter": "{{current}} / {{total}}"
+  },
   "errors": {
     "boundaryTitle": "問題が発生しました",
     "retry": "再試行",

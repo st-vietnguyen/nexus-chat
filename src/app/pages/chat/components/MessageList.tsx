@@ -1,11 +1,31 @@
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '@app/shared/contexts/auth.context';
 import { Button } from '@app/shared/components/partials';
 import { useMessages } from '@app/shared/hooks/data/useMessages';
+import {
+  MESSAGE_TYPE,
+  type OptimisticMessage,
+} from '@app/core/services/message.service';
+import { resolveMessageImageSrc } from '@app/core/services/image.service';
+import type { PreviewImage } from '@app/shared/contexts/image-preview.context';
 import { useMessageListScroll } from '../hooks/useMessageListScroll';
 import { MessageItem } from './MessageItem';
 import { MessageListSkeleton } from './MessageListSkeleton';
 import { MessageListStatus } from './MessageListStatus';
+
+const buildImageGallery = (messages: OptimisticMessage[]): PreviewImage[] =>
+  messages.reduce<PreviewImage[]>((acc, message) => {
+    if (message.type !== MESSAGE_TYPE.IMAGE) return acc;
+    const url = resolveMessageImageSrc(message);
+    if (!url) return acc;
+    acc.push({
+      id: message.id,
+      url,
+      alt: message.fileName ?? undefined,
+    });
+    return acc;
+  }, []);
 
 interface MessageListProps {
   roomId: string | null;
@@ -34,6 +54,8 @@ export const MessageList = ({ roomId, onRetry }: MessageListProps) => {
     isLoadingMore,
     loadMore,
   });
+
+  const galleryImages = useMemo(() => buildImageGallery(messages), [messages]);
 
   if (!roomId) return null;
 
@@ -77,6 +99,7 @@ export const MessageList = ({ roomId, onRetry }: MessageListProps) => {
           message={message}
           isOwn={message.senderId === user?.id}
           onRetry={onRetry}
+          galleryImages={galleryImages}
         />
       ))}
     </ul>

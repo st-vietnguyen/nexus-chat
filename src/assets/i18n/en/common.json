@@ -10,6 +10,13 @@
   "modal": {
     "close": "Close"
   },
+  "imagePreview": {
+    "title": "Image preview",
+    "close": "Close preview",
+    "previous": "Previous image",
+    "next": "Next image",
+    "counter": "{{current}} / {{total}}"
+  },
   "errors": {
     "boundaryTitle": "Oops, something went wrong",
     "retry": "Try again",
