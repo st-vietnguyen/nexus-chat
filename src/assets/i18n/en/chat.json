@@ -1,8 +1,7 @@
 {
   "sidebar": {
     "title": "Messages",
-    "searchPlaceholder": "Search friends...",
-    "clearSearch": "Clear search"
+    "searchPlaceholder": "Search friends..."
   },
   "emptySearch": {
     "title": "No conversations found",

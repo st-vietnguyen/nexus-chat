@@ -1,8 +1,7 @@
 {
   "sidebar": {
     "title": "メッセージ",
-    "searchPlaceholder": "友達を検索...",
-    "clearSearch": "検索をクリア"
+    "searchPlaceholder": "友達を検索..."
   },
   "emptySearch": {
     "title": "会話が見つかりませんでした",

@@ -1,6 +1,6 @@
 import { useRef, useState, type ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Typography } from '@app/shared/components/partials';
+import { Button, Typography } from '@app/shared/components/partials';
 import { useModal } from '@app/shared/contexts/modal.context';
 import { RoomList } from './RoomList';
 import { FindFriendsModal } from './FindFriendsModal';
@@ -44,14 +44,14 @@ export const RoomSidebar = () => {
             onChange={handleChange}
           />
           {hasKeyword && (
-            <button
+            <Button
               type="button"
+              variant="ghost"
               className="room-sidebar-search-clear"
               onClick={handleClear}
-              aria-label={t('sidebar.clearSearch')}
             >
               <CloseIcon />
-            </button>
+            </Button>
           )}
         </div>
       </div>

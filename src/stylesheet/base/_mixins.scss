@@ -303,6 +303,11 @@
     outline: none;
     border-color: map.get(variables.$color, primary);
   }
+
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    appearance: none;
+  }
 }
 
 @mixin action-btn-circle(
