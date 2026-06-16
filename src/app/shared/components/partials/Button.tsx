@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Spinner } from '../common';
+import { Spinner } from '../common/Spinner';
 
 export type ButtonVariant =
   | 'primary'

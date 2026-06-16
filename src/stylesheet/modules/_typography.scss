@@ -84,7 +84,7 @@ $typo-variants: (
   }
 
   @each $name, $color in vars.$color {
-    &-color-#{$name} {
+    &-color-#{"" + $name} {
       color: $color;
     }
   }
