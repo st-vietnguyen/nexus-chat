@@ -11,12 +11,7 @@ export const TypingIndicator = ({ count }: TypingIndicatorProps) => {
   const label = count === 1 ? t('typing.one') : t('typing.many', { count });
 
   return (
-    <div
-      className="typing-indicator"
-      role="status"
-      aria-live="polite"
-      aria-label={label}
-    >
+    <div className="typing-indicator">
       <span className="typing-indicator-dots" aria-hidden="true">
         <span className="typing-indicator-dot" />
         <span className="typing-indicator-dot" />

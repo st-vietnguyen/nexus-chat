@@ -44,7 +44,6 @@ export const RoomItem = ({ room, isActive, onSelect }: RoomItemProps) => {
         type="button"
         className={`room-item ${isActive ? 'room-item-active' : ''}`}
         onClick={() => onSelect(room.id)}
-        aria-pressed={isActive}
       >
         <div className="room-item-avatar-wrap">
           <div className="room-item-avatar">
@@ -64,12 +63,7 @@ export const RoomItem = ({ room, isActive, onSelect }: RoomItemProps) => {
               {preview ?? t('room.lastMessageFallback')}
             </p>
             {showBadge ? (
-              <span
-                className="room-item-unread"
-                aria-label={t('room.unreadCount', { count: unread })}
-              >
-                {displayCount}
-              </span>
+              <span className="room-item-unread">{displayCount}</span>
             ) : null}
           </div>
         </div>

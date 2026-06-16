@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import IconClose from '@assets/icons/ic-close.svg?react';
 import IconChevronLeft from '@assets/icons/ic-chevron-left.svg?react';
 import IconChevronRight from '@assets/icons/ic-chevron-right.svg?react';
+import { Button } from '@app/shared/components/partials';
 import type { PreviewImage } from '@app/shared/contexts/image-preview.context';
 
 interface ImagePreviewModalProps {
@@ -18,22 +19,20 @@ interface ImagePreviewModalProps {
 const NavButton = ({
   direction,
   onClick,
-  label,
 }: {
   direction: 'prev' | 'next';
   onClick: () => void;
-  label: string;
 }) => {
   const Icon = direction === 'prev' ? IconChevronLeft : IconChevronRight;
   return (
-    <button
+    <Button
       type="button"
+      variant="ghost"
       className={`image-preview-nav image-preview-nav-${direction}`}
       onClick={onClick}
-      aria-label={label}
     >
       <Icon />
-    </button>
+    </Button>
   );
 };
 
@@ -100,36 +99,23 @@ export const ImagePreviewModal = ({
   const hasMultiple = total > 1;
 
   return createPortal(
-    <div
-      className="image-preview-overlay"
-      onClick={onClose}
-      role="presentation"
-    >
+    <div className="image-preview-overlay" onClick={onClose}>
       <div
         ref={dialogRef}
         className="image-preview-dialog"
-        role="dialog"
-        aria-modal="true"
-        aria-label={image.alt ?? t('imagePreview.title')}
         tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
       >
-        <button
+        <Button
           type="button"
+          variant="ghost"
           className="image-preview-close"
           onClick={onClose}
-          aria-label={t('imagePreview.close')}
         >
           <IconClose />
-        </button>
+        </Button>
 
-        {hasMultiple && (
-          <NavButton
-            direction="prev"
-            onClick={onPrevious}
-            label={t('imagePreview.previous')}
-          />
-        )}
+        {hasMultiple && <NavButton direction="prev" onClick={onPrevious} />}
 
         <img
           src={image.url}
@@ -137,20 +123,10 @@ export const ImagePreviewModal = ({
           className="image-preview-img"
         />
 
-        {hasMultiple && (
-          <NavButton
-            direction="next"
-            onClick={onNext}
-            label={t('imagePreview.next')}
-          />
-        )}
+        {hasMultiple && <NavButton direction="next" onClick={onNext} />}
 
         {hasMultiple && (
-          <div
-            className="image-preview-counter"
-            aria-live="polite"
-            aria-atomic="true"
-          >
+          <div className="image-preview-counter">
             {t('imagePreview.counter', {
               current: currentIndex + 1,
               total,

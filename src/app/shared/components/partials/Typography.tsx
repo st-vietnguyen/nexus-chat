@@ -61,10 +61,10 @@ export const Typography = ({
   const Tag = as ?? defaultTag[variant];
 
   const classes = [
-    'typo',
-    `typo-${variant}`,
-    color && `typo-color-${color}`,
-    align && `typo-align-${align}`,
+    'typography',
+    `typography-${variant}`,
+    color && `typography-color-${color}`,
+    align && `typography-align-${align}`,
     className,
   ]
     .filter(Boolean)

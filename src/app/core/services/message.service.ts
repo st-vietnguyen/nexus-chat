@@ -48,12 +48,10 @@ export const sendMessage = async ({
   roomId,
   content,
 }: SendMessagePayload): Promise<Message> => {
-  // Route through SECURITY DEFINER RPC so RLS on messages/rooms is enforced
-  // server-side. Avoids client-side RLS denial when JWT claims and policy
-  // visibility get out of sync, and updates rooms.last_message_at atomically.
-  /* eslint-disable camelcase -- Postgres function parameter names */
   const { data, error } = await supabase.rpc('send_message', {
+    // eslint-disable-next-line camelcase -- Postgres function parameter
     p_room_id: roomId,
+    // eslint-disable-next-line camelcase -- Postgres function parameter
     p_content: content,
   });
 

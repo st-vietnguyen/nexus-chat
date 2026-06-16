@@ -16,7 +16,7 @@ export const RoomSidebar = () => {
     });
 
   return (
-    <aside className="room-sidebar" aria-label={t('sidebar.title')}>
+    <aside className="room-sidebar">
       <div className="room-sidebar-header">
         <Typography variant="h1">{t('sidebar.title')}</Typography>
         <div className="room-sidebar-search">
@@ -25,7 +25,6 @@ export const RoomSidebar = () => {
             type="search"
             className="room-sidebar-search-input"
             placeholder={t('sidebar.searchPlaceholder')}
-            aria-label={t('sidebar.searchPlaceholder')}
           />
         </div>
       </div>

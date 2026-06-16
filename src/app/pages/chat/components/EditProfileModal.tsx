@@ -86,7 +86,6 @@ export const EditProfileModal = () => {
           type="button"
           className="edit-profile-avatar"
           onClick={() => fileRef.current?.click()}
-          aria-label={t('editProfile.changeAvatar')}
         >
           {shownAvatar ? <img src={shownAvatar} alt="" /> : <PersonIcon />}
           <span className="edit-profile-avatar-overlay">
@@ -121,7 +120,7 @@ export const EditProfileModal = () => {
       </div>
 
       {error && (
-        <div className="edit-profile-error" role="alert">
+        <div className="edit-profile-error">
           <Typography variant="body-sm" color="danger-text">
             {error}
           </Typography>

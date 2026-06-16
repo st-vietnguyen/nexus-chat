@@ -85,11 +85,7 @@ const Login = () => {
           hasApiErr={!!errors.password?.message}
         />
 
-        {apiError && (
-          <div className="alert alert-error" role="alert">
-            {apiError}
-          </div>
-        )}
+        {apiError && <div className="alert alert-error">{apiError}</div>}
 
         <div className="form-group">
           <Button

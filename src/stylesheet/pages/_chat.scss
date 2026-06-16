@@ -589,10 +589,6 @@ $gradient-orange: map.get(vars.$color, secondary);
     );
     flex-shrink: 0;
 
-    &:disabled {
-      cursor: not-allowed;
-    }
-
     &-active {
       @include mixins.gradient-primary;
       box-shadow: map.get(vars.$shadow, cta);
@@ -654,19 +650,13 @@ $gradient-orange: map.get(vars.$color, secondary);
       color: map.get(vars.$color, white);
       cursor: pointer;
       padding: 0;
-      transition: background 0.15s ease;
 
       svg {
         font-size: 12px;
       }
 
-      &:hover {
+      &:hover:not(:disabled) {
         background: rgba(0, 0, 0, 0.75);
-      }
-
-      &:disabled {
-        cursor: not-allowed;
-        opacity: 0.5;
       }
     }
 
@@ -761,6 +751,8 @@ $gradient-orange: map.get(vars.$color, secondary);
     background: transparent;
     border: 0;
     cursor: pointer;
+    height: auto;
+    padding: 0;
 
     &:focus-visible {
       outline: 2px solid currentColor;

@@ -176,12 +176,13 @@ $gradient-orange: map.get(vars.$color, secondary);
     background: none;
     border: none;
     padding: 0;
-    cursor: pointer;
+    height: auto;
     font: inherit;
+    color: map.get(vars.$color, primary-dark);
 
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+    &:hover:not(:disabled) {
+      background: none;
+      text-decoration: underline;
     }
   }
 }

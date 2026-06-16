@@ -43,15 +43,23 @@ $button-sizes: (
   outline: none;
   cursor: pointer;
   user-select: none;
-  // default size
   padding: list.nth(map.get($button-sizes, "md"), 1)
     list.nth(map.get($button-sizes, "md"), 2);
   font-size: list.nth(map.get($button-sizes, "md"), 3);
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    opacity 0.3s ease;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 
   &-primary {
     @include mixins.gradient-primary;
     color: map.get(variables.$color, white);
-    transition: opacity 0.3s;
 
     &:hover:not(:disabled) {
       opacity: 0.8;
@@ -59,7 +67,7 @@ $button-sizes: (
 
     &:disabled {
       background: $btn-primary-disabled-bg;
-      cursor: not-allowed;
+      opacity: 1;
     }
   }
 
@@ -68,9 +76,8 @@ $button-sizes: (
       background-color: $color;
       color: map.get(variables.$color, white);
 
-      &:hover {
+      &:hover:not(:disabled) {
         opacity: 0.8;
-        transition: opacity 0.3s;
       }
 
       &:disabled {
@@ -79,7 +86,7 @@ $button-sizes: (
         } @else {
           background-color: $color;
         }
-        cursor: not-allowed;
+        opacity: 1;
       }
     }
   }
@@ -98,15 +105,53 @@ $button-sizes: (
   &-secondary {
     background: $btn-surface-bg;
     color: map.get(variables.$color, text-primary);
-    transition: background 0.2s ease;
+    border: 1px solid map.get(variables.$glass, border);
 
     &:hover:not(:disabled) {
       background: $btn-surface-hover;
+      border-color: map.get(variables.$glass, surface-strong);
     }
+  }
 
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
+  &-primary-outline {
+    background: transparent;
+    border: 1px solid map.get(variables.$color, primary);
+    color: map.get(variables.$color, primary);
+
+    &:hover:not(:disabled) {
+      background: rgba(map.get(variables.$color, primary), 0.1);
+      color: map.get(variables.$color, primary-dark);
+    }
+  }
+
+  &-danger-outline {
+    background: transparent;
+    border: 1px solid map.get(variables.$color, danger);
+    color: map.get(variables.$color, danger-text);
+
+    &:hover:not(:disabled) {
+      background: map.get(variables.$color, danger-bg);
+    }
+  }
+
+  &-gray-outline {
+    background: transparent;
+    border: 1px solid map.get(variables.$color, border);
+    color: map.get(variables.$color, text-secondary);
+
+    &:hover:not(:disabled) {
+      background: map.get(variables.$color, surface-soft);
+      border-color: map.get(variables.$color, border-strong);
+      color: map.get(variables.$color, text-primary);
+    }
+  }
+
+  &-ghost {
+    background: transparent;
+    color: map.get(variables.$color, text-primary);
+
+    &:hover:not(:disabled) {
+      background: map.get(variables.$glass, surface-faint);
     }
   }
 }

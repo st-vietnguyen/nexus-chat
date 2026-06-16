@@ -63,13 +63,13 @@ export const FindFriendsModal = () => {
       )}
 
       {error && !isLoading && (
-        <div className="modal-status modal-status-error" role="alert">
+        <div className="modal-status modal-status-error">
           {t('findFriends.error')}
         </div>
       )}
 
       {startError && !isLoading && (
-        <div className="modal-status modal-status-error" role="alert">
+        <div className="modal-status modal-status-error">
           {t('findFriends.startError')}
         </div>
       )}

@@ -12,6 +12,7 @@ import {
 } from '@app/shared/contexts/image-preview.context';
 import { formatTime } from '@core/helpers/date.helper';
 import AlertErrorIcon from '@assets/icons/ic-alert-error.svg?react';
+import { Button } from '@app/shared/components/partials';
 
 interface MessageItemProps {
   message: OptimisticMessage;
@@ -63,7 +64,6 @@ const ImageBubble = ({
           type="button"
           className="message-image-bubble-trigger"
           onClick={handleOpen}
-          aria-label={message.fileName ?? altFallback}
           disabled={isPending}
         >
           <img
@@ -137,23 +137,19 @@ export const MessageItem = ({
           )}
         </div>
         {isOwn && isPending && (
-          <span
-            className="message-row-caption message-row-caption-pending"
-            role="status"
-            aria-live="polite"
-          >
+          <span className="message-row-caption message-row-caption-pending">
             {t('messages.sending')}
           </span>
         )}
         {canRetry && (
-          <button
+          <Button
             type="button"
+            variant="ghost"
             className="message-row-caption message-row-caption-failed"
             onClick={handleRetry}
-            aria-label={t('messages.retry')}
           >
             {t('messages.failedTapRetry')}
-          </button>
+          </Button>
         )}
       </div>
     </li>

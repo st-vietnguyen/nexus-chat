@@ -14,10 +14,6 @@ interface RoomListProps {
 export const RoomList = ({ onFindFriends }: RoomListProps) => {
   const { t } = useTranslation('chat');
   const navigate = useNavigate();
-  // useParams in this component returns the parent route's params only — the
-  // `:roomId` lives on a descendant route rendered through <Outlet>, so it is
-  // not visible here. useMatch reads the URL directly against the full pattern
-  // so the sidebar sees the active room regardless of route depth.
   const activeRoomMatch = useMatch('/chat/rooms/:roomId');
   const activeRoomId = activeRoomMatch?.params.roomId;
 
@@ -31,7 +27,7 @@ export const RoomList = ({ onFindFriends }: RoomListProps) => {
 
   if (isLoading) {
     return (
-      <ul className="room-list" aria-busy="true" aria-label={t('list.loading')}>
+      <ul className="room-list">
         {Array.from({ length: 5 }).map((_, idx) => (
           <RoomItemSkeleton key={idx} />
         ))}
@@ -41,15 +37,12 @@ export const RoomList = ({ onFindFriends }: RoomListProps) => {
 
   if (error) {
     return (
-      <div className="room-list-status room-list-status-error" role="alert">
+      <div className="room-list-status room-list-status-error">
         {t('list.error')}
       </div>
     );
   }
 
-  // Hide draft rooms (created via Find Friends but no message sent yet),
-  // except keep the currently open one so the active conversation stays
-  // visible in the sidebar until the first message lands.
   const visibleRooms =
     rooms?.filter((r) => r.lastMessageAt || r.id === activeRoomId) ?? [];
 

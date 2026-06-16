@@ -199,22 +199,12 @@ const Register = () => {
         {t('register.subtitle')}
       </Typography>
 
-      <form
-        className="form"
-        onSubmit={handleSubmit(onRegister)}
-        noValidate
-        aria-busy={submitting}
-      >
+      <form className="form" onSubmit={handleSubmit(onRegister)} noValidate>
         <div className="avatar-uploader">
           <button
             type="button"
             className="avatar-uploader-preview"
             onClick={() => fileInputRef.current?.click()}
-            aria-label={
-              avatarFile
-                ? t('register.avatar.replace')
-                : t('register.avatar.choose')
-            }
             disabled={submitting}
           >
             {avatarPreview ? (
@@ -230,25 +220,27 @@ const Register = () => {
               {t('register.avatar.label')}
             </span>
             <div className="avatar-uploader-buttons">
-              <button
+              <Button
                 type="button"
+                variant="ghost"
                 className="auth-link avatar-uploader-btn"
                 onClick={() => fileInputRef.current?.click()}
-                disabled={submitting}
+                isDisabled={submitting}
               >
                 {avatarFile
                   ? t('register.avatar.replace')
                   : t('register.avatar.choose')}
-              </button>
+              </Button>
               {avatarFile && (
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
                   className="auth-link avatar-uploader-btn"
                   onClick={removeAvatar}
-                  disabled={submitting}
+                  isDisabled={submitting}
                 >
                   {t('register.avatar.remove')}
-                </button>
+                </Button>
               )}
             </div>
           </div>
@@ -261,7 +253,7 @@ const Register = () => {
             data-testid="avatar-input"
           />
           {avatarError && (
-            <span className="alert alert-error alert-inline" role="alert">
+            <span className="alert alert-error alert-inline">
               {avatarError}
             </span>
           )}
@@ -306,12 +298,7 @@ const Register = () => {
         />
 
         {status && (
-          <div
-            className={`alert alert-${status.type}`}
-            role={status.type === 'error' ? 'alert' : 'status'}
-          >
-            {status.msg}
-          </div>
+          <div className={`alert alert-${status.type}`}>{status.msg}</div>
         )}
 
         <div className="form-group">

@@ -15,9 +15,6 @@ export const useMessages = (roomId: string | null | undefined) => {
         getMessagesByRoomId(roomId!, cursor) as Promise<OptimisticMessage[]>,
     );
 
-  // Server returns DESC by `created_at`; flatten reverse to ASC (oldest top,
-  // newest bottom). Dedup by id covers page boundary overlap when two cursors
-  // share the same `created_at`.
   const messages = useMemo(() => {
     if (!data) return [];
     const seenIds = new Set<string>();
@@ -34,9 +31,6 @@ export const useMessages = (roomId: string | null | undefined) => {
     return ascending;
   }, [data]);
 
-  // `hasMore` counts server rows only — optimistic temps (have `tempId`) are
-  // excluded so an inserted temp can't make page length ≠ PAGE_SIZE and hide
-  // the "Load older" button.
   const lastPage = data?.[data.length - 1];
   const lastServerPageLen =
     lastPage?.filter((message) => !message.tempId).length ?? 0;

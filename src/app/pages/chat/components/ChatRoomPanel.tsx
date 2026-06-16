@@ -35,7 +35,7 @@ export const ChatRoomPanel = ({ roomId }: ChatRoomPanelProps) => {
   const { typingUserIds, notifyTyping } = useTypingIndicator(roomId);
 
   return (
-    <section className="chat-panel chat-panel-active" aria-live="polite">
+    <section className="chat-panel chat-panel-active">
       <ChatRoomHeader room={room} />
       <div className="chat-panel-body">
         <MessageList roomId={roomId} onRetry={retry} />

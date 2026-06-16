@@ -49,13 +49,12 @@ export const SideNav = () => {
   ];
 
   return (
-    <nav className="side-nav" aria-label="Primary">
+    <nav className="side-nav">
       <div className="side-nav-brand">
         <button
           type="button"
           className="side-nav-avatar"
           onClick={handleEditProfile}
-          aria-label={t('editProfile.title')}
         >
           {avatarUrl ? (
             <img src={avatarUrl} alt="User Avatar" />
@@ -74,8 +73,6 @@ export const SideNav = () => {
               <button
                 type="button"
                 className={`side-nav-item ${isActive ? 'side-nav-item-active' : ''}`}
-                aria-label={t(`nav.${item.key}`)}
-                aria-current={isActive ? 'page' : undefined}
                 onClick={item.onClick}
               >
                 <Icon />

@@ -30,9 +30,9 @@ export const Button: FC<ButtonProps> = ({
   btnRef,
   children,
 }) => {
-  const classes = ['btn', `btn-${variant}`, className]
-    .filter(Boolean)
-    .join(' ');
+  const classes = className
+    ? `btn btn-${variant} ${className}`
+    : `btn btn-${variant}`;
 
   return (
     <button

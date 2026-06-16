@@ -53,7 +53,7 @@ $typo-variants: (
   line-height: list.nth($values, 3);
 }
 
-.typo {
+.typography {
   margin: 0;
   color: map.get(vars.$color, text-primary);
 

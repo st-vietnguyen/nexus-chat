@@ -1,7 +1,6 @@
-import { useEffect, useId, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { useTranslation } from 'react-i18next';
-import { Typography } from '@app/shared/components/partials';
+import { Button, Typography } from '@app/shared/components/partials';
 import IconClose from '@assets/icons/ic-close.svg?react';
 
 export type ModalSize = 'sm' | 'md' | 'lg';
@@ -23,8 +22,6 @@ export const Modal = ({
   footer,
   size = 'md',
 }: ModalProps) => {
-  const { t } = useTranslation('common');
-  const titleId = useId();
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
 
@@ -47,26 +44,19 @@ export const Modal = ({
     <div className="modal-overlay" onClick={onClose}>
       <div
         className={`modal modal-${size}`}
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby={title ? titleId : undefined}
         tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="modal-header">
-          {title && (
-            <Typography id={titleId} variant="h2">
-              {title}
-            </Typography>
-          )}
-          <button
+          {title && <Typography variant="h2">{title}</Typography>}
+          <Button
             type="button"
+            variant="ghost"
             className="modal-close"
             onClick={onClose}
-            aria-label={t('modal.close')}
           >
             <IconClose />
-          </button>
+          </Button>
         </div>
         <div className="modal-body">{children}</div>
         {footer && <div className="modal-footer">{footer}</div>}

@@ -11,6 +11,7 @@ import ImageIcon from '@assets/icons/ic-image.svg?react';
 import AddCircleIcon from '@assets/icons/ic-add-circle.svg?react';
 import SendIcon from '@assets/icons/ic-send.svg?react';
 import CloseIcon from '@assets/icons/ic-close.svg?react';
+import { Button } from '@app/shared/components/partials';
 import {
   ACCEPTED_CHAT_IMAGE_MIME,
   MAX_CHAT_IMAGE_BYTES,
@@ -150,15 +151,15 @@ export const MessageCompose = ({
                   alt={file.name}
                   className="message-compose-image-preview-img"
                 />
-                <button
+                <Button
                   type="button"
+                  variant="ghost"
                   className="message-compose-image-preview-remove"
-                  aria-label={t('compose.removeImage')}
                   onClick={() => removeImage(index)}
-                  disabled={isSending}
+                  isDisabled={isSending}
                 >
                   <CloseIcon />
-                </button>
+                </Button>
               </div>
               {file.size > MAX_CHAT_IMAGE_BYTES && (
                 <span className="message-compose-image-preview-error">
@@ -172,29 +173,29 @@ export const MessageCompose = ({
 
       <div className="message-compose-form">
         <div className="message-compose-actions">
-          <button
+          <Button
             type="button"
+            variant="ghost"
             className="message-compose-action-btn"
-            aria-label={t('compose.emoji')}
           >
             <EmojiIcon />
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
+            variant="ghost"
             className="message-compose-action-btn"
-            aria-label={t('compose.image')}
             onClick={() => fileInputRef.current?.click()}
-            disabled={disabled || isSending}
+            isDisabled={disabled || isSending}
           >
             <ImageIcon />
-          </button>
-          <button
+          </Button>
+          <Button
             type="button"
+            variant="ghost"
             className="message-compose-action-btn"
-            aria-label={t('compose.attach')}
           >
             <AddCircleIcon />
-          </button>
+          </Button>
         </div>
 
         <input
@@ -203,7 +204,6 @@ export const MessageCompose = ({
           accept={acceptAttr}
           multiple
           className="message-compose-file-input"
-          aria-hidden="true"
           tabIndex={-1}
           onChange={handleImageSelect}
         />
@@ -221,19 +221,18 @@ export const MessageCompose = ({
             }}
             onKeyDown={handleKeyDown}
             disabled={disabled}
-            aria-label={t('compose.placeholder')}
           />
         </div>
 
-        <button
+        <Button
           type="button"
+          variant="ghost"
           className={`message-compose-send${canSend ? ' message-compose-send-active' : ''}`}
-          aria-label={t('compose.send')}
-          disabled={!canSend}
+          isDisabled={!canSend}
           onClick={submit}
         >
           <SendIcon />
-        </button>
+        </Button>
       </div>
     </footer>
   );
