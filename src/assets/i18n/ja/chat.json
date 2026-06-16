@@ -1,7 +1,12 @@
 {
   "sidebar": {
     "title": "メッセージ",
-    "searchPlaceholder": "友達を検索..."
+    "searchPlaceholder": "友達を検索...",
+    "clearSearch": "検索をクリア"
+  },
+  "emptySearch": {
+    "title": "会話が見つかりませんでした",
+    "subtitle": "別のキーワードで検索してみてください"
   },
   "emptyRooms": {
     "heading": "ここは静かです",
