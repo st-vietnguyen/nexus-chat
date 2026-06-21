@@ -53,39 +53,37 @@ export const RoomItem = memo(
       const displayCount = unread > 99 ? '99+' : String(unread);
 
       return (
-        <li ref={ref}>
-          <button
-            type="button"
-            className={`room-item ${isActive ? 'room-item-active' : ''}`}
-            onClick={() => onSelect(room.id)}
-          >
-            <div className="room-item-avatar-wrap">
-              <div className="room-item-avatar">
-                <Avatar url={avatarUrl} />
-              </div>
-              {isPeerOnline && (
-                <span className="room-item-status-dot" aria-hidden="true" />
-              )}
+        <li
+          ref={ref}
+          className={`room-item ${isActive ? 'room-item-active' : ''}`}
+          onClick={() => onSelect(room.id)}
+        >
+          <div className="room-item-avatar-wrap">
+            <div className="room-item-avatar">
+              <Avatar url={avatarUrl} />
             </div>
-            <div className="room-item-body">
-              <div className="room-item-row">
-                <p className="room-item-name">
-                  {highlightMatches(label, searchKeyword)}
-                </p>
-                {time ? <span className="room-item-time">{time}</span> : null}
-              </div>
-              <div className="room-item-row">
-                <p className="room-item-preview">
-                  {preview
-                    ? highlightMatches(preview, searchKeyword)
-                    : t('room.lastMessageFallback')}
-                </p>
-                {showBadge ? (
-                  <span className="room-item-unread">{displayCount}</span>
-                ) : null}
-              </div>
+            {isPeerOnline && (
+              <span className="room-item-status-dot" aria-hidden="true" />
+            )}
+          </div>
+          <div className="room-item-body">
+            <div className="room-item-row">
+              <p className="room-item-name">
+                {highlightMatches(label, searchKeyword)}
+              </p>
+              {time ? <span className="room-item-time">{time}</span> : null}
             </div>
-          </button>
+            <div className="room-item-row">
+              <p className="room-item-preview">
+                {preview
+                  ? highlightMatches(preview, searchKeyword)
+                  : t('room.lastMessageFallback')}
+              </p>
+              {showBadge ? (
+                <span className="room-item-unread">{displayCount}</span>
+              ) : null}
+            </div>
+          </div>
         </li>
       );
     },
