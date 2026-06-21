@@ -56,7 +56,11 @@ pages/  →  shared/hooks/  →  core/services/  →  libs/supabase
         shared/components   shared/types / shared/utils / core/constants
 ```
 
-See `CLAUDE.md` and `docs/frontend-architecture.md` for full rules.
+- `pages/` — route entry points; thin composition only.
+- `shared/hooks/` — SWR data hooks; wrap service calls + cache mutation. No direct Supabase access.
+- `core/services/` — HTTP/RPC + business logic + use cases + realtime subscribe. No React imports.
+- `libs/supabase/` — sole Supabase client + realtime helper.
+- `shared/utils/` — leaf node, framework-agnostic helpers only.
 
 ```txt
 React App
